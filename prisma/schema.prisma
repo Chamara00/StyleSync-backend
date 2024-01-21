@@ -1,0 +1,79 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Salon {
+  id         String     @id @default(auto()) @map("_id") @db.ObjectId
+  name       String
+  adress     Address
+  location   String
+  contactNo  String
+  salonOwner SalonOwner @relation(fields: [ownerId], references: [id])
+  ownerId    String     @db.ObjectId
+}
+
+// Address is an embedded document
+type Address {
+  line1   String
+  line2   String
+  city    String
+  country String
+}
+
+model SalonOwner {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  gender    String
+  email     String
+  contactNo String
+  password  String
+  salon     Salon[]
+}
+
+model Customer {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  contactNo String
+  gender    String
+  dob       DateTime
+  email     String
+  password  String
+}
+
+model StaffMember {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  gender    String
+  contactNo String
+}
+
+model Appointment {
+  id   String   @id @default(auto()) @map("_id") @db.ObjectId
+  time String
+  date DateTime
+}
+
+model TimeSlot {
+  id   String   @id @default(auto()) @map("_id") @db.ObjectId
+  time String
+  data DateTime
+}
+
+model Service {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+}
+
+model Reviews {
+  id   String   @id @default(auto()) @map("_id") @db.ObjectId
+  time String
+  date DateTime
+}
