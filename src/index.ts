@@ -1,13 +1,13 @@
 import express from 'express';
-import { Request, Response } from 'express';
+// import { Request, Response } from 'express';
 //import { configureRoutes } from './routes';
+import { registerSalonStep1 } from './controllers/mobile-salon-register';
 
 const app = express();
 
-app.get('/', ( req: Request, res: Response) => {
-    return res.json('Hello world');
-});
+app.use(express.json());
 
+app.post('/register-salon/step1', registerSalonStep1);
 
 const PORT = process.env.PORT || 8000;
 

@@ -10,10 +10,26 @@ generator client {
   provider = "prisma-client-js"
 }
 
+model address {
+  id      Int     @id @default(autoincrement())
+  line1   String
+  line2   String
+  city    String
+  country String
+  salon   salon[]
+
+  @@map("address")
+}
+
 model salon {
-  id        Int    @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   name      String
-  email     String @unique
-  //location  String
-  contactNo String @unique
+  email     String   @unique
+  location  String?
+  adrress   address? @relation(fields: [addressId], references: [id])
+  addressId Int?
+  contactNo String   @unique
+  otp       String?
+
+  @@map("salon")
 }
