@@ -18,7 +18,7 @@ export async function registerSalonStep1(req: Request, res: Response){
         });
 
         if(existingSalon){
-            return res.status(400).json({ status: 409, error: 'Salon with this contact no exisits'});
+            return res.status(400).json({ status: 400, error: 'Salon with this contact already exisits'});
         }
 
         const newSalonStep1 = await prisma.salon.create({
