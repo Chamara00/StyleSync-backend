@@ -30,8 +30,8 @@ model salon {
   addressId  Int?
   contactNo  String       @unique
   otp        String?
-  openDay    DateTime
-  openTime   String
+  openDay    DateTime?
+  openTime   String?
   review     review[]
   article    article[]
   salonStaff salonStaff[]
@@ -102,40 +102,43 @@ model staff {
   id           Int            @id @default(autoincrement())
   name         String
   gender       String
-  blockId      Int
-  timeBlock    timeBlock      @relation(fields: [blockId], references: [id])
+  blockId      Int?
+  timeBlock    timeBlock?      @relation(fields: [blockId], references: [id])
   serviceStaff serviceStaff[]
   salonStaff   salonStaff[]
-  staffContact staffContact[]
+  staffContact staffContact[] 
 
   @@map("staff")
 }
 
 model serviceStaff {
-  id        Int     @id @default(autoincrement())
+  // id        Int     @id @default(autoincrement())
   serviceId Int
   service   service @relation(fields: [serviceId], references: [id])
   staffId   Int
   staff     staff   @relation(fields: [staffId], references: [id])
 
+  @@id([serviceId,staffId])
   @@map("serviceStaff")
 }
 
 model salonStaff {
-  id      Int   @id @default(autoincrement())
+  // id      Int   @id @default(autoincrement())
   salonId Int
   salon   salon @relation(fields: [salonId], references: [id])
   staffID Int
   staff   staff @relation(fields: [staffID], references: [id])
 
+  @@id([salonId,staffID])
   @@map("salonStaff")
 }
 
 model staffContact {
-  id        Int    @id @default(autoincrement())
-  staffId   Int
+  //id        Int   @unique @id @default(autoincrement())
+  staffId   Int  
   staff     staff  @relation(fields: [staffId], references: [id])
-  contactNo String
+  contactNo String  @unique
 
+  @@id([staffId,contactNo])
   @@map("staffContact")
 }
