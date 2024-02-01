@@ -22,14 +22,120 @@ model address {
 }
 
 model salon {
-  id        Int      @id @default(autoincrement())
-  name      String
-  email     String   @unique
-  location  String?
-  adrress   address? @relation(fields: [addressId], references: [id])
-  addressId Int?
-  contactNo String   @unique
-  otp       String?
+  id         Int          @id @default(autoincrement())
+  name       String
+  email      String       @unique
+  location   String?
+  adrress    address?     @relation(fields: [addressId], references: [id])
+  addressId  Int?
+  contactNo  String       @unique
+  otp        String?
+  openDay    DateTime
+  openTime   String
+  review     review[]
+  article    article[]
+  salonStaff salonStaff[]
 
   @@map("salon")
+}
+
+model customer {
+  id        Int         @id @default(autoincrement())
+  name      String
+  gender    String
+  password  String
+  email     String      @unique
+  timeBlock timeBlock[]
+  review    review[]
+
+  @@map("customer")
+}
+
+model timeBlock {
+  id         Int      @id @default(autoincrement())
+  date       DateTime
+  time       String
+  duration   Int
+  customerId Int
+  customer   customer @relation(fields: [customerId], references: [id])
+  serviceId  Int
+  service    service  @relation(fields: [serviceId], references: [id])
+  staff      staff[]
+
+  @@map("timeBlock")
+}
+
+model service {
+  id           Int            @id @default(autoincrement())
+  name         String
+  serviceType  String
+  timeBlock    timeBlock[]
+  serviceStaff serviceStaff[]
+
+  @@map("service")
+}
+
+model review {
+  id         Int      @id @default(autoincrement())
+  time       String
+  date       DateTime
+  value      Float
+  customerId Int
+  customer   customer @relation(fields: [customerId], references: [id])
+  salonId    Int
+  salon      salon    @relation(fields: [salonId], references: [id])
+
+  @@map("review")
+}
+
+model article {
+  id      Int      @id @default(autoincrement())
+  date    DateTime
+  time    String
+  salonId Int
+  salon   salon    @relation(fields: [salonId], references: [id])
+
+  @@map("article")
+}
+
+model staff {
+  id           Int            @id @default(autoincrement())
+  name         String
+  gender       String
+  blockId      Int
+  timeBlock    timeBlock      @relation(fields: [blockId], references: [id])
+  serviceStaff serviceStaff[]
+  salonStaff   salonStaff[]
+  staffContact staffContact[]
+
+  @@map("staff")
+}
+
+model serviceStaff {
+  id        Int     @id @default(autoincrement())
+  serviceId Int
+  service   service @relation(fields: [serviceId], references: [id])
+  staffId   Int
+  staff     staff   @relation(fields: [staffId], references: [id])
+
+  @@map("serviceStaff")
+}
+
+model salonStaff {
+  id      Int   @id @default(autoincrement())
+  salonId Int
+  salon   salon @relation(fields: [salonId], references: [id])
+  staffID Int
+  staff   staff @relation(fields: [staffID], references: [id])
+
+  @@map("salonStaff")
+}
+
+model staffContact {
+  id        Int    @id @default(autoincrement())
+  staffId   Int
+  staff     staff  @relation(fields: [staffId], references: [id])
+  contactNo String
+
+  @@map("staffContact")
 }
