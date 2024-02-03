@@ -30,13 +30,24 @@ model salon {
   addressId  Int?
   contactNo  String       @unique
   otp        String?
-  openDay    DateTime?
-  openTime   String?
+  salonOpenDay    salonOpenDays[]
   review     review[]
   article    article[]
   salonStaff salonStaff[]
 
+
   @@map("salon")
+}
+
+model salonOpenDays{
+  salon salon @relation(fields: [salonId], references: [id])
+  salonId Int
+  dayName String
+  openStatus Boolean
+  openHours String
+
+  @@id([salonId,dayName])
+  @@map("salonOpenDays")
 }
 
 model customer {
@@ -142,3 +153,5 @@ model staffContact {
   @@id([staffId,contactNo])
   @@map("staffContact")
 }
+
+
