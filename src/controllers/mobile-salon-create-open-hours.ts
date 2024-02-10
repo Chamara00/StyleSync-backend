@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-export async function updateOpenHours(req: Request, res: Response) {
+export async function createOpenHours(req: Request, res: Response) {
     const { salonId } = req.body;
     const days: string[] = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 

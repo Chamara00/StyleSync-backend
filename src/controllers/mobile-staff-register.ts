@@ -6,10 +6,10 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export async function registerStaff(req: Request, res: Response) {
-    const { name, gender, staffContact } = req.body;
+    const { salonId, name, gender, staffContact } = req.body;
 
     try {
-        if (!name || !gender || !staffContact) {
+        if (!salonId || !name || !gender || !staffContact) {
             return res.status(400).json({ status: 400, error: 'Invalid input format' });
         }
 
@@ -29,15 +29,19 @@ export async function registerStaff(req: Request, res: Response) {
                     create: {
                         contactNo: staffContact
                     }
+                },
+                salonStaff: {
+                    create: {
+                        salonId: salonId
+                    }
                 }
             },
             include: {
-                staffContact: true // Include the contact information in the response if needed
+                staffContact: true, // Include the contact information in the response if needed
+                salonStaff: true
             }
         });
-        
-
-        return res.status(201).json({ status: 201, message: 'Step 1 successful', staff: newStaff });
+        return res.status(201).json({ status: 201, message: 'Staff member registered successfully', staff: newStaff });
     } catch (error) {
         console.log(error);
         return res.status(500).json({ status: 500, error: 'Failed to process step 1' });
