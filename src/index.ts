@@ -3,7 +3,7 @@ import express from 'express';
 //import { configureRoutes } from './routes';
 import { registerSalonStep1 } from './controllers/mobile-salon-register';
 import { registerStaff } from './controllers/mobile-staff-register';
-import {updateOpenHours} from './controllers/mobile-salon-open-hours';
+import {updateOpenHours} from './controllers/mobile-salon-create-open-hours';
 const app = express();
 
 app.use(express.json());
