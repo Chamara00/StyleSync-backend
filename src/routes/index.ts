@@ -1,6 +1,6 @@
 import express from 'express';
 import { Express, Router } from 'express';
-import { configureV1Routes } from './v1/v1';
+// import { configureV1Routes } from './v1/v1';
 
 export function configureRoutes(app: Express): void {
     app.use(express.json());

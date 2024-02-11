@@ -3,13 +3,14 @@ import express from 'express';
 //import { configureRoutes } from './routes';
 import { registerSalonStep1 } from './controllers/mobile-salon-register';
 import { registerStaff } from './controllers/mobile-staff-register';
+import { authenticateToken } from './middlewares/jwtMiddleware';
 
 const app = express();
 
 app.use(express.json());
 
 app.post('/register-salon/step1', registerSalonStep1);
-app.post('/register-staff', registerStaff);
+app.post('/register-staff', authenticateToken, registerStaff);
 
 
 const PORT = process.env.PORT || 8000;
