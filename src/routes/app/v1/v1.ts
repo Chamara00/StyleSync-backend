@@ -1,6 +1,18 @@
-// import { Router } from "express";
+import { Router } from 'express';
+import { configureRegisterRoutes } from '../../registerRoutes';
+import { configureStaffRoutes } from '../../registerStaffRoutes';
+import { configureopenTimeRoutes } from '../../openTimeRoutes';
 
-// export function configurev1Routes(router: Router){
-//     const appRouter = Router();
-    
-// }
+export function configureV1Routes(router: Router): void {
+    const registerSalonRouter = Router();
+    configureRegisterRoutes(registerSalonRouter);
+    router.use('/salon', registerSalonRouter);
+
+    const registerStaffRouter = Router();
+    configureStaffRoutes(registerStaffRouter);
+    router.use('/staff', registerStaffRouter);
+
+    const openTimesRouter = Router();
+    configureopenTimeRoutes(openTimesRouter);
+    router.use('/time', openTimesRouter);
+}

@@ -11,10 +11,6 @@ export async function registerSalonStep1(req: Request, res: Response){
 
     try{
 
-        console.log(name);
-        console.log(contactNo);
-        console.log(email);
-
         if (!name || !contactNo || !email){
             return res.status(400).json({ status: 400, error:'Invlid input format'});
         }

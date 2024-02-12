@@ -10,55 +10,46 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model address {
-  id      Int     @id @default(autoincrement())
-  line1   String
-  line2   String
-  city    String
-  country String
-  salon   salon[]
-
-  @@map("address")
-}
-
 model salon {
   id         Int          @id @default(autoincrement())
   name       String
   email      String       @unique
   location   String?
-  adrress    address?     @relation(fields: [addressId], references: [id])
-  addressId  Int?
+  line1      String?
+  line2      String?
+  city       String?
+  country    String?
   contactNo  String       @unique
   otp        String?
   review     review[]
   article    article[]
   salonStaff salonStaff[]
-  openDays openDays[]
+  openDays   openDays[]
 
   @@map("salon")
 }
 
-model openDays{
-  salon salon @relation(fields: [salonId], references: [id])
-  salonId Int
-  dayName String
-  isOpen Boolean
-  openHour String?
+model openDays {
+  salon     salon    @relation(fields: [salonId], references: [id])
+  salonId   Int
+  dayName   String
+  isOpen    Boolean
+  openHour  String?
   closeHour String?
-  breaks breaks[]
+  breaks    breaks[]
 
-  @@id([salonId,dayName])
+  @@id([salonId, dayName])
   @@map("openDays")
 }
 
-model breaks{
-  openDays openDays @relation(fields: [salonId,dayName], references: [salonId,dayName])
-  salonId Int
-  dayName String
+model breaks {
+  openDays   openDays @relation(fields: [salonId, dayName], references: [salonId, dayName])
+  salonId    Int
+  dayName    String
   breakStart String
-  breakEnd String
+  breakEnd   String
 
-  @@id([salonId,dayName,breakStart])
+  @@id([salonId, dayName, breakStart])
   @@map("breaks")
 }
 
@@ -126,10 +117,10 @@ model staff {
   name         String
   gender       String
   blockId      Int?
-  timeBlock    timeBlock?      @relation(fields: [blockId], references: [id])
+  timeBlock    timeBlock?     @relation(fields: [blockId], references: [id])
   serviceStaff serviceStaff[]
   salonStaff   salonStaff[]
-  staffContact staffContact[] 
+  staffContact staffContact[]
 
   @@map("staff")
 }
@@ -141,7 +132,7 @@ model serviceStaff {
   staffId   Int
   staff     staff   @relation(fields: [staffId], references: [id])
 
-  @@id([serviceId,staffId])
+  @@id([serviceId, staffId])
   @@map("serviceStaff")
 }
 
@@ -152,18 +143,16 @@ model salonStaff {
   staffID Int
   staff   staff @relation(fields: [staffID], references: [id])
 
-  @@id([salonId,staffID])
+  @@id([salonId, staffID])
   @@map("salonStaff")
 }
 
 model staffContact {
   //id        Int   @unique @id @default(autoincrement())
-  staffId   Int  
+  staffId   Int
   staff     staff  @relation(fields: [staffId], references: [id])
-  contactNo String  @unique
+  contactNo String @unique
 
-  @@id([staffId,contactNo])
+  @@id([staffId, contactNo])
   @@map("staffContact")
 }
-
-
