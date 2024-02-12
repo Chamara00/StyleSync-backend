@@ -3,6 +3,7 @@ import { registerSalonStep1 } from '../controllers/RegisterSalon/mobile-salon-re
 import { enterAddressForSalon } from '../controllers/RegisterSalon/mobile-salon-enterAddress';
 import { enterLocation } from '../controllers/RegisterSalon/mobile-salon-enter-location';
 import { confirmLocation } from '../controllers/RegisterSalon/mobile-salon-confirm-location';
+// import { authenticateToken } from '../middlewares/jwtMiddleware';
 
 export function configureRegisterRoutes(router: Router): void {
     router.post('/register-salon/step1', registerSalonStep1);

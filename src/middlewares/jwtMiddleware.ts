@@ -15,6 +15,7 @@ export const authenticateToken = (req: Request, res: Response, next: NextFunctio
   if (!decodedToken) {
     return res.status(401).json({ message: 'Invalid token' });
   }
+  
 
   req = Object.assign(req, { user: decodedToken });
   next();
