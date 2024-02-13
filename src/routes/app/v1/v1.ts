@@ -2,6 +2,8 @@ import { Router } from 'express';
 import { configureRegisterRoutes } from '../../registerRoutes';
 import { configureStaffRoutes } from '../../registerStaffRoutes';
 import { configureopenTimeRoutes } from '../../openTimeRoutes';
+import { configureopenServicesRoutes } from '../../openServiceRoutes';
+
 
 export function configureV1Routes(router: Router): void {
     const registerSalonRouter = Router();
@@ -15,4 +17,8 @@ export function configureV1Routes(router: Router): void {
     const openTimesRouter = Router();
     configureopenTimeRoutes(openTimesRouter);
     router.use('/time', openTimesRouter);
+
+    const openServiceRoutes = Router();
+    configureopenServicesRoutes(openServiceRoutes);
+    router.use('/service',openServiceRoutes);
 }
