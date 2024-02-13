@@ -89,9 +89,11 @@ model timeBlock {
 }
 
 model service {
-  id           Int            @id @default(autoincrement())
-  name         String
+  id Int @id @default(autoincrement())
+  name         String 
   serviceType  String
+  price Int
+  duration String
   timeBlock    timeBlock[]
   serviceStaff serviceStaff[]
 
@@ -136,8 +138,8 @@ model staff {
 
 model serviceStaff {
   // id        Int     @id @default(autoincrement())
+  Service   service @relation(fields: [serviceId], references: [id])
   serviceId Int
-  service   service @relation(fields: [serviceId], references: [id])
   staffId   Int
   staff     staff   @relation(fields: [staffId], references: [id])
 
@@ -164,6 +166,16 @@ model staffContact {
 
   @@id([staffId,contactNo])
   @@map("staffContact")
+}
+
+model allServices {
+  service String
+  serviceType String
+  price Int
+  duration String
+
+  @@id([service])
+  @@map("allServices")
 }
 
 
