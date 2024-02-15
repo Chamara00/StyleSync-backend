@@ -4,28 +4,26 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export async function deleteStaffService(req: Request, res: Response) {
-    const { staffId, serviceName } = req.body;
+    const { staffId, serviceId } = req.body;
     try {
-        if (!staffId || !serviceName) {
+        if (!staffId || !serviceId) {
             return res.status(400).json({ status: 400, error: 'Inputs not found' });
         } else {
-            // Retrieve the data to be deleted
-            const serviceToDelete = await prisma.serviceStaff.findMany({
-                where: {
-                    staffId: staffId,
-                    serviceId: serviceName
-                }
-            });
-
-            // Delete the data
+            
             await prisma.serviceStaff.deleteMany({
                 where: {
-                    staffId,
+                    serviceId:serviceId
                     //serviceId,
                 }
             });
+            // Retrieve the data to be deleted
+            const findServiceId = await prisma.service.delete({
+                where: {
+                    id:serviceId 
+                },
+            });
 
-            return res.status(200).json({ status: 200, message: 'Delete successful', data: serviceToDelete });
+            return res.status(200).json({ status: 200, message: 'Delete successful', data: findServiceId });
         }
     } catch (error) {
         console.log(error);

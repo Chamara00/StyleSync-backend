@@ -18,7 +18,7 @@ export async function getStaffServiceType(req: Request, res: Response) {
                 serviceId: true
             }
         });
-        const getServiceType = [];
+        const getServiceType: unknown[] = [];
         const existingServiceId = getServiceName.map(service => service.serviceId);
         let i =0;
         while(existingServiceId[i]!=null){
@@ -30,10 +30,10 @@ export async function getStaffServiceType(req: Request, res: Response) {
                     serviceType: true
                 }
             });
-            getServiceType.push(...viewServiceType, );
+            getServiceType.push(...viewServiceType.map(x => x.serviceType));
             i++;
         }
-        const uniqueServiceTypes = removeDuplicatesUsingSet(getServiceType.map(service => service.serviceType));
+        const uniqueServiceTypes = removeDuplicatesUsingSet(getServiceType);
         return res.status(200).json({ status: 200, data: uniqueServiceTypes});
     } catch (error) {
         console.log(error);

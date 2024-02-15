@@ -21,25 +21,24 @@ export async function getServiceInfo(req: Request, res: Response) {
         });
         const existingId = viewService.map(service => service.serviceId);
         let i = 0;
+        const results: unknown [] = [];
         while(existingId[i]!= null){
             const viewServiceInfo = await prisma.service.findMany({
                 where: {
-                    id: existingId[i]
+                    id: existingId[i],
+                    serviceType: serviceType
                 },
                 select: {
                     name: true,
-                    serviceType: true,
                     price:true,
                     duration: true
                 }
             });
             i++;
-            const existingServiceType = viewServiceInfo.map(service => service.serviceType);
-            // if(existingServiceType===serviceType){
-            //     res.status(200).json({ status: 200, data: viewServiceInfo });
-            // }
+            results.push(...viewServiceInfo);
+            // res.status(200).json({ status: 200, data: viewServiceInfo });
         }
-        return res.status(200).json({ status: 200});
+        return res.status(200).json({ status: 200, data: results });
     } catch (error) {
         console.log(error);
         return res.status(500).json({ status: 500, error: 'Failed to process' });

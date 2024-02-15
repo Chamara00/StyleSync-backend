@@ -2,24 +2,23 @@ import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
- export async function updateStaffService(req: Request, res: Response) {
-    const {staffId, serviceName, price, duration} = req.body;
+ export async function updateStaffServiceInfo(req: Request, res: Response) {
+    const {serviceId, price, duration} = req.body;
     try{
-        if(!staffId || !serviceName || !price || !duration){
+        if( !serviceId || !price || !duration){
             return res.status(400).json({ status: 400, error: 'salon id or day name not found' });
         }
         else{
-            await prisma.serviceStaff.findMany({
-                where: {
-                    staffId: staffId,
-                    serviceId: serviceName
+            const updateStaffService = await  prisma.service.updateMany({
+                where :{
+                    id: serviceId
                 },
                 data:{
-                    price,
-                    duration
+                    price:price,
+                    duration: duration
                 }
             });
-            return res.status(201).json({ status: 201, message: 'Update successful' });
+            return res.status(201).json({ status: 201, message: 'Update successful', data: updateStaffService });
         }
     } catch (error) {
         console.log(error);
