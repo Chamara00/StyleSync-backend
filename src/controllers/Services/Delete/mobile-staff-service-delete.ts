@@ -13,7 +13,7 @@ export async function deleteStaffService(req: Request, res: Response) {
             const serviceToDelete = await prisma.serviceStaff.findMany({
                 where: {
                     staffId: staffId,
-                    serviceName: serviceName
+                    serviceId: serviceName
                 }
             });
 
@@ -21,7 +21,7 @@ export async function deleteStaffService(req: Request, res: Response) {
             await prisma.serviceStaff.deleteMany({
                 where: {
                     staffId,
-                    serviceName,
+                    //serviceId,
                 }
             });
 

@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
+//3.1 update open days and hours
 
 const prisma = new PrismaClient();
  export async function updateOpenHours(req: Request, res: Response) {

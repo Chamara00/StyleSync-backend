@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
+//4.0 show all the services
+//http://localhost:8000/app/v1/service/get-all-service-type
 
 const prisma = new PrismaClient();
 

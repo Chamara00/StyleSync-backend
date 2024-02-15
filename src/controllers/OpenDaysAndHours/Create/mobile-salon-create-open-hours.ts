@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
+//2.0 create default open days and hours and create openDays table in database
 
 const prisma = new PrismaClient();
 

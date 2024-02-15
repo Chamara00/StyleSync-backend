@@ -1,11 +1,11 @@
 import { Router } from 'express';
-import { createOpenHours } from '../controllers/OpenDaysAndHours/mobile-salon-create-open-hours';
-import { getOpendaysAndHours } from '../controllers/OpenDaysAndHours/mobile-salon-opendays-and-hours';
-import { updateOpenHours } from '../controllers/OpenDaysAndHours/mobile-salon-update-open-and-close-hours';
-import { deleteBreaks } from '../controllers/Breaks/mobile-delete-breaks'; 
-import { createBreak } from '../controllers/Breaks/mobile-create-salon-breaks'; 
-import { getBreaks } from '../controllers/Breaks/mobile-view-salon-breaks';
-import { updateBreaks } from '../controllers/Breaks/mobile-salon-update-breaks';
+import { createOpenHours } from '../controllers/OpenDaysAndHours/Create/mobile-salon-create-open-hours';
+import { getOpendaysAndHours } from '../controllers/OpenDaysAndHours/View/mobile-salon-opendays-and-hours';
+import { updateOpenHours } from '../controllers/OpenDaysAndHours/Update/mobile-salon-update-open-and-close-hours';
+import { deleteBreaks } from '../controllers/Breaks/Delete/mobile-delete-breaks'; 
+import { createBreak } from '../controllers/Breaks/Create/mobile-create-salon-breaks'; 
+import { getBreaks } from '../controllers/Breaks/View/mobile-view-salon-breaks';
+import { updateBreaks } from '../controllers/Breaks/Update/mobile-salon-update-breaks';
 
 export function configureopenTimeRoutes(router: Router): void {
    router.post('/update-open-hours', createOpenHours);

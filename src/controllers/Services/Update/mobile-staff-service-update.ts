@@ -9,10 +9,10 @@ const prisma = new PrismaClient();
             return res.status(400).json({ status: 400, error: 'salon id or day name not found' });
         }
         else{
-            await prisma.serviceStaff.updateMany({
+            await prisma.serviceStaff.findMany({
                 where: {
                     staffId: staffId,
-                    serviceName: serviceName
+                    serviceId: serviceName
                 },
                 data:{
                     price,

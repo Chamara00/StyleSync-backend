@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
+//2.0
+//http://localhost:8000/app/v1/service/staff-service-create
 
 const prisma = new PrismaClient();
 
@@ -9,8 +11,7 @@ export async function createStaffService(req: Request, res: Response) {
         if (!staffId || !serviceType) {
             return res.status(400).json({ status: 400, error: 'Inputs not found' });
         } else {
-            // const selectedServices = [];
-            for (let i = 0; i < serviceType.length; i++) {
+            for (let i = 0; i < serviceType.length; i++) { //serviceType is an array
                 const services = await prisma.allServices.findMany({
                     where: {
                         serviceType: serviceType[i]
@@ -19,8 +20,10 @@ export async function createStaffService(req: Request, res: Response) {
                         service: true,
                     }
                 });
-                // selectedServices.push(...services);
                 const existingServiceName = services.map(service => service.service);
+                if(!existingServiceName){
+                    return res.status(400).json({ status: 400, error: 'Service type not found in allservice' });
+                }
                 for(let j =0; j < existingServiceName.length; j++ ){
                     const getStaffServices = await prisma.allServices.findMany({
                         where:{
@@ -35,7 +38,10 @@ export async function createStaffService(req: Request, res: Response) {
                     const existingServiceType = getStaffServices.map(service => service.serviceType);
                     const existingPrice = getStaffServices.map(service => service.price);
                     const existingDuration = getStaffServices.map(service => service.duration);
-                    prisma.service.create({
+                    if(!existingServiceType || !existingPrice || !existingDuration ){
+                        return res.status(400).json({ status: 400, error: 'Service not found in allservice' });
+                    }
+                     const createService = await prisma.service.create({
                         data: {
                             name:existingServiceName[j],
                             serviceType: existingServiceType[0],
@@ -43,18 +49,13 @@ export async function createStaffService(req: Request, res: Response) {
                             duration: existingDuration[0]
                         }
                     });
-                    const getServices = await prisma.service.findMany({
-                        where:{
-                            name: existingServiceName[j]
-                        },
-                        select:{
-                            id:true
-                        }
-                    });
-                    const existingId = getServices.map(service => service.id);
+                    const existingId = createService.id;
+                    if(!existingId ){
+                        return res.status(400).json({ status: 400, error: 'Service not found in service' });
+                    }
                     await prisma.serviceStaff.create({
                         data: {
-                            serviceId: existingId[0],
+                            serviceId: existingId,
                             staffId
                         }
                     });
