@@ -2,8 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = "postgres://admin:e4gAJaOREnf4eFGZgN2DYzqSu7b7zkY4@dpg-cnjdchuct0pc73ca8qq0-a.singapore-postgres.render.com/stylesync"
 }
 
 generator client {
@@ -80,11 +80,11 @@ model timeBlock {
 }
 
 model service {
-  id Int @id @default(autoincrement())
-  name         String 
+  id           Int            @id @default(autoincrement())
+  name         String
   serviceType  String
-  price Int
-  duration String
+  price        Int
+  duration     String
   timeBlock    timeBlock[]
   serviceStaff serviceStaff[]
 
@@ -159,12 +159,11 @@ model staffContact {
   @@map("staffContact")
 }
 
-
 model allServices {
-  service String
+  service     String
   serviceType String
-  price Int
-  duration String
+  price       Int
+  duration    String
 
   @@id([service])
   @@map("allServices")

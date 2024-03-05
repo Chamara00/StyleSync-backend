@@ -3,6 +3,7 @@ import { configureRegisterRoutes } from '../../registerRoutes';
 import { configureStaffRoutes } from '../../registerStaffRoutes';
 import { configureopenTimeRoutes } from '../../openTimeRoutes';
 import { configureopenServicesRoutes } from '../../openServiceRoutes';
+import { configurehealthRoutes } from '../../healthRoute';
 
 
 export function configureV1Routes(router: Router): void {
@@ -21,4 +22,8 @@ export function configureV1Routes(router: Router): void {
     const openServiceRoutes = Router();
     configureopenServicesRoutes(openServiceRoutes);
     router.use('/service',openServiceRoutes);
+
+    const healthRoute = Router();
+    configurehealthRoutes(healthRoute);
+    router.use('/health', healthRoute);
 }

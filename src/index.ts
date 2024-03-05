@@ -18,6 +18,8 @@ configureRoutes(app);
 // /app/v1/time/update-breaks
 // /app/v1/time/delete-break
 
+// /app/v1/health/check
+
 const PORT = process.env.PORT || 8000;
 
 app.listen(PORT, () => {

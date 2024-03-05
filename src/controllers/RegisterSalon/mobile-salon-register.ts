@@ -3,6 +3,7 @@
 import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 import jwt from 'jsonwebtoken';
+import nodemailer from 'nodemailer';
 
 const prisma = new PrismaClient();
 
@@ -23,11 +24,15 @@ export async function registerSalonStep1(req: Request, res: Response){
             return res.status(400).json({ status: 400, error: 'Salon with this contact already exisits'});
         }
 
+        const otp = generateOTP();
+        await sendOTP(email, otp);
+
         const newSalonStep1 = await prisma.salon.create({
             data : {
                 name,
                 contactNo,
                 email,
+                otp
             },
         });
 
@@ -42,4 +47,28 @@ export async function registerSalonStep1(req: Request, res: Response){
     finally{
         await prisma.$disconnect();
     }
+}
+
+function generateOTP() {
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    return otp;
+}
+
+async function sendOTP(email: string, otp: string){
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'stylesync26@gmail.com',
+            pass: 'Style@#12Sync'
+        }
+    });
+
+    const info = await transporter.sendMail({
+        from : 'stylesync26@gmail.com',
+        to: email,
+        subject: 'OTP Verification for Salon Registration',
+        text: `Your OTP for email verification is: ${otp}. It is valid for 5 minutes.`
+    });
+
+    console.log('Message sent: %s', info.messageId);
 }
