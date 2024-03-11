@@ -54,18 +54,18 @@ model breaks {
 }
 
 model customer {
-  id        Int         @id @default(autoincrement())
+  id        Int          @id @default(autoincrement())
   name      String
   gender    String
   password  String
-  email     String      @unique
-  timeBlock timeBlock[]
+  email     String       @unique
+  timeBlock timeBlocks[]
   review    review[]
 
   @@map("customer")
 }
 
-model timeBlock {
+model timeBlocks {
   id         Int      @id @default(autoincrement())
   date       DateTime
   time       String
@@ -76,7 +76,7 @@ model timeBlock {
   service    service  @relation(fields: [serviceId], references: [id])
   staff      staff[]
 
-  @@map("timeBlock")
+  @@map("timeBlocks")
 }
 
 model service {
@@ -85,7 +85,7 @@ model service {
   serviceType  String
   price        Int
   duration     String
-  timeBlock    timeBlock[]
+  timeBlock    timeBlocks[]
   serviceStaff serviceStaff[]
 
   @@map("service")
@@ -119,7 +119,7 @@ model staff {
   name         String
   gender       String
   blockId      Int?
-  timeBlock    timeBlock?     @relation(fields: [blockId], references: [id])
+  timeBlock    timeBlocks?    @relation(fields: [blockId], references: [id])
   serviceStaff serviceStaff[]
   salonStaff   salonStaff[]
   staffContact staffContact[]
