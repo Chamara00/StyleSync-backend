@@ -47,15 +47,17 @@ CREATE TABLE "customer" (
 );
 
 -- CreateTable
-CREATE TABLE "timeBlock" (
+CREATE TABLE "timeBlocks" (
     "id" SERIAL NOT NULL,
     "date" TIMESTAMP(3) NOT NULL,
     "time" TEXT NOT NULL,
+    "status" BOOLEAN NOT NULL,
     "duration" INTEGER NOT NULL,
     "customerId" INTEGER NOT NULL,
+    "staffId" INTEGER NOT NULL,
     "serviceId" INTEGER NOT NULL,
 
-    CONSTRAINT "timeBlock_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "timeBlocks_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -96,7 +98,6 @@ CREATE TABLE "staff" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "gender" TEXT NOT NULL,
-    "blockId" INTEGER,
 
     CONSTRAINT "staff_pkey" PRIMARY KEY ("id")
 );
@@ -154,10 +155,13 @@ ALTER TABLE "openDays" ADD CONSTRAINT "openDays_salonId_fkey" FOREIGN KEY ("salo
 ALTER TABLE "breaks" ADD CONSTRAINT "breaks_salonId_dayName_fkey" FOREIGN KEY ("salonId", "dayName") REFERENCES "openDays"("salonId", "dayName") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "timeBlock" ADD CONSTRAINT "timeBlock_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "customer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "timeBlocks" ADD CONSTRAINT "timeBlocks_staffId_fkey" FOREIGN KEY ("staffId") REFERENCES "staff"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "timeBlock" ADD CONSTRAINT "timeBlock_serviceId_fkey" FOREIGN KEY ("serviceId") REFERENCES "service"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "timeBlocks" ADD CONSTRAINT "timeBlocks_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "customer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "timeBlocks" ADD CONSTRAINT "timeBlocks_serviceId_fkey" FOREIGN KEY ("serviceId") REFERENCES "service"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "review" ADD CONSTRAINT "review_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "customer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -167,9 +171,6 @@ ALTER TABLE "review" ADD CONSTRAINT "review_salonId_fkey" FOREIGN KEY ("salonId"
 
 -- AddForeignKey
 ALTER TABLE "article" ADD CONSTRAINT "article_salonId_fkey" FOREIGN KEY ("salonId") REFERENCES "salon"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "staff" ADD CONSTRAINT "staff_blockId_fkey" FOREIGN KEY ("blockId") REFERENCES "timeBlock"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "serviceStaff" ADD CONSTRAINT "serviceStaff_serviceId_fkey" FOREIGN KEY ("serviceId") REFERENCES "service"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

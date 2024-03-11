@@ -69,12 +69,14 @@ model timeBlocks {
   id         Int      @id @default(autoincrement())
   date       DateTime
   time       String
+  status     Boolean
   duration   Int
   customerId Int
+  staffIdGet staff    @relation(fields: [staffId], references: [id])
+  staffId    Int
   customer   customer @relation(fields: [customerId], references: [id])
   serviceId  Int
   service    service  @relation(fields: [serviceId], references: [id])
-  staff      staff[]
 
   @@map("timeBlocks")
 }
@@ -118,8 +120,9 @@ model staff {
   id           Int            @id @default(autoincrement())
   name         String
   gender       String
-  blockId      Int?
-  timeBlock    timeBlocks?    @relation(fields: [blockId], references: [id])
+  // blockId      Int
+  // timeBlocks    timeBlocks    @relation(fields: [blockId], references: [id])
+  timeBlocks   timeBlocks[]
   serviceStaff serviceStaff[]
   salonStaff   salonStaff[]
   staffContact staffContact[]
