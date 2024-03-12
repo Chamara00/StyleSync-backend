@@ -11,20 +11,21 @@ generator client {
 }
 
 model salon {
-  id         Int          @id @default(autoincrement())
-  name       String
-  email      String       @unique
-  location   String?
-  line1      String?
-  line2      String?
-  city       String?
-  country    String?
-  contactNo  String       @unique
-  otp        String?
-  review     review[]
-  article    article[]
-  salonStaff salonStaff[]
-  openDays   openDays[]
+  id            Int          @id @default(autoincrement())
+  name          String
+  email         String       @unique
+  location      String?
+  line1         String?
+  line2         String?
+  city          String?
+  country       String?
+  contactNo     String       @unique
+  otp           String?
+  emailVerified Boolean?
+  review        review[]
+  article       article[]
+  salonStaff    salonStaff[]
+  openDays      openDays[]
 
   @@map("salon")
 }
@@ -54,11 +55,17 @@ model breaks {
 }
 
 model customer {
+<<<<<<< HEAD
   id        Int         @id @default(autoincrement())
   name      String?
   gender    String?
+=======
+  id        Int          @id @default(autoincrement())
+  name      String
+  gender    String
+>>>>>>> f56de588cb3a550d3048176a053c5d2bf22ccb93
   password  String
-  email     String      @unique
+  email     String       @unique
   timeBlock timeBlocks[]
   review    review[]
 
@@ -72,8 +79,8 @@ model timeBlocks {
   status     Boolean
   duration   Int
   customerId Int
-  staffIdGet staff @relation(fields: [staffId], references: [id])
-  staffId     Int
+  staffIdGet staff    @relation(fields: [staffId], references: [id])
+  staffId    Int
   customer   customer @relation(fields: [customerId], references: [id])
   serviceId  Int
   service    service  @relation(fields: [serviceId], references: [id])
@@ -122,7 +129,7 @@ model staff {
   gender       String
   // blockId      Int
   // timeBlocks    timeBlocks    @relation(fields: [blockId], references: [id])
-  timeBlocks timeBlocks[]
+  timeBlocks   timeBlocks[]
   serviceStaff serviceStaff[]
   salonStaff   salonStaff[]
   staffContact staffContact[]
