@@ -59,7 +59,8 @@ model customer {
   gender    String
   password  String
   email     String      @unique
-  timeBlock timeBlocks[]
+  //timeBlock timeBlocks[]
+  appointment  appointment[]
   review    review[]
 
   @@map("customer")
@@ -68,15 +69,18 @@ model customer {
 model timeBlocks {
   id         Int      @id @default(autoincrement())
   date       DateTime
-  time       String
-  status     Boolean
+  //time       String
+  StartTime   String
+  EndTime     String
+  IsBook     Boolean
   duration   Int
-  customerId Int
+ // customerId Int
+ //customer   customer @relation(fields: [customerId], references: [id])
   staffIdGet staff @relation(fields: [staffId], references: [id])
   staffId     Int
-  customer   customer @relation(fields: [customerId], references: [id])
   serviceId  Int
   service    service  @relation(fields: [serviceId], references: [id])
+  appointment  appointment[]
 
   @@map("timeBlocks")
 }
@@ -170,4 +174,15 @@ model allServices {
 
   @@id([service])
   @@map("allServices")
+}
+
+model appointment{
+  id          Int      @id @default(autoincrement())
+  customerId  Int
+  customer   customer @relation(fields: [customerId], references: [id])
+  TimeBlockId Int
+  timeBlocks  timeBlocks @relation(fields: [TimeBlockId], references: [id])
+  isCancle  Boolean
+
+  @@map("appointment")
 }
