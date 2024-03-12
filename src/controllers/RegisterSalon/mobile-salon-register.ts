@@ -2,7 +2,6 @@
 
 import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
-import { generateToken } from '../../utils/jwtUtils';
 import nodemailer from 'nodemailer';
 
 const prisma = new PrismaClient();
@@ -21,24 +20,24 @@ export async function registerSalonStep1(req: Request, res: Response){
         });
 
         if(existingSalon){
-            return res.status(400).json({ status: 400, error: 'Salon with this contact already exisits'});
+            return res.status(401).json({ status: 400, error: 'Salon with this contact already exisits'});
         }
 
         const otp = generateOTP();
         await sendOTP(email, otp);
 
-        const newSalonStep1 = await prisma.salon.create({
+        await prisma.salon.create({
             data : {
                 name,
                 contactNo,
                 email,
-                otp
+                otp,
             },
         });
 
-        const token = generateToken({ id: newSalonStep1.id, email: newSalonStep1.email });
+        
 
-        return res.status(201).json({ status: 201, message: 'Step 1 successful', token});
+        return res.status(201).json({ status: 201, message: 'OTP sent successfully'});
     }
     catch (error: unknown) {
         if (error instanceof Error) {

@@ -11,20 +11,21 @@ generator client {
 }
 
 model salon {
-  id         Int          @id @default(autoincrement())
-  name       String
-  email      String       @unique
-  location   String?
-  line1      String?
-  line2      String?
-  city       String?
-  country    String?
-  contactNo  String       @unique
-  otp        String?
-  review     review[]
-  article    article[]
-  salonStaff salonStaff[]
-  openDays   openDays[]
+  id            Int          @id @default(autoincrement())
+  name          String
+  email         String       @unique
+  location      String?
+  line1         String?
+  line2         String?
+  city          String?
+  country       String?
+  contactNo     String       @unique
+  otp           String?
+  emailVerified Boolean?
+  review        review[]
+  article       article[]
+  salonStaff    salonStaff[]
+  openDays      openDays[]
 
   @@map("salon")
 }
