@@ -1,17 +1,11 @@
-import jwt, { JwtPayload } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 
-const secretKey = 'secretdsf48541sddfkeysdkflsdjk';
+const SECRET_KEY = process.env.SECRET_KEY ?? 'asjkdfawoefsdfoasf2kj2owoe2o3o2n3ro23owesc0czmxpvqqr1e5';
 
-export const generateToken = (data: string): string => {
-  return jwt.sign({ contactNo: data }, secretKey, { expiresIn: '24h' });
+export const generateToken = (data: { id: number; email: string }): string => {
+  return jwt.sign({ email: data }, SECRET_KEY, { expiresIn: '24h' });
 };
 
-export const verifyToken = (token: string): JwtPayload => {
-  try {
-    return jwt.verify(token, secretKey) as JwtPayload;
-  } catch (error) {
-    // Handle token verification errors
-    console.error('Error verifying token:', error);
-    throw new Error('Invalid token');
-  }
+export const verifyToken = (token: string): string | jwt.JwtPayload => {
+  return jwt.verify(token, SECRET_KEY);
 };
