@@ -63,7 +63,7 @@ export async function ShowAvailableAppointments(req: Request, res: Response) {
                     });
                     resultsTwo.push(...findBlocks);
                 } 
-                return res.status(200).json({ status: 200, data:resultsTwo }); 
+                return res.status(200).json({ status: 200, data:resultsTwo ,message: 'successfully display an  appointment.'}); 
         }// salon id for loop   
 }//first else
 }catch (error) {

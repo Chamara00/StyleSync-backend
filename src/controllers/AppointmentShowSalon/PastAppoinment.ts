@@ -65,7 +65,7 @@ export async function ShowPastAppointments(req: Request, res: Response){
                     });
                     PastResults.push(...findBlocks);    
                 }
-                return res.status(200).json({ status: 200, data:PastResults ,message: 'successfully display an ongoing appointment.'}); 
+                return res.status(200).json({ status: 200, data:PastResults ,message: 'successfully display an Past appointment.'}); 
                 }//finsh else staffid
             }
         
