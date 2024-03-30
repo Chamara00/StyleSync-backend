@@ -14,7 +14,7 @@ export async function registerStaff(req: Request, res: Response) {
         }
 
         const existingStaff = await prisma.staffContact.findUnique({
-            where: { contactNo: staffContact } as { contactNo: string } // Explicitly cast to the correct type
+            where: { contactNo: staffContact } as { contactNo: string }
         });        
 
         if (existingStaff) {

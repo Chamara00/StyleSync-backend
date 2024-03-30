@@ -3,7 +3,7 @@
 
 datasource db {
   provider = "postgresql"
-  url      = "postgres://admin:e4gAJaOREnf4eFGZgN2DYzqSu7b7zkY4@dpg-cnjdchuct0pc73ca8qq0-a.singapore-postgres.render.com/stylesync"
+  url      = "postgres://admin:Nuirrrj7DyL6oygH0Qx4yVAn8UAOn8xU@dpg-co1ggc21hbls738fqon0-a.singapore-postgres.render.com/stylesync_db_p7st"
 }
 
 generator client {

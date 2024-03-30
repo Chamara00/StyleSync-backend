@@ -5,6 +5,7 @@ const app = express();
 
 configureRoutes(app);
 // /app/v1/salon/register-salon/step1
+// /app/v1/salon/register-salon/verify-email
 // /app/v1/salon/register-salon/address
 // /app/v1/salon/register-salon/enter-location
 // /app/v1/salon/register-salon/confirm-location
