@@ -12,7 +12,7 @@ export async function registerSalonStep1(req: Request, res: Response){
     try{
 
         if (!name || !contactNo || !email){
-            return res.status(400).json({ status: 400, error:'Invlid input format'});
+            return res.status(400).json({ status: 400, error:'Invalid input format'});
         }
 
         const existingSalon = await prisma.salon.findUnique({
