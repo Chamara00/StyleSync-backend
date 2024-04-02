@@ -74,9 +74,9 @@ model timeBlocks {
   StartTime   DateTime
   EndTime     DateTime
   IsBook     Boolean
-  duration   Int
+  duration   Int //Maximum duration value of the staff member's services.
   //customerId Int
-  staffIdGet staff @relation(fields: [staffId], references: [id])
+  staff staff @relation(fields: [staffId], references: [id])
   staffId     Int
   //customer   customer @relation(fields: [customerId], references: [id])
   serviceId  Int
