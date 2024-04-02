@@ -4,6 +4,7 @@ import { configureStaffRoutes } from '../../registerStaffRoutes';
 import { configureopenTimeRoutes } from '../../openTimeRoutes';
 import { configureopenServicesRoutes } from '../../openServiceRoutes';
 import { configurehealthRoutes } from '../../healthRoute';
+import { configuregetAppointmentToSalon } from '../../getAppointmentsToSalon';
 
 
 export function configureV1Routes(router: Router): void {
@@ -22,6 +23,10 @@ export function configureV1Routes(router: Router): void {
     const openServiceRoutes = Router();
     configureopenServicesRoutes(openServiceRoutes);
     router.use('/service',openServiceRoutes);
+
+    const getAppointmentToSalon = Router();
+    configuregetAppointmentToSalon(getAppointmentToSalon);
+    router.use('/appointment',getAppointmentToSalon);
 
     const healthRoute = Router();
     configurehealthRoutes(healthRoute);
