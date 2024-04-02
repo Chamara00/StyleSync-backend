@@ -60,7 +60,7 @@ model customer {
   gender    String?
   password  String
   email     String      @unique
-  timeBlock timeBlocks[]
+  //timeBlock timeBlocks[]
   review    review[]
   appointment appointment[]
 
@@ -69,16 +69,16 @@ model customer {
 
 model timeBlocks {
   id         Int      @id @default(autoincrement())
-  date       DateTime
+  //date       DateTime
   //time       String
-  StartTime   String
-  EndTime     String
+  StartTime   DateTime
+  EndTime     DateTime
   IsBook     Boolean
   duration   Int
-  customerId Int
+  //customerId Int
   staffIdGet staff @relation(fields: [staffId], references: [id])
   staffId     Int
-  customer   customer @relation(fields: [customerId], references: [id])
+  //customer   customer @relation(fields: [customerId], references: [id])
   serviceId  Int
   service    service  @relation(fields: [serviceId], references: [id])
   appointment  appointment[]
