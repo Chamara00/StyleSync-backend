@@ -62,26 +62,35 @@ model customer {
   email       String        @unique
   //timeBlock timeBlocks[]
   review      review[]
-  appointment appointment[]
+  customerAppointmentBlock customerAppointmentBlock[]
+
 
   @@map("customer")
 }
 
 model timeBlocks {
-  id          Int           @id @default(autoincrement())
-  StartTime   DateTime
-  EndTime     DateTime
-  IsBook      Boolean
-  duration    Int //Maximum duration value of the staff member's services.
-  //customerId Int
-  staff       staff         @relation(fields: [staffId], references: [id])
+  startTime   String
+  endTime     String
+  dayName String
+  staff       staff    @relation(fields: [staffId], references: [id])
   staffId     Int
-  //customer   customer @relation(fields: [customerId], references: [id])
-  serviceId   Int
-  service     service       @relation(fields: [serviceId], references: [id])
-  appointment appointment[]
 
+@@id([staffId,startTime,dayName])
   @@map("timeBlocks")
+}
+
+model appointmentBlock{
+  date DateTime
+  startTime String
+  endTime String
+  staff       staff    @relation(fields: [staffId], references: [id])
+  staffId Int
+  isBook Boolean
+  customerAppointmentBlock customerAppointmentBlock[]
+  serviceAppointmentBlock serviceAppointmentBlock[]
+
+  @@id([date, startTime,staffId])
+  @@map("appointmentBlock")
 }
 
 model service {
@@ -90,8 +99,8 @@ model service {
   serviceType  String
   price        Int
   duration     String
-  timeBlock    timeBlocks[]
   serviceStaff serviceStaff[]
+  serviceAppointmentBlock serviceAppointmentBlock[]
 
   @@map("service")
 }
@@ -125,10 +134,11 @@ model staff {
   gender       String
   // blockId      Int
   // timeBlocks    timeBlocks    @relation(fields: [blockId], references: [id])
-  timeBlocks   timeBlocks[]
   serviceStaff serviceStaff[]
   salonStaff   salonStaff[]
   staffContact staffContact[]
+  timeBlocks timeBlocks[]
+  appointmentBlock appointmentBlock[]
 
   @@map("staff")
 }
@@ -175,13 +185,28 @@ model allServices {
   @@map("allServices")
 }
 
-model appointment {
-  customerId  Int
-  customer    customer   @relation(fields: [customerId], references: [id])
-  TimeBlockId Int
-  timeBlocks  timeBlocks @relation(fields: [TimeBlockId], references: [id])
-  isCancel    Boolean
+model customerAppointmentBlock{
+  customer customer @relation(fields:[customerId], references:[id])
+  customerId Int
+  appointmentBlock appointmentBlock @relation(fields: [date,startTime,staffId], references: [date,startTime,staffId])
+  date        DateTime
+  startTime String
+  staffId Int
+  isCancel Boolean
 
-  @@id([customerId, TimeBlockId])
-  @@map("appointment")
+  @@id([customerId,date,startTime,staffId])
+  @@map("customerAppointmentBlock")
+
+}
+
+model serviceAppointmentBlock{
+  service service @relation(fields:[serviceId], references:[id])
+  serviceId Int
+  appointmentBlock appointmentBlock @relation(fields: [date,startTime,staffId], references: [date,startTime,staffId])
+  date        DateTime
+  startTime String
+  staffId Int
+
+  @@id([serviceId,date,startTime,staffId])
+  @@map("serviceAppointmentBlock")
 }
