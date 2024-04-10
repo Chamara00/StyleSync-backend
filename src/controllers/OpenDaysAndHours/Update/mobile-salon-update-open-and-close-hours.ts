@@ -4,9 +4,9 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
  export async function updateOpenHours(req: Request, res: Response) {
-    const {salonId, dayName, openHour, closeHour, isOpen} = req.body;
+    const {staffId, dayName, openHour, closeHour, isOpen} = req.body;
     try{
-        if(!salonId || !dayName){
+        if(!staffId || !dayName){
             return res.status(400).json({ status: 400, error: 'salon id or day name not found' });
         }
         else if(isOpen && (!openHour || !closeHour)){
@@ -15,7 +15,7 @@ const prisma = new PrismaClient();
         else if(!isOpen){
             await prisma.openDays.updateMany({
                 where: {
-                    salonId: salonId,
+                    staffId: staffId,
                     dayName: dayName
                 },
                 data:{
@@ -27,7 +27,7 @@ const prisma = new PrismaClient();
         else{
             await prisma.openDays.updateMany({
                 where: {
-                    salonId: salonId,
+                    staffId: staffId,
                     dayName: dayName
                 },
                 data: {

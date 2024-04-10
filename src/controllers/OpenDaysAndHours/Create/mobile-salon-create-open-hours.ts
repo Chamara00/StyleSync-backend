@@ -5,18 +5,18 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export async function createOpenHours(req: Request, res: Response) {
-    const { salonId } = req.body;
+    const { staffId } = req.body;
     const days: string[] = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
     try {
-        if (!salonId) {
+        if (!staffId) {
             return res.status(400).json({ status: 400, error: 'Invalid input format' });
         } else {
             for (let i = 0; i < days.length; i++) {
                 if (days[i] !== 'Saturday' && days[i] !== 'Sunday') {
                     await prisma.openDays.create({
                         data: {
-                            salonId,
+                            staffId,
                             dayName: days[i],
                             isOpen: true,
                             openHour: '09:00', // corrected format
@@ -26,7 +26,7 @@ export async function createOpenHours(req: Request, res: Response) {
                 } else {
                     await prisma.openDays.create({
                         data: {
-                            salonId,
+                            staffId,
                             dayName: days[i],
                             isOpen: false,
                         },

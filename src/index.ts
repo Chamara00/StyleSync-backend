@@ -12,7 +12,7 @@ configureRoutes(app);
  
 // /app/v1/staff/register-staff
 
-// /app/v1/time/update-open-hours
+// /app/v1/time/create-open-hours
 // /app/v1/time/create-break
 // /app/v1/time/get-opendays-and-hours
 // /app/v1/time/update-open-close-hours
