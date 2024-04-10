@@ -12,7 +12,7 @@ export function configureopenTimeRoutes(router: Router): void {
    router.post('/create-open-hours', createOpenHours);
    router.post('/create-break',createBreak);
 
-   router.post('/get-staff-id',getStaffId);
+   router.get('/get-staff-id',getStaffId);
     router.get('/get-opendays-and-hours', getOpendaysAndHours);
     router.get('/get-breaks',getBreaks);
 
