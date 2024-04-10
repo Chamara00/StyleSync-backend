@@ -17,7 +17,7 @@ export async function getStaffId(req: Request, res: Response) {
           staffId: true,
         },
       });
-      return res.status(200).json({ status: 200, data: getStaffId });
+      return res.status(200).json({ status: 201, data: getStaffId });
     }
   } catch (error) {
     console.log(error);
