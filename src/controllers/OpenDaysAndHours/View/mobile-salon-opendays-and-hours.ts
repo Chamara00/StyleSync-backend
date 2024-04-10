@@ -8,7 +8,7 @@ export async function getOpendaysAndHours(req: Request, res: Response) {
     const { staffId } = req.body;
     try{
         if(!staffId){
-            return res.status(400).json({ status: 400, error: 'salon id not found' });
+            return res.status(400).json({ status: 400, error: 'staff id not found' });
         }
         const openDaysAndHours = await prisma.openDays.findMany ({
             where : {
