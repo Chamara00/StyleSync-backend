@@ -5,14 +5,14 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export async function getOpendaysAndHours(req: Request, res: Response) {
-    const { salonId } = req.body;
+    const { staffId } = req.body;
     try{
-        if(!salonId){
+        if(!staffId){
             return res.status(400).json({ status: 400, error: 'salon id not found' });
         }
         const openDaysAndHours = await prisma.openDays.findMany ({
             where : {
-                salonId : salonId
+                staffId : staffId
             },
             select: {
                 dayName: true,

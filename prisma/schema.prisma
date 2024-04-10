@@ -25,75 +25,80 @@ model salon {
   review        review[]
   article       article[]
   salonStaff    salonStaff[]
-  openDays      openDays[]
 
   @@map("salon")
 }
 
 model openDays {
-  salon     salon    @relation(fields: [salonId], references: [id])
-  salonId   Int
+  staff     staff    @relation(fields: [staffId], references: [id])
+  staffId   Int
   dayName   String
   isOpen    Boolean
   openHour  String?
   closeHour String?
   breaks    breaks[]
 
-  @@id([salonId, dayName])
+  @@id([staffId, dayName])
   @@map("openDays")
 }
 
 model breaks {
-  openDays   openDays @relation(fields: [salonId, dayName], references: [salonId, dayName])
-  salonId    Int
+  openDays   openDays @relation(fields: [staffId, dayName], references: [staffId, dayName])
+  staffId    Int
   dayName    String
   breakStart String
   breakEnd   String
 
-  @@id([salonId, dayName, breakStart])
+  @@id([staffId, dayName, breakStart])
   @@map("breaks")
 }
 
 model customer {
-  id          Int           @id @default(autoincrement())
-  name        String?
-  gender      String?
-  password    String
-  email       String        @unique
-  timeBlock   timeBlocks[]
-  review      review[]
-  appointment appointment[]
+  id                       Int                        @id @default(autoincrement())
+  name                     String
+  gender                   String
+  password                 String?
+  email                    String                     @unique
+  //timeBlock timeBlocks[]
+  review                   review[]
+  customerAppointmentBlock customerAppointmentBlock[]
 
   @@map("customer")
 }
 
 model timeBlocks {
-  id          Int           @id @default(autoincrement())
-  dayName     String
-  //time       String
-  StartTime   String
-  EndTime     String
-  IsBook      Boolean
-  duration    Int
-  customerId  Int
-  staffIdGet  staff         @relation(fields: [staffId], references: [id])
-  staffId     Int
-  customer    customer      @relation(fields: [customerId], references: [id])
-  serviceId   Int
-  service     service       @relation(fields: [serviceId], references: [id])
-  appointment appointment[]
+  startTime String
+  endTime   String
+  dayName   String
+  staff     staff  @relation(fields: [staffId], references: [id])
+  staffId   Int
 
+  @@id([staffId, startTime, dayName])
   @@map("timeBlocks")
 }
 
+model appointmentBlock {
+  date                     DateTime
+  startTime                String
+  endTime                  String
+  staff                    staff                      @relation(fields: [staffId], references: [id])
+  staffId                  Int
+  isBook                   Boolean
+  customerAppointmentBlock customerAppointmentBlock[]
+  serviceAppointmentBlock  serviceAppointmentBlock[]
+
+  @@id([date, startTime, staffId])
+  @@map("appointmentBlock")
+}
+
 model service {
-  id           Int            @id @default(autoincrement())
-  name         String
-  serviceType  String
-  price        Int
-  duration     String
-  timeBlock    timeBlocks[]
-  serviceStaff serviceStaff[]
+  id                      Int                       @id @default(autoincrement())
+  name                    String
+  serviceType             String
+  price                   Int
+  duration                String
+  serviceStaff            serviceStaff[]
+  serviceAppointmentBlock serviceAppointmentBlock[]
 
   @@map("service")
 }
@@ -122,15 +127,17 @@ model article {
 }
 
 model staff {
-  id           Int            @id @default(autoincrement())
-  name         String
-  gender       String
+  id               Int                @id @default(autoincrement())
+  name             String
+  gender           String
   // blockId      Int
   // timeBlocks    timeBlocks    @relation(fields: [blockId], references: [id])
-  timeBlocks   timeBlocks[]
-  serviceStaff serviceStaff[]
-  salonStaff   salonStaff[]
-  staffContact staffContact[]
+  serviceStaff     serviceStaff[]
+  salonStaff       salonStaff[]
+  staffContact     staffContact[]
+  timeBlocks       timeBlocks[]
+  appointmentBlock appointmentBlock[]
+  openDays         openDays[]
 
   @@map("staff")
 }
@@ -177,14 +184,27 @@ model allServices {
   @@map("allServices")
 }
 
-model appointment {
-  id          Int        @id @default(autoincrement())
-  customerId  Int
-  customer    customer   @relation(fields: [customerId], references: [id])
-  TimeBlockId Int
-  timeBlocks  timeBlocks @relation(fields: [TimeBlockId], references: [id])
-  isCancle    Boolean
-  date        DateTime
+model customerAppointmentBlock {
+  customer         customer         @relation(fields: [customerId], references: [id])
+  customerId       Int
+  appointmentBlock appointmentBlock @relation(fields: [date, startTime, staffId], references: [date, startTime, staffId])
+  date             DateTime
+  startTime        String
+  staffId          Int
+  isCancel         Boolean
 
-  @@map("appointment")
+  @@id([customerId, date, startTime, staffId])
+  @@map("customerAppointmentBlock")
+}
+
+model serviceAppointmentBlock {
+  service          service          @relation(fields: [serviceId], references: [id])
+  serviceId        Int
+  appointmentBlock appointmentBlock @relation(fields: [date, startTime, staffId], references: [date, startTime, staffId])
+  date             DateTime
+  startTime        String
+  staffId          Int
+
+  @@id([serviceId, date, startTime, staffId])
+  @@map("serviceAppointmentBlock")
 }
