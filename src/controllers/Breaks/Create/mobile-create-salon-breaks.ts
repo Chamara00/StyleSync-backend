@@ -6,10 +6,10 @@ const prisma = new PrismaClient();
 
 export async function createBreak(req: Request, res: Response) {
 
-    const { staffId, dayName, breakStart, breakEnd  } = req.body;
+    const { staffId, dayName } = req.body;
 
     try{
-        if(!staffId || !dayName || !breakStart || !breakEnd){
+        if(!staffId || !dayName){
             return res.status(400).json({ status: 400, error: 'inputs not found' });
         }
         else{
@@ -17,8 +17,8 @@ export async function createBreak(req: Request, res: Response) {
                 data: {
                     staffId,
                     dayName,
-                    breakStart,
-                    breakEnd
+                    breakStart:'12:00',
+                    breakEnd:'13:00'
                 },
             });
             return res.status(201).json({ status: 201, message: 'Step 1 successful', breaks: createBreaks });
