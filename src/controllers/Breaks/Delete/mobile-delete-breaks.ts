@@ -6,20 +6,19 @@ const prisma = new PrismaClient();
 
 export async function deleteBreaks(req: Request, res: Response) {
 
-    const { staffId, dayName, breakStart } = req.body;
+    const { staffId, dayName, breakStart } = req.query;
 
     try {
-        if (!staffId || !dayName || !breakStart) {
+        if (!staffId || !dayName || !breakStart || typeof staffId !== 'string') {
             return res.status(400).json({ status: 400, error: 'Inputs not found' });
         } else {
             // Retrieve the data to be deleted
             const breakToDelete = await prisma.breaks.findMany({
                 where: {
 
-                    staffId: staffId,
-
-                    dayName: dayName,
-                    breakStart: breakStart
+                    staffId: parseInt(staffId),
+                    dayName: String(dayName),
+                    breakStart: String(breakStart)
                 }
             });
 
@@ -27,10 +26,10 @@ export async function deleteBreaks(req: Request, res: Response) {
             await prisma.breaks.deleteMany({
                 where: {
 
-                    staffId: staffId,
+                    staffId: parseInt(staffId),
 
-                    dayName: dayName,
-                    breakStart: breakStart
+                    dayName: String(dayName),
+                    breakStart: String(breakStart)
                 }
             });
 
