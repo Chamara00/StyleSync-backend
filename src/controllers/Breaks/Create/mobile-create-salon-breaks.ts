@@ -8,7 +8,7 @@ export async function createBreak(req: Request, res: Response) {
   const { staffId, dayName, breakStart, breakEnd } = req.body;
 
   try {
-    if (!staffId || !dayName || breakStart || breakEnd) {
+    if (!staffId || !dayName || !breakStart || !breakEnd) {
       return res.status(400).json({ status: 400, error: 'inputs not found' });
     } else {
       const createBreaks = await prisma.breaks.create({
