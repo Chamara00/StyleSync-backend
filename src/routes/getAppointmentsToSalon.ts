@@ -1,5 +1,6 @@
 import { Router } from 'express';
 
+
 import { ShowAvailableAppointments } from '../controllers/AppointmentShowToSalon/show-today-appointment-in-home-screen';
 import{ShowOngoingAppointments} from '../controllers/AppointmentShowToSalon/Show-Today-Ongoing-Appoinment';
 import{ ShowPastAppointments} from '../controllers/AppointmentShowToSalon/Show-Today-Past-Appoinment';
@@ -18,4 +19,4 @@ export function configuregetAppointmentToSalon(router: Router): void{
     router.get('/get-selectedate-appoinment',ShowSelectDateAppointments);
     router.get('/get-selectedate-cancle-appoinment',ShowSelectDateCancleAppointments);
     router.get('/get-customer-details',ShowCustomerDetails);
- }
+}

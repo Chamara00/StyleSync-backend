@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "timeBlocks" ALTER COLUMN "endTime" SET DATA TYPE TEXT,
+ALTER COLUMN "startTime" SET DATA TYPE TEXT;
