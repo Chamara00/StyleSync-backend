@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
 export async function getServiceInfo(req: Request, res: Response) {
     const { staffId, serviceType } = req.query;
     try{
-        if(!staffId || !serviceType){
+        if(!staffId){
             return res.status(400).json({ status: 400, error: 'staff id not found' });
         }
         const viewService = await prisma.serviceStaff.findMany ({
