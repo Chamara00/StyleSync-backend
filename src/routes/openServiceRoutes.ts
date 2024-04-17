@@ -5,6 +5,7 @@ import { getServiceInfo } from '../controllers/Services/View/mobile-view-staff-s
 import { getAllServiceType } from '../controllers/Services/View/mobile-view-service-type';
 import { deleteStaffService } from '../controllers/Services/Delete/mobile-staff-service-delete';
 import { updateStaffServiceInfo } from '../controllers/Services/Update/mobile-staff-service-update';
+import { deleteStaffServiceType } from '../controllers/Services/Delete/mobile-staff-service-type-delete';
 
 export function configureopenServicesRoutes(router: Router): void{
     router.post('/staff-service-create',createStaffService);
@@ -12,5 +13,6 @@ export function configureopenServicesRoutes(router: Router): void{
     router.get('/get-staff-service-info', getServiceInfo);
     router.get('/get-all-service-type', getAllServiceType);
     router.delete('/delete-staff-service', deleteStaffService);
+    router.delete('/delete-staff-service-type', deleteStaffServiceType);
     router.put('/update-staff-service-info', updateStaffServiceInfo);
 }
