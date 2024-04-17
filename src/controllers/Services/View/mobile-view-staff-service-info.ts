@@ -9,7 +9,7 @@ export async function getServiceInfo(req: Request, res: Response) {
     const { staffId, serviceType } = req.query;
     try{
         if(!staffId || !serviceType || typeof staffId !== 'string'){
-            return res.status(400).json({ status: 400, error: 'salon id not found' });
+            return res.status(400).json({ status: 400, error: 'staff id not found' });
         }
         const viewService = await prisma.serviceStaff.findMany ({
             where: {
