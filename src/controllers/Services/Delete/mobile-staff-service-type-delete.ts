@@ -29,6 +29,11 @@ export async function deleteStaffServiceType(req: Request, res: Response) {
                     serviceType: String(serviceType),
                 }
             });
+            await prisma.serviceStaff.deleteMany({
+                where: {
+                    serviceId: existingServiceId[i],
+                }
+            });
             i++;
         }
 
