@@ -7,37 +7,43 @@ export async function deleteStaffServiceType(req: Request, res: Response) {
     const { staffId, serviceType } = req.query;
     try {
         if (!staffId || !serviceType || typeof staffId !== 'string') {
-            return res.status(400).json({ status: 400, error: 'Inputs not found' });
+            return res.status(400).json({ status: 400, error: 'Invalid inputs' });
         } else {
-            
-           const getServiceId =  await prisma.serviceStaff.findMany({
+            const getServiceIds = await prisma.serviceStaff.findMany({
                 where: {
-                    staffId: parseInt(staffId),
-                    //serviceId,
+                    staffId: parseInt(staffId)
                 },
                 select: {
                     serviceId: true,
                 }
-            }); 
-
-        const existingServiceId = getServiceId.map(item => item.serviceId);
-        let i = 0 ;
-        while(existingServiceId[i]!= null){
-            await prisma.service.deleteMany({
-                where:{
-                    id: existingServiceId[i],
-                    serviceType: String(serviceType),
-                }
             });
-            await prisma.serviceStaff.deleteMany({
-                where: {
-                    serviceId: existingServiceId[i],
-                }
-            });
-            i++;
-        }
 
-            return res.status(200).json({ status: 200, message: 'Delete successful' });
+            const serviceIds = getServiceIds.map(item => item.serviceId);
+
+            for (const id of serviceIds) {
+                const service = await prisma.service.findFirst({
+                    where: {
+                        id,
+                        serviceType: String(serviceType),
+                    }
+                });
+
+                if (service) {
+                    await prisma.serviceStaff.deleteMany({
+                        where: {
+                            serviceId: id
+                        }
+                    });
+
+                    await prisma.service.delete({
+                        where: {
+                            id
+                        }
+                    });
+                }
+            }
+
+            return res.status(200).json({ status: 200, message: 'Deletion successful' });
         }
     } catch (error) {
         console.log(error);
