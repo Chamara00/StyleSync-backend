@@ -6,17 +6,31 @@ const prisma = new PrismaClient();
 export async function deleteStaffServiceType(req: Request, res: Response) {
     const { staffId, serviceType } = req.query;
     try {
-        if (!staffId || !serviceType ) {
+        if (!staffId || !serviceType || typeof staffId !== 'string') {
             return res.status(400).json({ status: 400, error: 'Inputs not found' });
         } else {
             
-            await prisma.service.deleteMany({
+           const getServiceId =  await prisma.serviceStaff.findMany({
                 where: {
-                    serviceType: String(serviceType)
+                    staffId: parseInt(staffId),
                     //serviceId,
+                },
+                select: {
+                    serviceId: true,
+                }
+            }); 
+
+        const existingServiceId = getServiceId.map(item => item.serviceId);
+        let i = 0 ;
+        while(existingServiceId[i]!= null){
+            await prisma.service.deleteMany({
+                where:{
+                    id: existingServiceId[i],
+                    serviceType: String(serviceType),
                 }
             });
-            // Retrieve the data to be deleted
+            i++;
+        }
 
             return res.status(200).json({ status: 200, message: 'Delete successful' });
         }
