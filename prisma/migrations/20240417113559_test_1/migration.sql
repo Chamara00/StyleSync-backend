@@ -10,36 +10,37 @@ CREATE TABLE "salon" (
     "country" TEXT,
     "contactNo" TEXT NOT NULL,
     "otp" TEXT,
+    "emailVerified" BOOLEAN,
 
     CONSTRAINT "salon_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "openDays" (
-    "salonId" INTEGER NOT NULL,
+    "staffId" INTEGER NOT NULL,
     "dayName" TEXT NOT NULL,
     "isOpen" BOOLEAN NOT NULL,
     "openHour" TEXT,
     "closeHour" TEXT,
 
-    CONSTRAINT "openDays_pkey" PRIMARY KEY ("salonId","dayName")
+    CONSTRAINT "openDays_pkey" PRIMARY KEY ("staffId","dayName")
 );
 
 -- CreateTable
 CREATE TABLE "breaks" (
-    "salonId" INTEGER NOT NULL,
+    "staffId" INTEGER NOT NULL,
     "dayName" TEXT NOT NULL,
     "breakStart" TEXT NOT NULL,
     "breakEnd" TEXT NOT NULL,
 
-    CONSTRAINT "breaks_pkey" PRIMARY KEY ("salonId","dayName","breakStart")
+    CONSTRAINT "breaks_pkey" PRIMARY KEY ("staffId","dayName","breakStart")
 );
 
 -- CreateTable
 CREATE TABLE "customer" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
-    "gender" TEXT NOT NULL,
+    "gender" TEXT,
     "password" TEXT NOT NULL,
     "email" TEXT NOT NULL,
 
@@ -48,16 +49,23 @@ CREATE TABLE "customer" (
 
 -- CreateTable
 CREATE TABLE "timeBlocks" (
-    "id" SERIAL NOT NULL,
-    "date" TIMESTAMP(3) NOT NULL,
-    "time" TEXT NOT NULL,
-    "status" BOOLEAN NOT NULL,
-    "duration" INTEGER NOT NULL,
-    "customerId" INTEGER NOT NULL,
+    "startTime" TEXT NOT NULL,
+    "endTime" TEXT NOT NULL,
+    "dayName" TEXT NOT NULL,
     "staffId" INTEGER NOT NULL,
-    "serviceId" INTEGER NOT NULL,
 
-    CONSTRAINT "timeBlocks_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "timeBlocks_pkey" PRIMARY KEY ("staffId","startTime","dayName")
+);
+
+-- CreateTable
+CREATE TABLE "appointmentBlock" (
+    "date" TIMESTAMP(3) NOT NULL,
+    "startTime" TEXT NOT NULL,
+    "endTime" TEXT NOT NULL,
+    "staffId" INTEGER NOT NULL,
+    "isBook" BOOLEAN NOT NULL,
+
+    CONSTRAINT "appointmentBlock_pkey" PRIMARY KEY ("date","startTime","staffId")
 );
 
 -- CreateTable
@@ -136,6 +144,27 @@ CREATE TABLE "allServices" (
     CONSTRAINT "allServices_pkey" PRIMARY KEY ("service")
 );
 
+-- CreateTable
+CREATE TABLE "customerAppointmentBlock" (
+    "customerId" INTEGER NOT NULL,
+    "date" TIMESTAMP(3) NOT NULL,
+    "startTime" TEXT NOT NULL,
+    "staffId" INTEGER NOT NULL,
+    "isCancel" BOOLEAN NOT NULL,
+
+    CONSTRAINT "customerAppointmentBlock_pkey" PRIMARY KEY ("customerId","date","startTime","staffId")
+);
+
+-- CreateTable
+CREATE TABLE "serviceAppointmentBlock" (
+    "serviceId" INTEGER NOT NULL,
+    "date" TIMESTAMP(3) NOT NULL,
+    "startTime" TEXT NOT NULL,
+    "staffId" INTEGER NOT NULL,
+
+    CONSTRAINT "serviceAppointmentBlock_pkey" PRIMARY KEY ("serviceId","date","startTime","staffId")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "salon_email_key" ON "salon"("email");
 
@@ -149,19 +178,16 @@ CREATE UNIQUE INDEX "customer_email_key" ON "customer"("email");
 CREATE UNIQUE INDEX "staffContact_contactNo_key" ON "staffContact"("contactNo");
 
 -- AddForeignKey
-ALTER TABLE "openDays" ADD CONSTRAINT "openDays_salonId_fkey" FOREIGN KEY ("salonId") REFERENCES "salon"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "openDays" ADD CONSTRAINT "openDays_staffId_fkey" FOREIGN KEY ("staffId") REFERENCES "staff"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "breaks" ADD CONSTRAINT "breaks_salonId_dayName_fkey" FOREIGN KEY ("salonId", "dayName") REFERENCES "openDays"("salonId", "dayName") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "breaks" ADD CONSTRAINT "breaks_staffId_dayName_fkey" FOREIGN KEY ("staffId", "dayName") REFERENCES "openDays"("staffId", "dayName") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "timeBlocks" ADD CONSTRAINT "timeBlocks_staffId_fkey" FOREIGN KEY ("staffId") REFERENCES "staff"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "timeBlocks" ADD CONSTRAINT "timeBlocks_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "customer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "timeBlocks" ADD CONSTRAINT "timeBlocks_serviceId_fkey" FOREIGN KEY ("serviceId") REFERENCES "service"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "appointmentBlock" ADD CONSTRAINT "appointmentBlock_staffId_fkey" FOREIGN KEY ("staffId") REFERENCES "staff"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "review" ADD CONSTRAINT "review_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "customer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -186,3 +212,15 @@ ALTER TABLE "salonStaff" ADD CONSTRAINT "salonStaff_staffID_fkey" FOREIGN KEY ("
 
 -- AddForeignKey
 ALTER TABLE "staffContact" ADD CONSTRAINT "staffContact_staffId_fkey" FOREIGN KEY ("staffId") REFERENCES "staff"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "customerAppointmentBlock" ADD CONSTRAINT "customerAppointmentBlock_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "customer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "customerAppointmentBlock" ADD CONSTRAINT "customerAppointmentBlock_date_startTime_staffId_fkey" FOREIGN KEY ("date", "startTime", "staffId") REFERENCES "appointmentBlock"("date", "startTime", "staffId") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "serviceAppointmentBlock" ADD CONSTRAINT "serviceAppointmentBlock_serviceId_fkey" FOREIGN KEY ("serviceId") REFERENCES "service"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "serviceAppointmentBlock" ADD CONSTRAINT "serviceAppointmentBlock_date_startTime_staffId_fkey" FOREIGN KEY ("date", "startTime", "staffId") REFERENCES "appointmentBlock"("date", "startTime", "staffId") ON DELETE RESTRICT ON UPDATE CASCADE;
