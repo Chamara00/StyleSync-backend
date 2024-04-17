@@ -4,14 +4,14 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export async function getServiceType(req: Request, res: Response) {
-    const { staffId, serviceType } = req.body;
+    const { staffId, serviceType } = req.query;
     try{
         if(!staffId || !serviceType){
             return res.status(400).json({ status: 400, error: 'salon id not found' });
         }
         const viewService = await prisma.service.findMany ({
             where: {
-                serviceType:serviceType
+                serviceType: String(serviceType)
             },
             select: {
                 name: true
