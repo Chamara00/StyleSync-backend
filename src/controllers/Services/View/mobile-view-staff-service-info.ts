@@ -29,6 +29,7 @@ export async function getServiceInfo(req: Request, res: Response) {
                     serviceType: String(serviceType)
                 },
                 select: {
+                    id:true,
                     name: true,
                     price:true,
                     duration: true
