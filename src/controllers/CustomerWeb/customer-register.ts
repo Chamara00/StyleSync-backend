@@ -1,42 +1,43 @@
 //Customer Register Using Web
 
 import { Request, Response } from 'express';
-import { PrismaClient} from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
+
 
 
 const prisma = new PrismaClient();
 
-export async function registerCustomer(req: Request, res: Response){
-    const { email, password, confirmPassword} = req.body;
+export async function RegisterCustomer(req: Request, res: Response){
+    const { email, password, confirmPassword } = req.body;
 
-    try{
-        if (!email || !password || !confirmPassword){
-            return res.status(400).json({ status: 400, error:'Invlid input format'});
+    try {
+        if (!email || !password || !confirmPassword) {
+            return res.status(400).json({ status: 400, error:'Invalid input format' });
         }
-        if (password !== confirmPassword){
-            return res.status(400).json({ status: 400, error:'Password are not match'});
+        if (password !== confirmPassword) {
+            return res.status(400).json({ status: 400, error:'Passwords do not match' });
         }
         const userExist = await prisma.customer.findUnique({
-            where: {email}
+            where: { email }
         });
-        if (userExist){
-            return res.status(400).json({ status: 400, error: 'User with this email already exisits'});
+        if (userExist) {
+            return res.status(400).json({ status: 400, error: 'User with this email already exists' });
         }
         
-            await prisma.customer.create({
-            data : {
+        await prisma.customer.create({
+            data: {
                 email,
-                password
+                password,
             },
         });
 
-        return res.status(201).json({ status: 201, message: 'Customer Registraion successful'});
+        return res.status(201).json({ status: 201, message: 'Customer Registration successful' });
     }
-    catch(error){
+    catch(error) {
         console.log(error);
-        return res.status(500).json({ status: 500, error: 'Failed to prcoess Registration'});
+        return res.status(500).json({ status: 500, error: 'Failed to process Registration' });
     }
-    finally{
+    finally {
         await prisma.$disconnect();
     }
 }

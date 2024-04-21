@@ -21,7 +21,7 @@ export async function SelectSalon(req: Request, res: Response) {
                         staff: true,
                     },
                 },
-                service: true,
+                //service: true,
             },
         });
 
@@ -30,25 +30,21 @@ export async function SelectSalon(req: Request, res: Response) {
         }
 
         // Extracting required details from the salon object
-        const { name, description, contactNo, location, line1, line2, openDays, salonStaff, service } = salon;
+        const { name,  contactNo, location, line1, line2 } = salon;
 
         // Extracting staff names from salonStaff
-        const staffNames = salonStaff.map(({ staff }) => staff.name);
+        //const staffNames = salonStaff.map(({ staff }) => staff.name);
 
         // Extracting service names from services
-        const serviceNames = service.map(({ name }) => name);
+        //const serviceNames = service.map(({ name }) => name);
 
         // Constructing the response object
         const responseData = {
             name,
-            description,
             contactNo,
             location,
             line1,
             line2,
-            openDays,
-            staffNames,
-            serviceNames,
         };
 
         return res.status(200).json({ status: 200, data: responseData });

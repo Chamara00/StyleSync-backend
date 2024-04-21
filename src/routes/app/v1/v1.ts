@@ -6,6 +6,7 @@ import { configureopenServicesRoutes } from '../../openServiceRoutes';
 import { configurehealthRoutes } from '../../healthRoute';
 import { configuregetAppointmentToSalon } from '../../getAppointmentsToSalon';
 import { configureTimeBlockRoutes } from '../../timeBlockRoutes';
+import { configureCustomerRoutes } from '../../showCustomerToSalon';
 
 
 export function configureV1Routes(router: Router): void {
@@ -36,4 +37,8 @@ export function configureV1Routes(router: Router): void {
     const timeBlockRoute = Router();
     configureTimeBlockRoutes(timeBlockRoute);
     router.use('/block', timeBlockRoute);
+
+    const registerCustomerRoutes = Router();
+    configureCustomerRoutes(registerCustomerRoutes);
+    router.use('/customer',registerCustomerRoutes);
 }
