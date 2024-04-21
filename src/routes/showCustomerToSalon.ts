@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { Home } from '../controllers/CustomerWeb/Web-Home';
-import { RegisterCustomer } from '../controllers/CustomerWeb/customer-register';
+//import { RegisterCustomer } from '../controllers/CustomerWeb/customer-register';
 import { LoginCustomer } from '../controllers/CustomerWeb/Login';
 import { SalonAddManual } from '../controllers/CustomerWeb/Salon-ManualAdd';
 
@@ -12,7 +12,7 @@ import { SalonAddManual } from '../controllers/CustomerWeb/Salon-ManualAdd';
 
 export function configureCustomerRoutes(router: Router): void {
     router.post('/show-salon-to-customer', Home);
-    router.post('/create-customer', RegisterCustomer);
+    //router.post('/create-customer', RegisterCustomer);
     router.post('/customer-login',LoginCustomer);
     router.post('/salon-Manual-Add,',SalonAddManual);
 }
