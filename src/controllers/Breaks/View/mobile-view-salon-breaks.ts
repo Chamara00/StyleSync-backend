@@ -5,15 +5,19 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export async function getBreaks(req: Request, res: Response) {
-    const { salonId, dayName } = req.body;
+
+    const { staffId, dayName } = req.query;
     try{
-        if(!salonId || !dayName){
+        if(!staffId || !dayName || typeof staffId !== 'string'){
+
             return res.status(400).json({ status: 400, error: 'salon id not found' });
         }
         const viewBreaks = await prisma.breaks.findMany ({
             where : {
-                salonId : salonId,
-                dayName : dayName
+
+                staffId : parseInt(staffId),
+                dayName : String(dayName)
+
             },
             select: {
                 breakStart:true,
