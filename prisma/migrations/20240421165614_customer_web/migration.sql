@@ -39,15 +39,9 @@ CREATE TABLE "breaks" (
 -- CreateTable
 CREATE TABLE "customer" (
     "id" SERIAL NOT NULL,
-<<<<<<<< HEAD:prisma/migrations/20240421161508_customer_web/migration.sql
     "name" TEXT,
     "gender" TEXT,
     "password" TEXT,
-========
-    "name" TEXT NOT NULL,
-    "gender" TEXT,
-    "password" TEXT NOT NULL,
->>>>>>>> 6fe1a7c97beaf025892309d59d03f7fec7029870:prisma/migrations/20240417113559_test_1/migration.sql
     "email" TEXT NOT NULL,
 
     CONSTRAINT "customer_pkey" PRIMARY KEY ("id")
