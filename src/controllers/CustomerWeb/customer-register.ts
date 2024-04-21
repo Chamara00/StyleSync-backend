@@ -25,10 +25,10 @@ export async function RegisterCustomer(req: Request, res: Response){
         }
         
         await prisma.customer.create({
-            data: {
-                email,
-                password,
-            },
+            data:{
+                email: email,
+                password: password
+            }
         });
 
         return res.status(201).json({ status: 201, message: 'Customer Registration successful' });
