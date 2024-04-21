@@ -6,14 +6,14 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export async function getServiceInfo(req: Request, res: Response) {
-    const { staffId, serviceType } = req.body;
+    const { staffId, serviceType } = req.query;
     try{
-        if(!staffId || !serviceType){
-            return res.status(400).json({ status: 400, error: 'salon id not found' });
+        if(!serviceType){
+            return res.status(400).json({ status: 400, error: 'staff id not found' });
         }
         const viewService = await prisma.serviceStaff.findMany ({
             where: {
-                staffId : staffId
+                staffId : Number(staffId)
             },
             select: {
                 serviceId: true
@@ -26,9 +26,10 @@ export async function getServiceInfo(req: Request, res: Response) {
             const viewServiceInfo = await prisma.service.findMany({
                 where: {
                     id: existingId[i],
-                    serviceType: serviceType
+                    serviceType: String(serviceType)
                 },
                 select: {
+                    id:true,
                     name: true,
                     price:true,
                     duration: true
