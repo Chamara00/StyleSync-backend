@@ -54,9 +54,10 @@ model breaks {
 }
 
 model customer {
-  id                       Int                        @id @default(autoincrement())
-  name                     String?
+  id Int @id @default(autoincrement())
+
   gender                   String?
+  name                     String?
   password                 String?
   email                    String                     @unique
   //timeBlock timeBlocks[]

@@ -1,5 +1,3 @@
-// Salon registration enter address for mobile app
-
 import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 
@@ -13,7 +11,7 @@ export async function enterAddressForSalon(req: Request, res: Response) {
             return res.status(400).json({ status: 400, error: 'Invalid input format' });
         }
 
-        prisma.salon.update({
+        const updatedSalon = await prisma.salon.update({
             where: { id },
             data: {
                 line1,
@@ -23,12 +21,12 @@ export async function enterAddressForSalon(req: Request, res: Response) {
             }
         });
 
-        return res.status(201).json({ status: 201, message: 'Enter address successful', id});
+        return res.status(201).json({ status: 201, message: 'Enter address successful', salon: updatedSalon });
     } catch (error) {
-        console.log(error);
+        console.error('Error updating salon:', error);
         return res.status(500).json({ status: 500, error: 'Failed to enter address' });
     }
-    finally{
-        prisma.$disconnect;
+    finally {
+        await prisma.$disconnect();
     }
 }
