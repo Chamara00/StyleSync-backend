@@ -23,15 +23,15 @@ export async function ShowOngoingAppointments(req:Request,res:Response){
                 } else {
                     const ShowOngoingAppointment: unknown [] = [];
                     for (let i = 0; i < staffIdOfSalon.length; i++) {
-                        const today = new Date(); // Get today's date and time
-                        today.setHours(0, 0, 0, 0); // Set time to midnight
-                        const currentTime = new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }); // Get current time in 24-hour format (HH:MM)
+                        const today = new Date(); 
+                        today.setHours(0, 0, 0, 0); 
+                        const currentTime = new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }); 
                         const findBlocks = await prisma.appointmentBlock.findMany({
                             where: {
                                 staffId: staffIdOfSalon[i],
                                 isBook: true,
                                 date: {
-                                    gte: today, // Filter by today or later
+                                    gte: today,
                                 },
                                 startTime: { 
                                     lt: currentTime 
@@ -41,7 +41,7 @@ export async function ShowOngoingAppointments(req:Request,res:Response){
                                 },
                                 customerAppointmentBlock: {
                                     some: {
-                                        isCancel: false // At least one related customerAppointmentBlock should not be cancelled
+                                        isCancel: false 
                                     }
                                 }   
                             },
