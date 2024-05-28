@@ -25,13 +25,16 @@ export async function ShowAvailableAppointments(req: Request, res: Response) {
                 for (let i = 0; i < staffIdOfSalon.length; i++) {
                     const today = new Date(); // Get today's date and time
                     today.setHours(0, 0, 0, 0); // Set time to midnight
+                    const endOfDay = new Date();
+                    endOfDay.setHours(23, 59, 59, 999);
                     const currentTime = new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }); // Get current time in 24-hour format (HH:MM)
                     const findBlocks = await prisma.appointmentBlock.findMany({
                         where: {
                             staffId: staffIdOfSalon[i],
                             isBook: true,
                             date: {
-                                gte: today, // Filter by today or later
+                                gte: today, // Filter by today 
+                                lte: endOfDay 
                             }, 
                             endTime : {
                                 gt: currentTime // End time should be greater than current time

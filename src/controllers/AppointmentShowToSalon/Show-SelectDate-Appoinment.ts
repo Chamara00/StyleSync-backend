@@ -25,12 +25,15 @@ export async function  ShowSelectDateAppointments(req: Request, res: Response) {
                 for (let i = 0; i < staffIdOfSalon.length; i++) {
                     const selectedDate = new Date(date); 
                     selectedDate.setHours(0, 0, 0, 0); 
+                    const endOfDay = new Date(date);
+                    endOfDay.setHours(23, 59, 59, 999);
                     const findBlocks = await prisma.appointmentBlock.findMany({
                         where: {
                             staffId: staffIdOfSalon[i],
                             isBook: true,
                             date: {
                                 gte: selectedDate, 
+                                lte: endOfDay 
                             }, 
                             customerAppointmentBlock: {
                                 some: {
