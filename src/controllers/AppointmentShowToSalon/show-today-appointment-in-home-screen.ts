@@ -11,7 +11,7 @@ export async function ShowAvailableAppointments(req: Request, res: Response) {
         } else {
             const findStaffId = await prisma.salonStaff.findMany({
                 where: {
-                    salonId :parseInt(salonId)
+                    salonId : Number(salonId)
                 },
                 select: {
                     staffID: true
