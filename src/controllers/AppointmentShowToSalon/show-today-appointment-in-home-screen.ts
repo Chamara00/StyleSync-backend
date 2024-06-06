@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 export async function ShowAvailableAppointments(req: Request, res: Response) {
     const { salonId } = req.query;
     try {
-        if (!salonId || typeof salonId !== 'string') {
+        if (!salonId) {
             return res.status(400).json({ status: 400, error: 'SalonId not found' });
         } else {
             const findStaffId = await prisma.salonStaff.findMany({
