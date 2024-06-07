@@ -49,6 +49,7 @@ export async function ShowAvailableAppointments(req: Request, res: Response) {
                         },
                         select: {
                             startTime:true,
+                            endTime:true,
                             staff:{
                                 select:{
                                 id:true,
