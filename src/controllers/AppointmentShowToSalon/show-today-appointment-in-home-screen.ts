@@ -68,6 +68,9 @@ export async function ShowAvailableAppointments(req: Request, res: Response) {
                             },
                             customerAppointmentBlock:{
                                 select:{
+                                    startTime:true,
+                                    customerId:true,
+                                    date:true,
                                     customer:{
                                         select:{
                                             name:true,
