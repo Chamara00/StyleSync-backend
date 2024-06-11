@@ -4,11 +4,14 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export async function ShowSalonDetails (req: Request ,res: Response) {
-    const {salonId, date} = req.body;
+    const {salonId, date} = req.query;
 
     try{
-        if( !salonId || !date) {
-            return res.status(400).json({ status: 400, error: 'Invalid input format' });
+        if (!salonId || typeof salonId !== 'string') {
+            return res.status(400).json({ status: 400, error: 'SalonId not found' });
+        }
+        if (!date || typeof date !== 'string') {
+            return res.status(400).json({ status: 400, error: 'Date not found' });
         }else{
            
             // Fetch the salon details 
@@ -16,7 +19,7 @@ export async function ShowSalonDetails (req: Request ,res: Response) {
                 const dayOfWeek = new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(givenDate);
                 const salonDetails = await prisma.salon.findUnique({
                     where: {
-                        id: salonId,
+                        id: parseInt(salonId),
                     },
                     select: {
                         name: true,
@@ -30,7 +33,7 @@ export async function ShowSalonDetails (req: Request ,res: Response) {
                  // Fetch the staff details and their open hours for the given day
                 const staffDetails= await prisma.salonStaff.findMany({
                     where: {
-                        salonId: salonId
+                        salonId: parseInt(salonId)
                     },
                     select: {
                         staffID: true,
@@ -59,7 +62,7 @@ export async function ShowSalonDetails (req: Request ,res: Response) {
                 // Count the number of staff members
                 const staffCount = await prisma.salonStaff.count({
                 where: {
-                    salonId: salonId,
+                    salonId: parseInt(salonId),
                 },
             });
                  // Count the number of customer
