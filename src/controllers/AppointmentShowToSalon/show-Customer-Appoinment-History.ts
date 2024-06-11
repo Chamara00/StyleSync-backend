@@ -26,11 +26,13 @@ export async function ShowCustomerHistory(req:Request , res: Response){
             const findStaffId = await prisma.customerAppointmentBlock.findMany({
                 
                 where:{
-                    customerId:parseInt(customerId),
+                    customerId:Number(customerId),
+                    isCancel:false,
                     date:{
                         lt:endOfDay
                     },
                     appointmentBlock:{
+                        isBook:true,
                         endTime:{
                             lt:endtime,
                         }
@@ -50,7 +52,7 @@ export async function ShowCustomerHistory(req:Request , res: Response){
                 for (let i = 0; i < staffIdOfCustomerAppoinment.length; i++){
                     const findBlocks = await prisma.salonStaff.findMany({
                         where:{
-                            salonId :parseInt(salonId),
+                            salonId :Number(salonId),
                             staffID: staffIdOfCustomerAppoinment[i]
                         },
                         select:{

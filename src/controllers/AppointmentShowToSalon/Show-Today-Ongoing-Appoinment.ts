@@ -4,14 +4,21 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export async function ShowOngoingAppointments(req:Request,res:Response){
-        const {salonId} =req.body;
+    const { salonId,date,time } = req.query;
         try{
-            if (!salonId) {
+            if (!salonId || typeof salonId !== 'string') {
                 return res.status(400).json({ status: 400, error: 'SalonId not found' });
-            }else{
+            }
+            if (!date || typeof date !== 'string') {
+                return res.status(400).json({ status: 400, error: 'Date not found' });
+            }
+            if (!time || typeof time !== 'string') {
+                return res.status(400).json({ status: 400, error: 'Time not found' });
+            }
+            else{
                 const findStaffId = await prisma.salonStaff.findMany({
                     where: {
-                        salonId: salonId
+                        salonId: parseInt(salonId)
                     },
                     select: {
                         staffID: true
@@ -23,21 +30,19 @@ export async function ShowOngoingAppointments(req:Request,res:Response){
                 } else {
                     const ShowOngoingAppointment: unknown [] = [];
                     for (let i = 0; i < staffIdOfSalon.length; i++) {
-                        const today = new Date(); 
-                        today.setHours(0, 0, 0, 0); 
-                        const currentTime = new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }); 
+                        // const today = new Date(); 
+                        // today.setHours(0, 0, 0, 0); 
+                        //const currentTime = new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }); 
                         const findBlocks = await prisma.appointmentBlock.findMany({
                             where: {
                                 staffId: staffIdOfSalon[i],
                                 isBook: true,
-                                date: {
-                                    gte: today,
-                                },
+                                date:date,
                                 startTime: { 
-                                    lt: currentTime 
+                                    lt: time 
                                 } ,
                                 endTime : {
-                                    gt: currentTime 
+                                    gt: time
                                 },
                                 customerAppointmentBlock: {
                                     some: {
@@ -56,6 +61,9 @@ export async function ShowOngoingAppointments(req:Request,res:Response){
                                 },
                                 customerAppointmentBlock:{
                                     select:{
+                                        startTime:true,
+                                        customerId:true,
+                                        date:true,
                                         customer:{
                                             select:{
                                                 name:true,
