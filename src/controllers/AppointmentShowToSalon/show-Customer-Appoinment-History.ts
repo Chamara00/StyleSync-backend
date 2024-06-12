@@ -11,14 +11,19 @@ export async function ShowCustomerHistory(req:Request , res: Response){
         if(!salonId || !date || typeof date !== 'string' || !customerId || !endtime || typeof endtime !== 'string'){
             return res.status(400).json({status:400, error: 'Invalid input format'});
         }else{
+            const today = new Date(date); 
+            today.setHours(0, 0, 0, 0); 
             const endOfDay = new Date(date);
             endOfDay.setHours(23, 59, 59, 999);
             const findStaffId = await prisma.customerAppointmentBlock.findMany({
                 
                 where:{
+                 OR:[
+                    {
                     customerId:Number(customerId),
                     isCancel:false,
                     date:{
+                        gt:today,
                         lt:endOfDay
                     },
                     appointmentBlock:{
@@ -27,6 +32,18 @@ export async function ShowCustomerHistory(req:Request , res: Response){
                             lt:endtime,
                         }
                     }
+                   },
+                   {
+                    customerId:Number(customerId),
+                    isCancel:false,
+                    date:{
+                        lt:today
+                    },
+                    appointmentBlock:{
+                        isBook:true,
+                    }
+                   },
+                ],
                 },
                 select:{
                     staffId:true
