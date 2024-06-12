@@ -3,8 +3,8 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-function getWeekRange() {
-    const now = new Date();
+function getWeekRange(date: string) {
+    const now = new Date(date);
     const dayOfWeek = now.getDay(); // 0 (Sunday) to 6 (Saturday)
     const startOfWeek = new Date(now);
     startOfWeek.setDate(now.getDate() - dayOfWeek);
@@ -28,15 +28,15 @@ function getDatesOfWeek(startOfWeek: Date) {
 }
 
 export async function SalonAppointmentWeekStatistics (req: Request ,res: Response) {
-    const {salonId} = req.body;
+    const {salonId,date} = req.query;
 
     try{
-        if(!salonId){
+        if(!salonId || !date || typeof date !== 'string'){
             return res.status(400).json({ status: 400, error: 'Invalid input format' });
         }else{
             const findStaffId = await prisma.salonStaff.findMany({
                 where: {
-                    salonId: salonId
+                    salonId:Number(salonId) 
                 },
                 select: {
                     staffID: true
@@ -46,7 +46,7 @@ export async function SalonAppointmentWeekStatistics (req: Request ,res: Respons
             if(!staffIdOfSalon){
                 return res.status(400).json({ status: 400, error: 'StaffId not found' });     
             }else{
-                const { startOfWeek } = getWeekRange();
+                const { startOfWeek } = getWeekRange(date);
                 const datesOfWeek = getDatesOfWeek(startOfWeek);
                 
                 const daysOfWeek = ['Sunday','Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -74,6 +74,7 @@ export async function SalonAppointmentWeekStatistics (req: Request ,res: Respons
                         }
                     },
                 });
+                
                 appointmentCounts[daysOfWeek[date.getDay()]] = count;
             }
                 return res.status(200).json({ status: 200, data: appointmentCounts,message: 'successfully display an  appointment.'});
