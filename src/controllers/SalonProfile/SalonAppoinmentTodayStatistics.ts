@@ -4,17 +4,20 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export async function SalonAppointmentTodayStatistics (req: Request ,res: Response) {
-    const {salonId} = req.body;
+    const {salonId,date} = req.query;
 
     
 
     try{
-        if(!salonId){
+        if(!salonId || typeof salonId !== 'string'){
             return res.status(400).json({ status: 400, error: 'Invalid input format' });
-        }else{
+        }if (!date || typeof date !== 'string') {
+            return res.status(400).json({ status: 400, error: 'Date not found' });
+        }
+        else{
             const findStaffId = await prisma.salonStaff.findMany({
                 where: {
-                    salonId: salonId
+                    salonId: parseInt(salonId)
                 },
                 select: {
                     staffID: true
@@ -27,9 +30,9 @@ export async function SalonAppointmentTodayStatistics (req: Request ,res: Respon
                 const ShowNoOfAppointment: { staffName: string, count: number }[] = [];
                 
                 for (let i = 0; i < staffIdOfSalon.length; i++) {
-                    const today = new Date(); 
+                    const today = new Date(date); 
                     today.setHours(0, 0, 0, 0); 
-                    const endOfDay = new Date();
+                    const endOfDay = new Date(date);
                     endOfDay.setHours(23, 59, 59, 999);
                     const findBlocks = await prisma.appointmentBlock.findMany({
                         where:{
