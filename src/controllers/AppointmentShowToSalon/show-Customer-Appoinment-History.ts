@@ -8,21 +8,11 @@ export async function ShowCustomerHistory(req:Request , res: Response){
     const {salonId,date,customerId,endtime} =req.query;
 
     try{
-        if(!salonId || typeof salonId !== 'string'){
-            return res.status(400).json({status:400, error: 'SalonId not found'});
-        }
-        if(!date || typeof date !== 'string'){
-            return res.status(400).json({status:400, error:'date is not found'});
-        }
-        if(!customerId || typeof customerId !== 'string'){
-            return res.status(400).json({status:400, error: 'customerId is not found'});
-        }
-        if(!endtime || typeof endtime !== 'string'){
-            return res.status(400).json({status:400, error:'endtime is not found'});
-        }
-        else{
-                const endOfDay = new Date(date);
-                endOfDay.setHours(23, 59, 59, 999);
+        if(!salonId || !date || typeof date !== 'string' || !customerId || !endtime || typeof endtime !== 'string'){
+            return res.status(400).json({status:400, error: 'Invalid input format'});
+        }else{
+            const endOfDay = new Date(date);
+            endOfDay.setHours(23, 59, 59, 999);
             const findStaffId = await prisma.customerAppointmentBlock.findMany({
                 
                 where:{

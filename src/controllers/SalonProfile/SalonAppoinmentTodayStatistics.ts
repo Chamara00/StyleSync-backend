@@ -4,20 +4,15 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export async function SalonAppointmentTodayStatistics (req: Request ,res: Response) {
-    const {salonId,date} = req.query;
-
-    
+    const {salonId,date, } = req.query;
 
     try{
-        if(!salonId || typeof salonId !== 'string'){
+        if(!salonId || !date || typeof date !== 'string'){
             return res.status(400).json({ status: 400, error: 'Invalid input format' });
-        }if (!date || typeof date !== 'string') {
-            return res.status(400).json({ status: 400, error: 'Date not found' });
-        }
-        else{
+        }else{
             const findStaffId = await prisma.salonStaff.findMany({
                 where: {
-                    salonId: parseInt(salonId)
+                    salonId: Number(salonId)
                 },
                 select: {
                     staffID: true

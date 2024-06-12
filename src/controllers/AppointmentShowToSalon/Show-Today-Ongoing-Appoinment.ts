@@ -6,19 +6,13 @@ const prisma = new PrismaClient();
 export async function ShowOngoingAppointments(req:Request,res:Response){
     const { salonId,date,time } = req.query;
         try{
-            if (!salonId || typeof salonId !== 'string') {
-                return res.status(400).json({ status: 400, error: 'SalonId not found' });
-            }
-            if (!date || typeof date !== 'string') {
-                return res.status(400).json({ status: 400, error: 'Date not found' });
-            }
-            if (!time || typeof time !== 'string') {
-                return res.status(400).json({ status: 400, error: 'Time not found' });
+            if (!salonId ||!date  || typeof date !== 'string'|| !time ||  typeof time !== 'string') {
+                return res.status(400).json({ status: 400, error: 'Invalid input format' });
             }
             else{
                 const findStaffId = await prisma.salonStaff.findMany({
                     where: {
-                        salonId: parseInt(salonId)
+                        salonId: Number(salonId)
                     },
                     select: {
                         staffID: true
