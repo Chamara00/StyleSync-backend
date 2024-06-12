@@ -71,22 +71,44 @@ export async function ShowCustomerHistory(req:Request , res: Response){
                         return res.status(400).json({ status: 400, error: 'StaffId not found' });
                     }else{
                         for (let i = 0; i < staffIdOfSalon.length; i++){
+                            const today = new Date(date); 
+                            today.setHours(0, 0, 0, 0); 
                             const endOfDay = new Date(date);
                             endOfDay.setHours(23, 59, 59, 999);
                             const getDetails =await prisma.appointmentBlock.findMany({
                                 where:{
+                                OR:[
+                                    {
                                     customerAppointmentBlock:{
                                         some:{
-                                            customerId:Number(customerId)
+                                            customerId:Number(customerId),
+                                            isCancel:false,
                                         }
                                     },
                                     staffId:staffIdOfSalon[i],
                                     date:{
+                                        gt:today,
                                         lt:endOfDay
                                     },
+                                    isBook:true,
                                     endTime:{
                                         lt:endtime,
                                     }  
+                                },
+                                {
+                                    customerAppointmentBlock:{
+                                        some:{
+                                            customerId:Number(customerId),
+                                            isCancel:false,
+                                        }
+                                    },
+                                    staffId:staffIdOfSalon[i],
+                                    date:{
+                                        lt:today   
+                                    },
+                                    isBook:true,
+                                },
+                                ]
                                 },
                                 select:{
                                     customerAppointmentBlock:{
