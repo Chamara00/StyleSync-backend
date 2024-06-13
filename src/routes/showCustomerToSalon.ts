@@ -5,6 +5,7 @@ import { LoginCustomer } from '../controllers/CustomerWeb/Login';
 import { SalonAddManual } from '../controllers/CustomerWeb/Salon-ManualAdd';
 import {SearchResult } from '../controllers/CustomerWeb/Search-salon';
 import{ FirstPage } from '../controllers/CustomerWeb/FirstPage';
+import { ShowAvailableCategories } from '../controllers/CustomerWeb/Show-category';
 // import { AppointmentSchedule } from '../controllers/CustomerWeb/AppointmentSchedule';
 
 
@@ -25,5 +26,6 @@ export function configureCustomerRoutes(router: Router): void {
     router.post('/salon-Manual-Add',SalonAddManual);
     router.get('/search-salon',SearchResult);
     router.get('/Home-Page',FirstPage);
+    router.get('/get-all-categories',ShowAvailableCategories);
     // router.post('Appointment-Schedule',AppointmentSchedule);
 }
