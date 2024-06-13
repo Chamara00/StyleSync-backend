@@ -20,6 +20,8 @@ configureRoutes(app);
 // /app/v1/time/delete-break
 
 // /app/v1/health/check
+import cors from 'cors';
+app.use(cors());
 
 const PORT = process.env.PORT || 8000;
 
