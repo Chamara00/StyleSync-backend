@@ -19,6 +19,8 @@ model salon {
   line2         String?
   city          String?
   country       String?
+  password      String?
+  username      String?
   contactNo     String       @unique
   otp           String?
   emailVerified Boolean?
