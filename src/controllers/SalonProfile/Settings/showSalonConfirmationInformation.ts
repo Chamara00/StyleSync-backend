@@ -10,7 +10,7 @@ export async function ShowSalonConfirmationInformation(req: Request ,res: Respon
         if(!salonId){
             return res.status(400).json({ status: 400, error: 'Invalid input format' });
         }else{
-            const salonDetails = await prisma.salon.findMany({
+            const salonDetails = await prisma.salon.findUnique({
                 where:{
                     id: Number(salonId)
                 },
