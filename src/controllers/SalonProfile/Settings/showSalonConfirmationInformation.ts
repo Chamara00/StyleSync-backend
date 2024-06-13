@@ -16,7 +16,7 @@ export async function ShowSalonConfirmationInformation(req: Request ,res: Respon
                 },
                 select:{
                     email:true,
-                    username:true,
+                    //username:true,
                     password:true
                 }
             });
