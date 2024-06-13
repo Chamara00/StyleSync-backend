@@ -10,7 +10,7 @@ import { verifyEmail } from '../controllers/RegisterSalon/mobile-verify-email';
 export function configureRegisterRoutes(router: Router): void {
     router.post('/register-salon/step1', registerSalonStep1);
     router.post('/register-salon/verify-email', verifyEmail);
-    router.post('/register-salon/address', authenticateToken, enterAddressForSalon);
-    router.post('/register-salon/enter-location', authenticateToken, enterLocation);
+    router.post('/register-salon/address', enterAddressForSalon);
+    router.post('/register-salon/enter-location', enterLocation);
     router.post('/register-salon/confirm-location', authenticateToken, confirmLocation);
 }

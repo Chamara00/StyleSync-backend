@@ -4,14 +4,15 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export async function ShowAvailableAppointments(req: Request, res: Response) {
-    const { salonId } = req.body;
+    const { salonId,date,time } = req.query;
     try {
-        if (!salonId) {
-            return res.status(400).json({ status: 400, error: 'SalonId not found' });
-        } else {
+        if (!salonId || !date || typeof date !== 'string' || !time || typeof time !== 'string') {
+            return res.status(400).json({ status: 400, error: 'Invalid input format' });
+        }
+         else {
             const findStaffId = await prisma.salonStaff.findMany({
                 where: {
-                    salonId: salonId
+                    salonId :Number(salonId)
                 },
                 select: {
                     staffID: true
@@ -23,19 +24,27 @@ export async function ShowAvailableAppointments(req: Request, res: Response) {
             } else {
                 const resultsTwo: unknown [] = [];
                 for (let i = 0; i < staffIdOfSalon.length; i++) {
-                    const today = new Date(); // Get today's date and time
-                    today.setHours(0, 0, 0, 0); // Set time to midnight
-                    const currentTime = new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }); // Get current time in 24-hour format (HH:MM)
+                    // const today = date // Get today's date and time
+                    // today.setHours(0, 0, 0, 0); // Set time to midnight
+                    // const endOfDay = new Date();
+                    // endOfDay.setHours(23, 59, 59, 999);
+                    // const currentTime = new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }); // Get current time in 24-hour format (HH:MM)
                     const findBlocks = await prisma.appointmentBlock.findMany({
                         where: {
                             staffId: staffIdOfSalon[i],
                             isBook: true,
-                            date: {
-                                gte: today, // Filter by today or later
-                            }, 
-                            endTime : {
-                                gt: currentTime // End time should be greater than current time
+                            // date: {
+                            //     gte: today, // Filter by today 
+                            //     lte: endOfDay 
+                            // }, 
+                            date: date,
+                            // endTime : {
+                            //     gt: currentTime // End time should be greater than current time
+                            // },
+                            endTime:{
+                                gt:time
                             },
+                            
                             customerAppointmentBlock: {
                                 some: {
                                     isCancel: false // At least one related customerAppointmentBlock should not be cancelled
@@ -53,6 +62,9 @@ export async function ShowAvailableAppointments(req: Request, res: Response) {
                             },
                             customerAppointmentBlock:{
                                 select:{
+                                    startTime:true,
+                                    customerId:true,
+                                    date:true,
                                     customer:{
                                         select:{
                                             name:true,

@@ -54,51 +54,51 @@ model breaks {
 }
 
 model customer {
-  id          Int           @id @default(autoincrement())
-  name        String?
-  gender      String?
-  password    String?
-  email       String        @unique
-  //timeBlock timeBlocks[]
-  review      review[]
-  customerAppointmentBlock customerAppointmentBlock[]
+  id Int @id @default(autoincrement())
 
+  gender                   String?
+  name                     String?
+  password                 String?
+  email                    String                     @unique
+  //timeBlock timeBlocks[]
+  review                   review[]
+  customerAppointmentBlock customerAppointmentBlock[]
 
   @@map("customer")
 }
 
 model timeBlocks {
-  startTime   String
-  endTime     String
-  dayName String
-  staff       staff    @relation(fields: [staffId], references: [id])
-  staffId     Int
+  startTime String
+  endTime   String
+  dayName   String
+  staff     staff  @relation(fields: [staffId], references: [id])
+  staffId   Int
 
-@@id([staffId,startTime,dayName])
+  @@id([staffId, startTime, dayName])
   @@map("timeBlocks")
 }
 
-model appointmentBlock{
-  date DateTime
-  startTime String
-  endTime String
-  staff       staff    @relation(fields: [staffId], references: [id])
-  staffId Int
-  isBook Boolean
+model appointmentBlock {
+  date                     DateTime
+  startTime                String
+  endTime                  String
+  staff                    staff                      @relation(fields: [staffId], references: [id])
+  staffId                  Int
+  isBook                   Boolean
   customerAppointmentBlock customerAppointmentBlock[]
-  serviceAppointmentBlock serviceAppointmentBlock[]
+  serviceAppointmentBlock  serviceAppointmentBlock[]
 
-  @@id([date, startTime,staffId])
+  @@id([date, startTime, staffId])
   @@map("appointmentBlock")
 }
 
 model service {
-  id           Int            @id @default(autoincrement())
-  name         String
-  serviceType  String
-  price        Int
-  duration     String
-  serviceStaff serviceStaff[]
+  id                      Int                       @id @default(autoincrement())
+  name                    String
+  serviceType             String
+  price                   Int
+  duration                String
+  serviceStaff            serviceStaff[]
   serviceAppointmentBlock serviceAppointmentBlock[]
 
   @@map("service")
@@ -128,17 +128,17 @@ model article {
 }
 
 model staff {
-  id           Int            @id @default(autoincrement())
-  name         String
-  gender       String
+  id               Int                @id @default(autoincrement())
+  name             String
+  gender           String
   // blockId      Int
   // timeBlocks    timeBlocks    @relation(fields: [blockId], references: [id])
-  serviceStaff serviceStaff[]
-  salonStaff   salonStaff[]
-  staffContact staffContact[]
-  timeBlocks timeBlocks[]
+  serviceStaff     serviceStaff[]
+  salonStaff       salonStaff[]
+  staffContact     staffContact[]
+  timeBlocks       timeBlocks[]
   appointmentBlock appointmentBlock[]
-  openDays      openDays[]
+  openDays         openDays[]
 
   @@map("staff")
 }
@@ -185,28 +185,27 @@ model allServices {
   @@map("allServices")
 }
 
-model customerAppointmentBlock{
-  customer customer @relation(fields:[customerId], references:[id])
-  customerId Int
-  appointmentBlock appointmentBlock @relation(fields: [date,startTime,staffId], references: [date,startTime,staffId])
-  date        DateTime
-  startTime String
-  staffId Int
-  isCancel Boolean
+model customerAppointmentBlock {
+  customer         customer         @relation(fields: [customerId], references: [id])
+  customerId       Int
+  appointmentBlock appointmentBlock @relation(fields: [date, startTime, staffId], references: [date, startTime, staffId])
+  date             DateTime
+  startTime        String
+  staffId          Int
+  isCancel         Boolean
 
-  @@id([customerId,date,startTime,staffId])
+  @@id([customerId, date, startTime, staffId])
   @@map("customerAppointmentBlock")
-
 }
 
-model serviceAppointmentBlock{
-  service service @relation(fields:[serviceId], references:[id])
-  serviceId Int
-  appointmentBlock appointmentBlock @relation(fields: [date,startTime,staffId], references: [date,startTime,staffId])
-  date        DateTime
-  startTime String
-  staffId Int
+model serviceAppointmentBlock {
+  service          service          @relation(fields: [serviceId], references: [id])
+  serviceId        Int
+  appointmentBlock appointmentBlock @relation(fields: [date, startTime, staffId], references: [date, startTime, staffId])
+  date             DateTime
+  startTime        String
+  staffId          Int
 
-  @@id([serviceId,date,startTime,staffId])
+  @@id([serviceId, date, startTime, staffId])
   @@map("serviceAppointmentBlock")
 }

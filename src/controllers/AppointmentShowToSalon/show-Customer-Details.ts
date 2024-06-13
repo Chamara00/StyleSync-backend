@@ -38,8 +38,8 @@ export async function ShowCustomerDetails(req: Request, res: Response){
                         return res.status(400).json({ status: 400, error: 'StaffId not found' });
                     }else{
                         for (let i = 0; i < staffIdOfSalon.length; i++){
-                            const today = new Date(); // Get today's date and time
-                            today.setHours(0, 0, 0, 0); // Set time to midnight
+                            const today = new Date();
+                            today.setHours(0, 0, 0, 0); 
                             const getDetails =await prisma.appointmentBlock.findMany({
                                 where:{
                                     staffId : staffIdOfSalon[i],
@@ -49,7 +49,7 @@ export async function ShowCustomerDetails(req: Request, res: Response){
                                         }
                                     },
                                     date: {
-                                        lte: today, // Filter by today or later
+                                        lte: today, 
                                     }, 
                                 },
                                 select:{

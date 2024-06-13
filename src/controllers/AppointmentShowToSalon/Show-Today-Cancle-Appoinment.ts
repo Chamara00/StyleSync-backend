@@ -23,18 +23,21 @@ export async function ShowCancleAppointments(req: Request, res: Response) {
             } else {
                 const ShowCancleAppointments: unknown [] = [];
                 for (let i = 0; i < staffIdOfSalon.length; i++) {
-                    const today = new Date(); // Get today's date and time
-                    today.setHours(0, 0, 0, 0); // Set time to midnight
+                    const today = new Date(); 
+                    today.setHours(0, 0, 0, 0); 
+                    const endOfDay = new Date();
+                    endOfDay.setHours(23, 59, 59, 999);
                     const findBlocks = await prisma.appointmentBlock.findMany({
                         where: {
                             staffId: staffIdOfSalon[i],
                             isBook: true,
                             date: {
-                                gte: today, // Filter by today or later
-                            }, 
+                                gte: today, 
+                                lte: endOfDay 
+                            },
                             customerAppointmentBlock: {
                                 some: {
-                                    isCancel: true // At least one related customerAppointmentBlock should not be cancelled
+                                    isCancel: true 
                                 }
                             }   
                         },
