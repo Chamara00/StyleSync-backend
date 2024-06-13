@@ -14,8 +14,8 @@ export async function updateSalonConfirmationInformation(req: Request, res: Resp
                 id: salonId
             },
             data:{
-                username:username,
-                password:password
+                //username:username,
+                //password:password
             }
         });
         return res.status(201).json({ status: 201, message: 'Update successful', data: updateStaffService });
