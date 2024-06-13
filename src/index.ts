@@ -1,7 +1,10 @@
 import express from 'express';
 import { configureRoutes } from './routes';
+import cors from 'cors';
 
 const app = express();
+app.use(cors());
+app.use(express.json());
 
 configureRoutes(app);
 // /app/v1/salon/register-salon/step1
@@ -20,8 +23,8 @@ configureRoutes(app);
 // /app/v1/time/delete-break
 
 // /app/v1/health/check
-import cors from 'cors';
-app.use(cors());
+
+
 
 const PORT = process.env.PORT || 8000;
 
