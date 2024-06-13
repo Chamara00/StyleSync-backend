@@ -18,10 +18,17 @@ export async function SelectSalon(req: Request, res: Response) {
             include: {
                 salonStaff: {
                     include: {
-                        staff: true,
+                        staff: {
+                            include: {
+                                serviceStaff: {
+                                    include: {
+                                        Service: true,
+                                    },
+                                },
+                            },
+                        },
                     },
                 },
-                //service: true,
             },
         });
 
@@ -30,13 +37,21 @@ export async function SelectSalon(req: Request, res: Response) {
         }
 
         // Extracting required details from the salon object
-        const { name,  contactNo, location, line1, line2 } = salon;
+        const { name, contactNo, location, line1, line2, salonStaff } = salon;
 
-        // Extracting staff names from salonStaff
-        //const staffNames = salonStaff.map(({ staff }) => staff.name);
+        // Extracting staff names
+        const staffNames = salonStaff.map((staffMember) => staffMember.staff.name);
 
-        // Extracting service names from services
-        //const serviceNames = service.map(({ name }) => name);
+        // Extracting service names and prices
+        const services = salonStaff.flatMap((staffMember) =>
+            staffMember.staff.serviceStaff.map((serviceStaff) => ({
+                name: serviceStaff.Service.name,
+                price: serviceStaff.Service.price,
+            }))
+        );
+
+        // Removing duplicate services if the same service is offered by multiple staff members
+        const uniqueServices = Array.from(new Map(services.map(service => [service.name, service])).values());
 
         // Constructing the response object
         const responseData = {
@@ -45,11 +60,13 @@ export async function SelectSalon(req: Request, res: Response) {
             location,
             line1,
             line2,
+            staffNames,
+            services: uniqueServices,
         };
 
         return res.status(200).json({ status: 200, data: responseData });
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return res.status(500).json({ status: 500, error: 'Failed to process salon details' });
     } finally {
         await prisma.$disconnect();

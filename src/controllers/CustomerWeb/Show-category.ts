@@ -1,32 +1,22 @@
-import express from 'express';
+import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
-const app = express();
 
-// Define an endpoint to fetch service names
-app.get('/services', async (req, res) => {
-  try {
-    // Query the database to get all service names
-    const services = await prisma.service.findMany({
-      select: {
-        name: true // Select only the 'name' field
+export async function ShowAvailableCategories(req:Request, res:Response){
+  try{
+    const getCategories = await prisma.allServices.findMany({
+      select:{
+        serviceType:true,
       }
     });
-
-    // Extract service names from the query result
-    const serviceNames = services.map(service => service.name);
-
-    // Send the list of service names as a response
-    res.json(serviceNames);
-  } catch (error) {
-    console.error('Error fetching service names:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    return res.status(200).json({status:200,data: getCategories});
   }
-});
-
-// Start the server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+  catch(error){
+    console.log(error);
+    return res.status(500).json({ status: 500, error: 'Failed to get registerd salons' });
+  }
+  finally {
+    await prisma.$disconnect();
+  }
+}
