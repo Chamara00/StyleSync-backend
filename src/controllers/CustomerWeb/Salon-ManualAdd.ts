@@ -17,8 +17,8 @@ export async function SalonAddManual(req: Request, res: Response) {
             },
         });
 
-        if (!existingSalon) {
-            return res.status(400).json({ status: 400, error: 'Email address not found' });
+        if (existingSalon) {
+            return res.status(400).json({ status: 400, error: 'Email address Cannot be used' });
         }
 
         await prisma.salon.create({

@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-export async function Home(req: Request, res: Response) {
+export async function SearchSalon(req: Request, res: Response) {
     const { field1, date, gender, ServiceName } = req.body;
 
     try {
@@ -11,19 +11,11 @@ export async function Home(req: Request, res: Response) {
             return res.status(400).json({ status: 400, error: 'Invalid input format' });
         }
 
-        //let salons;
-
-
-
-        //First need to search added field1 is equal to any salon name or salon location in salon model 
-
-        // if field1 equal to any salon name in salon model then need to get salon name, location, line1, line2, city, country,review of that salon and display that details in front end
-        // if field1 equal to any salon location in salon model then need to get salon names, location, line1, line2, city, country,review of that salons and display that details in front end
         const salons = await prisma.salon.findMany({
             where: {
                 OR: [
-                    { name: { contains: field1 } },
-                    { location: { contains: field1 } }
+                    { name: { contains: field1, mode: 'insensitive' } },
+                    { location: { contains: field1, mode: 'insensitive' } }
                 ]
             },
             select: {
