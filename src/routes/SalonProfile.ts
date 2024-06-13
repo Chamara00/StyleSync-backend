@@ -7,6 +7,8 @@ import{updateSalonAddress} from '../controllers/SalonProfile/Settings/updateSalo
 import{ShowSalonAddresssforEdit } from '../controllers/SalonProfile/Settings/showSalonAddress';
 import{updateSalonProfileDetails} from '../controllers/SalonProfile/Settings/updateSalonDetails';
 import{ShowSalonProfileDetails} from '../controllers/SalonProfile/Settings/showSalonProfile';
+import{ShowSalonConfirmationInformation} from '../controllers/SalonProfile/Settings/showSalonConfirmationInformation';
+import{updateSalonConfirmationInformation} from '../controllers/SalonProfile/Settings/updateSalonConfirmationInformation';
 
 export function configuregetSalonDtails(router: Router): void{
     router.get('/get_salon_details',ShowSalonDetails);
@@ -17,4 +19,6 @@ export function configuregetSalonDtails(router: Router): void{
     router.get('/get_salon-address',ShowSalonAddresssforEdit );
     router.put('/Update_salon-profile',updateSalonProfileDetails);
     router.get('/get_salon-profileDetails',ShowSalonProfileDetails );
+    router.put('/Update_salon-ConfirmationInformation',updateSalonConfirmationInformation);
+    router.get('/get_salon-ConfirmationInformation',ShowSalonConfirmationInformation );
 }
