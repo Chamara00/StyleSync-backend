@@ -5,6 +5,8 @@ import{SalonAppointmentTodayStatistics } from '../controllers/SalonProfile/Stati
 import{SalonAppointmentWeekStatistics} from '../controllers/SalonProfile/Statistics/salonAppoinmentWeekStatistic';
 import{updateSalonAddress} from '../controllers/SalonProfile/Settings/updateSalonAddress';
 import{ShowSalonAddresssforEdit } from '../controllers/SalonProfile/Settings/showSalonAddress';
+import{updateSalonProfileDetails} from '../controllers/SalonProfile/Settings/updateSalonDetails';
+import{ShowSalonProfileDetails} from '../controllers/SalonProfile/Settings/showSalonProfile';
 
 export function configuregetSalonDtails(router: Router): void{
     router.get('/get_salon_details',ShowSalonDetails);
@@ -13,4 +15,6 @@ export function configuregetSalonDtails(router: Router): void{
 
     router.put('/Update_salon-address',updateSalonAddress);
     router.get('/get_salon-address',ShowSalonAddresssforEdit );
+    router.put('/Update_salon-profile',updateSalonProfileDetails);
+    router.get('/get_salon-profileDetails',ShowSalonProfileDetails );
 }

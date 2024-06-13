@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-export async function updateSalonInfo(req: Request, res: Response){
+export async function updateSalonProfileDetails(req: Request, res: Response){
     const {salonId,name,contactNo } = req.body;
     try{
     if( !salonId|| !name || !contactNo ){

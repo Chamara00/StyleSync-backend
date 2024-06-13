@@ -3,8 +3,8 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-export async function ShowSalonDetailsforEdit (req: Request ,res: Response) {
-    const {salonId} = req.body;
+export async function ShowSalonProfileDetails (req: Request ,res: Response) {
+    const {salonId} = req.query;
 
     try{
         if(!salonId){
@@ -12,11 +12,11 @@ export async function ShowSalonDetailsforEdit (req: Request ,res: Response) {
         }else{
             const salonDetails = await prisma.salon.findMany({
                 where:{
-                    id: salonId
+                    id: Number(salonId)
                 },
                 select:{
                     name: true,
-                    email:true
+                    contactNo:true
                 }
             });
             return res.status(200).json({ status: 200, data: salonDetails,message: 'successfully display an  salon Details.'}); 
