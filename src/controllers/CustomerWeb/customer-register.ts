@@ -17,21 +17,25 @@ export async function RegisterCustomer(req: Request, res: Response) {
         const userExist = await prisma.customer.findUnique({
             where: { email }
         });
+        
         if (userExist) {
             return res.status(400).json({ status: 400, error: 'User with this email already exists' });
+        }
+        else{
+            const register = await prisma.customer.create({
+                data: {
+                    name: String(name),
+                    email: String(email),
+                    password: String(password)
+                }
+            });
+    
+            return res.status(201).json({ status: 201, message: 'Customer Registration successful', data:register });
         }
 
         //const hashedPassword = await bcrypt.hash(password, 10);
 
-        const register = await prisma.customer.create({
-            data: {
-                name: String(name),
-                email: String(email),
-                password: String(password)
-            }
-        });
-
-        return res.status(201).json({ status: 201, message: 'Customer Registration successful', data:register });
+        
     } catch (error) {
         console.log(error);
         return res.status(500).json({ status: 500, error: 'Failed to process Registration' });
