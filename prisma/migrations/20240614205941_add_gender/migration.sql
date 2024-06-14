@@ -41,6 +41,7 @@ CREATE TABLE "breaks" (
 -- CreateTable
 CREATE TABLE "customer" (
     "id" SERIAL NOT NULL,
+    "gender" TEXT,
     "name" TEXT NOT NULL,
     "password" TEXT NOT NULL,
     "email" TEXT NOT NULL,
