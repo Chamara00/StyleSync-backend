@@ -25,9 +25,9 @@ export async function RegisterCustomer(req: Request, res: Response) {
 
         const register = await prisma.customer.create({
             data: {
-                name: name,
-                email: email,
-                password: hashedPassword
+                name: String(name),
+                email: String(email),
+                password: String(hashedPassword)
             }
         });
 
