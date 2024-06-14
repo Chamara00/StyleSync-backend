@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt';
 const prisma = new PrismaClient();
 
 export async function RegisterCustomer(req: Request, res: Response) {
-    const { email, password, confirmPassword, name } = req.body;
+    const { email, password, confirmPassword, name } = req.body;//request from body
 
     try {
         if (!email || !password || !confirmPassword || !name) {
