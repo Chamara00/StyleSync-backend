@@ -8,7 +8,7 @@ CREATE TABLE "salon" (
     "line2" TEXT,
     "city" TEXT,
     "country" TEXT,
-    "password" TEXT NOT NULL,
+    "password" TEXT,
     "username" TEXT,
     "contactNo" TEXT NOT NULL,
     "otp" TEXT,
@@ -41,9 +41,8 @@ CREATE TABLE "breaks" (
 -- CreateTable
 CREATE TABLE "customer" (
     "id" SERIAL NOT NULL,
-    "gender" TEXT,
-    "name" TEXT,
-    "password" TEXT,
+    "name" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
     "email" TEXT NOT NULL,
 
     CONSTRAINT "customer_pkey" PRIMARY KEY ("id")
@@ -222,7 +221,7 @@ ALTER TABLE "customerAppointmentBlock" ADD CONSTRAINT "customerAppointmentBlock_
 ALTER TABLE "customerAppointmentBlock" ADD CONSTRAINT "customerAppointmentBlock_date_startTime_staffId_fkey" FOREIGN KEY ("date", "startTime", "staffId") REFERENCES "appointmentBlock"("date", "startTime", "staffId") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "serviceAppointmentBlock" ADD CONSTRAINT "serviceAppointmentBlock_serviceId_fkey" FOREIGN KEY ("serviceId") REFERENCES "service"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "serviceAppointmentBlock" ADD CONSTRAINT "serviceAppointmentBlock_date_startTime_staffId_fkey" FOREIGN KEY ("date", "startTime", "staffId") REFERENCES "appointmentBlock"("date", "startTime", "staffId") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "serviceAppointmentBlock" ADD CONSTRAINT "serviceAppointmentBlock_date_startTime_staffId_fkey" FOREIGN KEY ("date", "startTime", "staffId") REFERENCES "appointmentBlock"("date", "startTime", "staffId") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "serviceAppointmentBlock" ADD CONSTRAINT "serviceAppointmentBlock_serviceId_fkey" FOREIGN KEY ("serviceId") REFERENCES "service"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
