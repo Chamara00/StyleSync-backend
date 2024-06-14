@@ -15,7 +15,7 @@ export const getAllSalons = async (req: Request, res: Response) => {
             line2:true,
             city:true,
             country:true,
-            username:true,
+            //username:true,
             contactNo:true,
             review:true,
             article:true,
