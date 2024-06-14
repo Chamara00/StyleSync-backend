@@ -1,15 +1,19 @@
 import express from 'express';
-import { configureRoutes } from './routes';
+import { configureAdminRoutes, configureRoutes } from './routes';
+import cors from 'cors';
 
 const app = express();
+app.use(cors());
+app.use(express.json());
 
 configureRoutes(app);
+configureAdminRoutes(app);
 // /app/v1/salon/register-salon/step1
 // /app/v1/salon/register-salon/verify-email
 // /app/v1/salon/register-salon/address
 // /app/v1/salon/register-salon/enter-location
 // /app/v1/salon/register-salon/confirm-location
- 
+
 // /app/v1/staff/register-staff
 
 // /app/v1/time/create-open-hours
@@ -20,6 +24,10 @@ configureRoutes(app);
 // /app/v1/time/delete-break
 
 // /app/v1/health/check
+
+// Admin routes
+// /admin/customer/get-all-customers
+// /admin/salons/get-all-salons
 
 const PORT = process.env.PORT || 8000;
 

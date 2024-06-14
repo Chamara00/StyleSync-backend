@@ -1,5 +1,9 @@
-import { Request, Response } from 'express';
+import express, { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
+import cors from 'cors';
+const app = express();
+//const PORT = process.env.PORT || 3000;
+app.use(cors());
 
 const prisma = new PrismaClient();
 
