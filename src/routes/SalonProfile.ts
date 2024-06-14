@@ -9,6 +9,9 @@ import{updateSalonProfileDetails} from '../controllers/SalonProfile/Settings/upd
 import{ShowSalonProfileDetails} from '../controllers/SalonProfile/Settings/showSalonProfile';
 import{ShowSalonConfirmationInformation} from '../controllers/SalonProfile/Settings/showSalonConfirmationInformation';
 import{updateSalonConfirmationInformation} from '../controllers/SalonProfile/Settings/updateSalonConfirmationInformation';
+import{ShowSalonStaffMenbers}  from '../controllers/SalonProfile/Settings/EditStaffMembersProfile/ShowStaffMembers';
+import{ShowStaffMemberProfile} from '../controllers/SalonProfile/Settings/EditStaffMembersProfile/showStaffMemberProfile';
+import{ updatStaffMemberProfile} from '../controllers/SalonProfile/Settings/EditStaffMembersProfile/updateStaffMemberProfile';
 
 export function configuregetSalonDtails(router: Router): void{
     router.get('/get_salon_details',ShowSalonDetails);
@@ -21,4 +24,10 @@ export function configuregetSalonDtails(router: Router): void{
     router.get('/get_salon-profileDetails',ShowSalonProfileDetails );
     router.put('/Update_salon-ConfirmationInformation',updateSalonConfirmationInformation);
     router.get('/get_salon-ConfirmationInformation',ShowSalonConfirmationInformation );
+
+    //staff member edit details
+    router.get('/get_salon_staff_members',ShowSalonStaffMenbers );
+    router.get('/get_staff_member_profileDetails',ShowStaffMemberProfile);
+    router.put('/Update_staff_member_profileDetails', updatStaffMemberProfile);
+
 }
