@@ -1,13 +1,10 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+generator client {
+  provider = "prisma-client-js"
+}
 
 datasource db {
   provider = "postgresql"
   url      = "postgres://admin:Nuirrrj7DyL6oygH0Qx4yVAn8UAOn8xU@dpg-co1ggc21hbls738fqon0-a.singapore-postgres.render.com/stylesync_db_p7st"
-}
-
-generator client {
-  provider = "prisma-client-js"
 }
 
 model salon {
@@ -24,47 +21,45 @@ model salon {
   contactNo     String       @unique
   otp           String?
   emailVerified Boolean?
-  review        review[]
   article       article[]
+  review        review[]
   salonStaff    salonStaff[]
 
   @@map("salon")
 }
 
 model openDays {
-  staff     staff    @relation(fields: [staffId], references: [id])
   staffId   Int
   dayName   String
   isOpen    Boolean
   openHour  String?
   closeHour String?
   breaks    breaks[]
+  staff     staff    @relation(fields: [staffId], references: [id])
 
   @@id([staffId, dayName])
   @@map("openDays")
 }
 
 model breaks {
-  openDays   openDays @relation(fields: [staffId, dayName], references: [staffId, dayName])
   staffId    Int
   dayName    String
   breakStart String
   breakEnd   String
+  openDays   openDays @relation(fields: [staffId, dayName], references: [staffId, dayName])
 
   @@id([staffId, dayName, breakStart])
   @@map("breaks")
 }
 
 model customer {
-  id Int @id @default(autoincrement())
-
+  id                       Int                        @id @default(autoincrement())
   gender                   String?
   name                     String?
   password                 String?
   email                    String                     @unique
-  //timeBlock timeBlocks[]
-  review                   review[]
   customerAppointmentBlock customerAppointmentBlock[]
+  review                   review[]
 
   @@map("customer")
 }
@@ -73,8 +68,8 @@ model timeBlocks {
   startTime String
   endTime   String
   dayName   String
-  staff     staff  @relation(fields: [staffId], references: [id])
   staffId   Int
+  staff     staff  @relation(fields: [staffId], references: [id])
 
   @@id([staffId, startTime, dayName])
   @@map("timeBlocks")
@@ -84,9 +79,9 @@ model appointmentBlock {
   date                     DateTime
   startTime                String
   endTime                  String
-  staff                    staff                      @relation(fields: [staffId], references: [id])
   staffId                  Int
   isBook                   Boolean
+  staff                    staff                      @relation(fields: [staffId], references: [id])
   customerAppointmentBlock customerAppointmentBlock[]
   serviceAppointmentBlock  serviceAppointmentBlock[]
 
@@ -100,8 +95,8 @@ model service {
   serviceType             String
   price                   Int
   duration                String
-  serviceStaff            serviceStaff[]
   serviceAppointmentBlock serviceAppointmentBlock[]
+  serviceStaff            serviceStaff[]
 
   @@map("service")
 }
@@ -112,8 +107,8 @@ model review {
   date       DateTime
   value      Float
   customerId Int
-  customer   customer @relation(fields: [customerId], references: [id])
   salonId    Int
+  customer   customer @relation(fields: [customerId], references: [id])
   salon      salon    @relation(fields: [salonId], references: [id])
 
   @@map("review")
@@ -133,23 +128,20 @@ model staff {
   id               Int                @id @default(autoincrement())
   name             String
   gender           String
-  // blockId      Int
-  // timeBlocks    timeBlocks    @relation(fields: [blockId], references: [id])
-  serviceStaff     serviceStaff[]
-  salonStaff       salonStaff[]
-  staffContact     staffContact[]
-  timeBlocks       timeBlocks[]
   appointmentBlock appointmentBlock[]
   openDays         openDays[]
+  salonStaff       salonStaff[]
+  serviceStaff     serviceStaff[]
+  staffContact     staffContact[]
+  timeBlocks       timeBlocks[]
 
   @@map("staff")
 }
 
 model serviceStaff {
-  // id        Int     @id @default(autoincrement())
-  Service   service @relation(fields: [serviceId], references: [id])
   serviceId Int
   staffId   Int
+  Service   service @relation(fields: [serviceId], references: [id])
   staff     staff   @relation(fields: [staffId], references: [id])
 
   @@id([serviceId, staffId])
@@ -157,10 +149,9 @@ model serviceStaff {
 }
 
 model salonStaff {
-  // id      Int   @id @default(autoincrement())
   salonId Int
-  salon   salon @relation(fields: [salonId], references: [id])
   staffID Int
+  salon   salon @relation(fields: [salonId], references: [id])
   staff   staff @relation(fields: [staffID], references: [id])
 
   @@id([salonId, staffID])
@@ -168,45 +159,43 @@ model salonStaff {
 }
 
 model staffContact {
-  //id        Int   @unique @id @default(autoincrement())
   staffId   Int
-  staff     staff  @relation(fields: [staffId], references: [id])
   contactNo String @unique
+  staff     staff  @relation(fields: [staffId], references: [id])
 
   @@id([staffId, contactNo])
   @@map("staffContact")
 }
 
 model allServices {
-  service     String
+  service     String @id
   serviceType String
   price       Int
   duration    String
 
-  @@id([service])
   @@map("allServices")
 }
 
 model customerAppointmentBlock {
-  customer         customer         @relation(fields: [customerId], references: [id])
   customerId       Int
-  appointmentBlock appointmentBlock @relation(fields: [date, startTime, staffId], references: [date, startTime, staffId])
   date             DateTime
   startTime        String
   staffId          Int
   isCancel         Boolean
+  customer         customer         @relation(fields: [customerId], references: [id])
+  appointmentBlock appointmentBlock @relation(fields: [date, startTime, staffId], references: [date, startTime, staffId])
 
   @@id([customerId, date, startTime, staffId])
   @@map("customerAppointmentBlock")
 }
 
 model serviceAppointmentBlock {
-  service          service          @relation(fields: [serviceId], references: [id])
   serviceId        Int
-  appointmentBlock appointmentBlock @relation(fields: [date, startTime, staffId], references: [date, startTime, staffId])
   date             DateTime
   startTime        String
   staffId          Int
+  appointmentBlock appointmentBlock @relation(fields: [date, startTime, staffId], references: [date, startTime, staffId])
+  service          service          @relation(fields: [serviceId], references: [id])
 
   @@id([serviceId, date, startTime, staffId])
   @@map("serviceAppointmentBlock")
