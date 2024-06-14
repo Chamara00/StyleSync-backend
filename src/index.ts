@@ -27,7 +27,14 @@ configureAdminRoutes(app);
 
 // Admin routes
 // /admin/customer/get-all-customers
+// /admin/customer/getcustomer-by-id/:id
 // /admin/salons/get-all-salons
+// /admin/salons/get-salon-by-id/:id
+// /admin/services/create-service
+// /admin/services/get-all-servies
+// admin/servies/get-service-by-id/:id
+// /admin/services/update-service/:id
+// /admin/services/delete-service/:id
 
 const PORT = process.env.PORT || 8000;
 

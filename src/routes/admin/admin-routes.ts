@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { configureAdminCustomerRoutes } from './admin-customer-routes';
 import { configureAdminSalonsRoutes } from './admin-salons-routes';
+import { configureAdminServiceRoutes } from './admin-service-routes';
 
 export function configureAdminAllRoutes(router: Router): void {
     const customerRouter = Router();
@@ -10,4 +11,8 @@ export function configureAdminAllRoutes(router: Router): void {
     const salonRouter = Router();
     configureAdminSalonsRoutes(salonRouter);
     router.use('/salons', salonRouter);
+
+    const serviceRouter = Router();
+    configureAdminServiceRoutes(serviceRouter);
+    router.use('/services', serviceRouter);
 }
