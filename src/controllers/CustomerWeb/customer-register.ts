@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
-import bcrypt from 'bcrypt';
+//import bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
 
@@ -21,13 +21,13 @@ export async function RegisterCustomer(req: Request, res: Response) {
             return res.status(400).json({ status: 400, error: 'User with this email already exists' });
         }
 
-        const hashedPassword = await bcrypt.hash(password, 10);
+        //const hashedPassword = await bcrypt.hash(password, 10);
 
         const register = await prisma.customer.create({
             data: {
                 name: String(name),
                 email: String(email),
-                password: String(hashedPassword)
+                password: String(password)
             }
         });
 
