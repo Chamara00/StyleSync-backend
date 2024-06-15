@@ -1,43 +1,31 @@
-// // //Customer Register Using Web
+import { Request,Response } from 'express';
+import { PrismaClient } from '@prisma/client';
 
-// import { Request, Response } from 'express';
-// import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient();
 
-
-
-// const prisma = new PrismaClient();
-
-// export async function RegisterCustomer(req: Request, res: Response){
-//     const { email, password, confirmPassword } = req.body;
-
-//     try {
-//         if (!email || !password || !confirmPassword) {
-//             return res.status(400).json({ status: 400, error:'Invalid input format' });
-//         }
-//         if (password !== confirmPassword) {
-//             return res.status(400).json({ status: 400, error:'Passwords do not match' });
-//         }
-//         const userExist = await prisma.customer.findUnique({
-//             where: { email }
-//         });
-//         if (userExist) {
-//             return res.status(400).json({ status: 400, error: 'User with this email already exists' });
-//         }
-        
-//         await prisma.customer.create({
-//             data:{
-//                 email: email,
-//                 password: password
-//             }
-//         });
-
-//         return res.status(201).json({ status: 201, message: 'Customer Registration successful' });
-//     }
-//     catch(error) {
-//         console.log(error);
-//         return res.status(500).json({ status: 500, error: 'Failed to process Registration' });
-//     }
-//     finally {
-//         await prisma.$disconnect();
-//     }
-// }
+export async function CustomerRegister(req:Request,res:Response) {
+    const {name, email,password, confirmPassword} = req.body;
+    try{
+    if(!name || !email || !password || !confirmPassword){
+        return res.status(400).json({message:'input not found'});
+    }else if(password !== confirmPassword){
+        return res.status(400).json({message:'password not match'});
+    }
+    else{
+        const customer = await prisma.customer.create({
+            data:{
+                name,
+                email,
+                password,
+                gender: 'null'
+            }
+        });
+        return res.status(200).json({status: 200, message: 'Register Customer Successfully', data:customer});
+    }
+    }catch (error) {
+        console.log(error);
+        return res.status(500).json({ status: 500, error: 'Failed to process' });
+    } finally {
+        await prisma.$disconnect();
+    }
+}

@@ -5,8 +5,6 @@ import { configureopenTimeRoutes } from '../../openTimeRoutes';
 import { configureopenServicesRoutes } from '../../openServiceRoutes';
 import { configurehealthRoutes } from '../../healthRoute';
 import { configuregetAppointmentToSalon } from '../../getAppointmentsToSalon';
-// import { configureTimeBlockRoutes } from '../../timeBlockRoutes';
-import { configureCustomerRoutes } from '../../showCustomerToSalon';
 import{configuregetSalonDtails} from '../../SalonProfile';
 
 
@@ -34,14 +32,6 @@ export function configureV1Routes(router: Router): void {
     const healthRoute = Router();
     configurehealthRoutes(healthRoute);
     router.use('/health', healthRoute);
-
-    // const timeBlockRoute = Router();
-    // configureTimeBlockRoutes(timeBlockRoute);
-    // router.use('/block', timeBlockRoute);
-
-    const registerCustomerRoutes = Router();
-    configureCustomerRoutes(registerCustomerRoutes);
-    router.use('/customer',registerCustomerRoutes);
     
     const salonProfileRoutes = Router();
     configuregetSalonDtails(salonProfileRoutes);

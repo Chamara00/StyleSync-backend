@@ -1,5 +1,5 @@
 import express from 'express';
-import { configureAdminRoutes, configureRoutes } from './routes';
+import { configureAdminRoutes, configureCustomerRoutes, configureRoutes } from './routes';
 import cors from 'cors';
 
 const app = express();
@@ -8,6 +8,7 @@ app.use(express.json());
 
 configureRoutes(app);
 configureAdminRoutes(app);
+configureCustomerRoutes(app);
 // /app/v1/salon/register-salon/step1
 // /app/v1/salon/register-salon/verify-email
 // /app/v1/salon/register-salon/address
@@ -27,7 +28,14 @@ configureAdminRoutes(app);
 
 // Admin routes
 // /admin/customer/get-all-customers
+// /admin/customer/getcustomer-by-id/:id
 // /admin/salons/get-all-salons
+// /admin/salons/get-salon-by-id/:id
+// /admin/services/create-service
+// /admin/services/get-all-servies
+// admin/servies/get-service-by-id/:id
+// /admin/services/update-service/:id
+// /admin/services/delete-service/:id
 
 const PORT = process.env.PORT || 8000;
 
