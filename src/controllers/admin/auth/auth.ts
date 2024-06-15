@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
-import bcrypt from 'bcrypt';
-import { generateToken } from '../../../utils/adminAuth';
+import { signToken, setTokenAsCookie, removeCookieToken } from '../../../utils/adminAuth';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
@@ -13,26 +12,60 @@ export async function adminLogin(req: Request, res: Response) {
   }
 
   try {
-    const admin = await prisma.admin.findUnique({
-      where: { email: email },
+    const existingUser = await prisma.admin.findUnique({
+      where: {
+        email: email,
+      },
     });
 
-    if (!admin || !(await bcrypt.compare(password, admin.password))) {
-      return res.status(401).json({ message: 'Invalid email or password.' });
+    if (!existingUser) {
+      res.status(400).json({ error: 'Email does not exist' });
+      return;
     }
-    const token = generateToken({
-      id: admin.id.toString(),
-      email: admin.email,
+
+    const admin = await prisma.admin.findUnique({
+      where: {
+        email: email,
+        password: password,
+      },
     });
-    res.status(200).json({ message: 'Login successful', token: token }); // Include token in the response
-  } catch (error) {
-    console.error('Error during login:', error);
-    res.status(500).json({ error: 'Internal server error' });
+
+    if (!admin) {
+      res.status(400).json({ error: 'Invalid password' });
+      return;
+    }
+
+    const simplifiedClient = {
+      id: admin.id,
+      email: admin.email,
+    };
+
+    const token = await signToken({ user: simplifiedClient });
+
+    setTokenAsCookie(res, token);
+
+    res.status(200).json({ message: 'Login successful' });
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      res.status(400).json({ error: error.message });
+    } else {
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
   } finally {
     await prisma.$disconnect();
   }
 }
 
 export async function adminLogout(req: Request, res: Response) {
-  res.status(200).json({ message: 'Logout successful' });
+  try {
+    removeCookieToken(res);
+    res.status(200).json({ message: 'Logout successful' });
+    res.end();
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      res.status(400).json({ error: error.message });
+    } else {
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  }
 }
