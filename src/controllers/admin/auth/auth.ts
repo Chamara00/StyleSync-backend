@@ -24,11 +24,15 @@ export async function adminLogin(req: Request, res: Response) {
       id: admin.id.toString(),
       email: admin.email,
     });
-    res.status(200).json({ message: 'Login successful', token: token });
+    res.status(200).json({ message: 'Login successful', token: token }); // Include token in the response
   } catch (error) {
     console.error('Error during login:', error);
     res.status(500).json({ error: 'Internal server error' });
   } finally {
     await prisma.$disconnect();
   }
+}
+
+export async function adminLogout(req: Request, res: Response) {
+  res.status(200).json({ message: 'Logout successful' });
 }
