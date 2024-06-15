@@ -6,5 +6,5 @@ import { LoginCustomer } from '../../controllers/CustomerWeb/Login';
 export function ConfigureCustomerHomeRoutes(router: Router): void {
     router.get('/get-all-categories', ShowAvailableCategories);
     router.post('/register-customer',CustomerRegister);
-    router.post('/login-customer',LoginCustomer);
+    router.get('/login-customer',LoginCustomer);
 }
