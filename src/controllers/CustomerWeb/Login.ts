@@ -4,8 +4,11 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export async function LoginCustomer(req: Request, res: Response) {
+    const { email, password } = req.body;
     try {
-        const { email, password } = req.body;
+        if(!email || !password){
+            return res.status(400).json({ message: 'Email and password are required' });
+        }
 
         // Step 1: Check if the email address exists in the customer model
         const existingCustomer = await prisma.customer.findUnique({
