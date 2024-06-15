@@ -200,3 +200,12 @@ model serviceAppointmentBlock {
   @@id([serviceId, date, startTime, staffId])
   @@map("serviceAppointmentBlock")
 }
+
+model admin {
+  id Int @id @default(autoincrement())
+  email String
+  password String
+  name String
+
+  @@map("admin")
+}
