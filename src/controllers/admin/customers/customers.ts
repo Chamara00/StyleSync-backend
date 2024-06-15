@@ -60,7 +60,7 @@ export async function getCustomerById(req: Request, res: Response) {
 export async function getCustomerCount(req: Request, res: Response) {
   try {
     const count = await prisma.customer.count();
-    console.log(count);
+    console.log({ 'customer count': count });
     res.status(200).json({ count });
   } catch (error) {
     console.error('Error fetching customer count:', error);
