@@ -49,7 +49,7 @@ export const getSalonById = async (req: Request, res: Response) => {
         country: true,
         //username: true,
         contactNo: true,
-        review: true,
+        review: {},
         article: true,
         salonStaff: true,
       },
