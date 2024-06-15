@@ -1,5 +1,5 @@
 import express from 'express';
-import { configureAdminRoutes, configureRoutes } from './routes';
+import { configureAdminRoutes, configureCustomerRoutes, configureRoutes } from './routes';
 import cors from 'cors';
 
 const app = express();
@@ -8,6 +8,7 @@ app.use(express.json());
 
 configureRoutes(app);
 configureAdminRoutes(app);
+configureCustomerRoutes(app);
 // /app/v1/salon/register-salon/step1
 // /app/v1/salon/register-salon/verify-email
 // /app/v1/salon/register-salon/address
