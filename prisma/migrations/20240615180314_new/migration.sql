@@ -167,6 +167,16 @@ CREATE TABLE "serviceAppointmentBlock" (
     CONSTRAINT "serviceAppointmentBlock_pkey" PRIMARY KEY ("serviceId","date","startTime","staffId")
 );
 
+-- CreateTable
+CREATE TABLE "admin" (
+    "id" SERIAL NOT NULL,
+    "email" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+
+    CONSTRAINT "admin_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "salon_email_key" ON "salon"("email");
 
@@ -178,6 +188,9 @@ CREATE UNIQUE INDEX "customer_email_key" ON "customer"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "staffContact_contactNo_key" ON "staffContact"("contactNo");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "admin_email_key" ON "admin"("email");
 
 -- AddForeignKey
 ALTER TABLE "openDays" ADD CONSTRAINT "openDays_staffId_fkey" FOREIGN KEY ("staffId") REFERENCES "staff"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
