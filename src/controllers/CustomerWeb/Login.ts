@@ -24,7 +24,7 @@ export async function LoginCustomer(req: Request, res: Response) {
         }
 
         // If email and password are correct, customer can login successfully
-        return res.status(200).json({ status: 200, message: 'Login successful' });
+        return res.status(200).json({ status: 200, message: 'Login successful',data:existingCustomer });
     } catch (error) {
         console.log(error);
         return res.status(500).json({ status: 500, error: 'Failed to login' });
