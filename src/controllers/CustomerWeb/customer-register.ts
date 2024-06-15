@@ -16,7 +16,8 @@ export async function CustomerRegister(req:Request,res:Response) {
             data:{
                 name,
                 email,
-                password
+                password,
+                gender: 'null'
             }
         });
         return res.status(200).json({status: 200, message: 'Register Customer Successfully', data:customer});
