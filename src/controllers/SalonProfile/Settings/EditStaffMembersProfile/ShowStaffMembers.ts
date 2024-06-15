@@ -18,6 +18,7 @@ export async function ShowSalonStaffMenbers(req: Request ,res: Response) {
                     salonId: Number(salonId)
                 },
                 select: {
+                    salonId:true,
                     staffID: true,
                     staff:{
                         select:{

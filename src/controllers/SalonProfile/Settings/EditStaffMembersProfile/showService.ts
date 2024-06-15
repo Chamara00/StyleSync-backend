@@ -32,7 +32,12 @@ export async function ShowService (req: Request ,res: Response) {
                             name:true,                  
                             serviceType:true,            
                             price:true,                  
-                            duration:true  
+                            duration:true,
+                            serviceStaff:{
+                                select:{
+                                    staffId:true
+                                }
+                            }  
                         }  
                     });
                     results.push(...getServiceDetails);

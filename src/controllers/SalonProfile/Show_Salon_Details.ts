@@ -19,6 +19,7 @@ export async function ShowSalonDetails (req: Request ,res: Response) {
                         id: Number(salonId),
                     },
                     select: {
+                        id:true,
                         name: true,
                         line1: true,
                         line2: true,

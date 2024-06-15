@@ -24,27 +24,14 @@ export async function ShowAvailableAppointments(req: Request, res: Response) {
             } else {
                 const resultsTwo: unknown [] = [];
                 for (let i = 0; i < staffIdOfSalon.length; i++) {
-                    // const today = date // Get today's date and time
-                    // today.setHours(0, 0, 0, 0); // Set time to midnight
-                    // const endOfDay = new Date();
-                    // endOfDay.setHours(23, 59, 59, 999);
-                    // const currentTime = new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }); // Get current time in 24-hour format (HH:MM)
                     const findBlocks = await prisma.appointmentBlock.findMany({
                         where: {
                             staffId: staffIdOfSalon[i],
                             isBook: true,
-                            // date: {
-                            //     gte: today, // Filter by today 
-                            //     lte: endOfDay 
-                            // }, 
                             date: date,
-                            // endTime : {
-                            //     gt: currentTime // End time should be greater than current time
-                            // },
                             endTime:{
                                 gt:time
                             },
-                            
                             customerAppointmentBlock: {
                                 some: {
                                     isCancel: false // At least one related customerAppointmentBlock should not be cancelled
@@ -58,6 +45,11 @@ export async function ShowAvailableAppointments(req: Request, res: Response) {
                                 select:{
                                 id:true,
                                 name :true,
+                                salonStaff:{
+                                    select:{
+                                        salonId:true
+                                    }
+                                }
                                 }
                             },
                             customerAppointmentBlock:{
