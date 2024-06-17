@@ -16,7 +16,7 @@ export async function getAllCustomers(req: Request, res: Response) {
       },
     });
     console.log('Admin - get all customer function called');
-    res.status(200).json({ customers });
+    res.status(200).json(customers);
   } catch (error) {
     console.error('Error', error);
     return res.status(500).json({ status: 500, error: 'Failed to get customer data' });

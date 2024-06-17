@@ -19,7 +19,7 @@ export async function createService(req: Request, res: Response) {
         duration: duration,
       },
     });
-    res.status(201).json({ status: 201, message: 'Service created', data: service });
+    res.status(201).json({ message: 'Service created', data: service });
   } catch (error) {
     console.error('Error creating service:', error);
     res.status(500).json({ status: 500, error: 'Failed to create service' });
@@ -31,7 +31,7 @@ export async function createService(req: Request, res: Response) {
 export async function getAllServies(req: Request, res: Response) {
   try {
     const services = await prisma.service.findMany();
-    res.status(200).json({ status: 200, data: services });
+    res.status(200).json(services);
   } catch (error) {
     console.error('Error fetching services:', error);
     res.status(500).json({ status: 500, error: 'Failed to fetch services' });
@@ -53,7 +53,7 @@ export async function getServiceById(req: Request, res: Response) {
         id: parseInt(id),
       },
     });
-    res.status(200).json({ status: 200, data: service });
+    res.status(200).json(service);
   } catch (error) {
     console.error('Error fetching service:', error);
     res.status(500).json({ status: 500, error: 'Failed to fetch service' });
@@ -81,7 +81,7 @@ export async function updateService(req: Request, res: Response) {
       },
     });
 
-    res.status(200).json({ status: 200, message: 'Service updated', data: updatedService });
+    res.status(200).json(updatedService);
   } catch (error) {
     console.error('Error updating service:', error);
     res.status(500).json({ status: 500, error: 'Failed to update service' });
@@ -113,7 +113,7 @@ export async function deleteService(req: Request, res: Response) {
       where: { id: Number(id) },
     });
 
-    res.status(200).json({ status: 200, message: 'Service deleted' });
+    res.status(200).json('Service deleted');
   } catch (error) {
     console.error('Error deleting service:', error);
     res.status(500).json({ status: 500, error: 'Failed to delete service' });
@@ -126,7 +126,7 @@ export async function getServiceCount(req: Request, res: Response) {
   try {
     const count = await prisma.service.count();
     console.log({ 'service count': count });
-    res.status(200).json({ count: count });
+    res.status(200).json(count);
   } catch (error) {
     console.error('Error fetching service count:', error);
     res.status(500).json({ status: 500, error: 'Failed to fetch service count' });
