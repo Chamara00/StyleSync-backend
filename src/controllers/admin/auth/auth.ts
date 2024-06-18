@@ -14,7 +14,7 @@ export async function adminLogin(req: Request, res: Response) {
   try {
     const existingUser = await prisma.admin.findUnique({
       where: {
-        email: email,
+        email:email,
       },
     });
 
