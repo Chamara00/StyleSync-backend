@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { configureAdminCustomerRoutes } from './admin-customer-routes';
 import { configureAdminSalonsRoutes } from './admin-salons-routes';
 import { configureAdminServiceRoutes } from './admin-service-routes';
-import { confgureAdminAuthRoutes } from './admin-auth';
+//import { confgureAdminAuthRoutes } from './admin-auth';
 
 export function configureAdminAllRoutes(router: Router): void {
   const customerRouter = Router();
@@ -17,7 +17,7 @@ export function configureAdminAllRoutes(router: Router): void {
   configureAdminServiceRoutes(serviceRouter);
   router.use('/services', serviceRouter);
 
-  const authRouter = Router();
-  confgureAdminAuthRoutes(authRouter);
-  router.use('/auth', authRouter);
+  // const authRouter = Router();
+  // confgureAdminAuthRoutes(authRouter);
+  // router.use('/auth', authRouter);
 }
