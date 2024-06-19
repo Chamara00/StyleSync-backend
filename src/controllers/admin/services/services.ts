@@ -11,6 +11,8 @@ export async function createService(req: Request, res: Response) {
   }
 
   try {
+    console.log('Req body:', req.body);
+
     const service = await prisma.service.create({
       data: {
         name: name,
@@ -19,7 +21,7 @@ export async function createService(req: Request, res: Response) {
         duration: duration,
       },
     });
-    res.status(201).json({ message: 'Service created', data: service });
+    res.status(201).json(service);
   } catch (error) {
     console.error('Error creating service:', error);
     res.status(500).json({ status: 500, error: 'Failed to create service' });
