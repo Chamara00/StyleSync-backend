@@ -2,8 +2,14 @@ import express from 'express';
 import { configureAdminRoutes, configureCustomerRoutes, configureRoutes } from './routes';
 import cors from 'cors';
 
+const corsOptions = {
+  // origin: ['http://localhost:8000/admin', 'http://localhost:3000'],
+  origin: true,
+  credentials: true,
+};
+
 const app = express();
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 
 configureRoutes(app);

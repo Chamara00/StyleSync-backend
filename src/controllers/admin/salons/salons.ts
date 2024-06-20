@@ -49,7 +49,7 @@ export const getSalonById = async (req: Request, res: Response) => {
         country: true,
         //username: true,
         contactNo: true,
-        review: true,
+        review: {},
         article: true,
         salonStaff: true,
       },
@@ -71,7 +71,7 @@ export const getSalonById = async (req: Request, res: Response) => {
 export const getSalonCount = async (req: Request, res: Response) => {
   try {
     const count = await prisma.salon.count();
-    console.log(count);
+    console.log({ 'salon count': count });
     res.status(200).json({ count });
   } catch (error) {
     console.error('Error fetching salon count:', error);

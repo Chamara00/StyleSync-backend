@@ -168,7 +168,8 @@ model staffContact {
 }
 
 model allServices {
-  service     String @id
+  id                      Int                       @id @default(autoincrement())
+  service     String 
   serviceType String
   price       Int
   duration    String
