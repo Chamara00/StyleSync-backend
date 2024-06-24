@@ -12,7 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@prisma/client": "^5.15.0",
+    "@prisma/client": "^5.15.1",
     "@prisma/extension-pulse": "^1.0.1",
     "@types/bcrypt": "^5.0.2",
     "@types/dotenv": "^8.2.0",
@@ -26,7 +26,7 @@
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
-    "express": "^4.18.2",
+    "express": "^4.19.2",
     "express-session": "^1.18.0",
     "jsonwebtoken": "^9.0.2",
     "mysql": "^2.18.1",
@@ -49,7 +49,7 @@
     "eslint-plugin-promise": "^6.1.1",
     "nodemon": "^3.0.2",
     "prettier": "3.2.4",
-    "prisma": "^5.15.0",
+    "prisma": "^5.15.1",
     "typescript": "^5.3.3"
   }
 }
