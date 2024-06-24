@@ -41,7 +41,15 @@ export async function getCustomerById(req: Request, res: Response) {
         gender: true,
         email: true,
         review: true,
-        customerAppointmentBlock: true,
+        customerAppointmentBlock: {
+          select: {
+            staffId: true,
+            startTime: true,
+            isCancel: true,
+            date: true,
+            customerId: true,
+          },
+        },
       },
     });
 
@@ -49,10 +57,40 @@ export async function getCustomerById(req: Request, res: Response) {
       return res.status(404).json({ status: 404, error: 'Customer not found' });
     }
 
-    res.status(200).json({ customerData: customer });
+    // Add a formattedDate field for each customerAppointmentBlock
+    if (customer.customerAppointmentBlock) {
+      customer.customerAppointmentBlock = customer.customerAppointmentBlock.map((appointment) => ({
+        ...appointment,
+        formattedDate: appointment.date.toISOString().split('T')[0], // Converts to 'YYYY-MM-DD' format
+      }));
+    }
+
+    res.status(200).json(customer);
   } catch (error) {
     console.error('Error fetching customer by ID:', error);
     return res.status(500).json({ status: 500, error: 'Failed to get customer data' });
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
+export async function deleteCustomer(req: Request, res: Response) {
+  const { id } = req.params;
+
+  if (!id) {
+    return res.status(400).json({ status: 400, error: 'Customer ID is required' });
+  }
+
+  try {
+    // Delete the customer
+    await prisma.customer.findMany({
+      where: { id: Number(id) },
+    });
+
+    res.status(200).json('Csutomer deleted');
+  } catch (error) {
+    console.error('Error deleting customer:', error);
+    res.status(500).json({ status: 500, error: 'Failed to delete customer' });
   } finally {
     await prisma.$disconnect();
   }
