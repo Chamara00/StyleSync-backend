@@ -7,4 +7,5 @@ export function configureStaffRoutes(router: Router): void {
     router.post('/register-staff', registerStaff);
     router.get('/show-staff-details', ShowStaffDetails);
     router.get('/show-staff-list', ShowStaffList);
+    
 }

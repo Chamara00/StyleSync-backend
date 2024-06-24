@@ -13,6 +13,7 @@ import{ShowSalonStaffMenbers}  from '../controllers/SalonProfile/Settings/EditSt
 import{ShowStaffMemberProfile} from '../controllers/SalonProfile/Settings/EditStaffMembersProfile/showStaffMemberProfile';
 import{ updatStaffMemberProfile} from '../controllers/SalonProfile/Settings/EditStaffMembersProfile/updateStaffMemberProfile';
 import{ShowService} from '../controllers/SalonProfile/Settings/EditStaffMembersProfile/showService';
+import{deleteStaff} from '../controllers/RegisterStaff/mobile-delete-staff';
 
 export function configuregetSalonDtails(router: Router): void{
     router.get('/get_salon_details',ShowSalonDetails);
@@ -31,6 +32,8 @@ export function configuregetSalonDtails(router: Router): void{
     router.get('/get_staff_member_profileDetails',ShowStaffMemberProfile);
     router.put('/Update_staff_member_profileDetails', updatStaffMemberProfile);
     router.get('/get_staff_members_Service',ShowService );
-    
+
+
+    router.delete('/delete_staff_members',deleteStaff);
 
 }

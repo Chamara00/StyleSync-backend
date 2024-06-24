@@ -14,7 +14,7 @@ export async function ShowSalonDetails (req: Request ,res: Response) {
             // Fetch the salon details 
                 const givenDate = new Date(date);
                 const dayOfWeek = new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(givenDate);
-                const salonDetails = await prisma.salon.findUnique({
+                const salonDetails = await prisma.salon.findMany({
                     where: {
                         id: Number(salonId),
                     },
