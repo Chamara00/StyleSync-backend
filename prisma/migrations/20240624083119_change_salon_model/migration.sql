@@ -3,15 +3,16 @@ CREATE TABLE "salon" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
-    "location" TEXT,
-    "line1" TEXT,
-    "line2" TEXT,
-    "city" TEXT,
-    "country" TEXT,
+    "line1" TEXT NOT NULL,
+    "line2" TEXT NOT NULL,
+    "city" TEXT NOT NULL,
+    "country" TEXT NOT NULL,
     "password" TEXT,
     "username" TEXT,
     "contactNo" TEXT NOT NULL,
     "otp" TEXT,
+    "latitude" DOUBLE PRECISION NOT NULL,
+    "longtitude" DOUBLE PRECISION NOT NULL,
     "emailVerified" BOOLEAN,
 
     CONSTRAINT "salon_pkey" PRIMARY KEY ("id")
@@ -138,12 +139,13 @@ CREATE TABLE "staffContact" (
 
 -- CreateTable
 CREATE TABLE "allServices" (
+    "id" SERIAL NOT NULL,
     "service" TEXT NOT NULL,
     "serviceType" TEXT NOT NULL,
     "price" INTEGER NOT NULL,
     "duration" TEXT NOT NULL,
 
-    CONSTRAINT "allServices_pkey" PRIMARY KEY ("service")
+    CONSTRAINT "allServices_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
