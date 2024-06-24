@@ -1,76 +1,36 @@
-// Salon registration in mobile app
-
 import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
-import nodemailer from 'nodemailer';
 
 const prisma = new PrismaClient();
 
-export async function registerSalonStep1(req: Request, res: Response){
-    const { name, contactNo, email} = req.body;
+export const RegisterSalon = async (req: Request, res: Response) => {
+  const {name, email, contactNo, line1, line2, city, country,latitude,longitude, username, password} = req.body;
+  if(!name || !email || !contactNo || !line1 || !line2 || !city || !country || !latitude || !longitude || !username || !password){
+    return res.status(400).json({message:'inputs not found'});
+  }
 
-    try{
-
-        if (!name || !contactNo || !email){
-            return res.status(400).json({ status: 400, error:'Invalid input format'});
-        }
-
-        const existingSalon = await prisma.salon.findUnique({
-            where: {contactNo, email}
-        });
-
-        if(existingSalon){
-            return res.status(401).json({ status: 400, error: 'Salon with this contact already exisits'});
-        }
-
-        const otp = generateOTP();
-        await sendOTP(email, otp);
-
-        await prisma.salon.create({
-            data : {
-                name,
-                contactNo,
-                email,
-                otp,
-            },
-        });
-
-        
-
-        return res.status(201).json({ status: 201, message: 'OTP sent successfully'});
-    }
-    catch (error: unknown) {
-        if (error instanceof Error) {
-          res.status(400).json({ error: error.message });
-        } else {
-          res.status(500).json({ error: 'Internal Server Error' });
-        }
+  try {
+    const salons = await prisma.salon.create({
+      data:{
+        name:name,
+        email:email,
+        contactNo:contactNo,
+        line1:line1,
+        line2:line2,
+        city:city,
+        country:country,
+        latitude:latitude,
+        longtitude:longitude,
+        username:username,
+        password:password
       }
-    finally{
-        await prisma.$disconnect();
-    }
-}
-
-function generateOTP() {
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    return otp;
-}
-
-async function sendOTP(email: string, otp: string){
-    const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: 'stylesync26@gmail.com',
-            pass: 'ngtbfviurhciiqjp'
-        }
     });
 
-    const info = await transporter.sendMail({
-        from : 'stylesync26@gmail.com',
-        to: email,
-        subject: 'OTP Verification for Salon Registration',
-        text: `Your OTP for email verification is: ${otp}. It is valid for 5 minutes.`
-    });
-
-    console.log('Message sent: %s', info.messageId);
-}
+    return res.status(200).json({status:200, message:'Created successfully', data:salons});
+  }catch (error) {
+    console.log(error);
+    return res.status(500).json({ status: 500, error: 'Failed to process' });
+  } finally {
+    await prisma.$disconnect();
+  }
+};

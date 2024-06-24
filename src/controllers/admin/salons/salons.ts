@@ -10,7 +10,6 @@ export const getAllSalons = async (req: Request, res: Response) => {
         id: true,
         name: true,
         email: true,
-        location: true,
         line1: true,
         line2: true,
         city: true,
@@ -42,7 +41,6 @@ export const getSalonById = async (req: Request, res: Response) => {
         id: true,
         name: true,
         email: true,
-        location: true,
         line1: true,
         line2: true,
         city: true,
@@ -71,8 +69,8 @@ export const getSalonById = async (req: Request, res: Response) => {
 export const getSalonCount = async (req: Request, res: Response) => {
   try {
     const count = await prisma.salon.count();
-    console.log({ 'salon count': count });
-    res.status(200).json({ count });
+    console.log({ ' salon count': count });
+    res.status(200).json(count);
   } catch (error) {
     console.error('Error fetching salon count:', error);
     res.status(500).json({ error: 'Internal server error' });
