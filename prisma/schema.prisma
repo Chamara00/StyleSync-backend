@@ -4,22 +4,23 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgres://admin:Nuirrrj7DyL6oygH0Qx4yVAn8UAOn8xU@dpg-co1ggc21hbls738fqon0-a.singapore-postgres.render.com/stylesync_db_p7st"
+  url      = "postgresql://admin:jzERn6seJRvow4QLiQGtOhH3W4d4IwsE@dpg-cpsir9aj1k6c738o3lj0-a.singapore-postgres.render.com/stylesync_db_yi1n"
 }
 
 model salon {
   id            Int          @id @default(autoincrement())
   name          String
   email         String       @unique
-  location      String?
-  line1         String?
-  line2         String?
-  city          String?
-  country       String?
+  line1         String
+  line2         String
+  city          String
+  country       String
   password      String?
   username      String?
   contactNo     String       @unique
   otp           String?
+  latitude      Float
+  longtitude    Float
   emailVerified Boolean?
   article       article[]
   review        review[]
