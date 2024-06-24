@@ -3,7 +3,7 @@ import { configureAdminRoutes, configureCustomerRoutes, configureRoutes } from '
 import cors from 'cors';
 
 const corsOptions = {
-  // origin: ['http://localhost:8000/admin', 'http://localhost:3000'],
+  //origin: ['http://localhost:8000/admin', 'http://localhost:3000', 'https://stylesync-backend-test.onrender.com/admin'],
   origin: true,
   credentials: true,
 };

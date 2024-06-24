@@ -7,3 +7,4 @@ export function configureRegisterRoutes(router: Router): void {
     router.post('/register-salon', RegisterSalon);
     router.get('/salon-login',Login);
 }
+
