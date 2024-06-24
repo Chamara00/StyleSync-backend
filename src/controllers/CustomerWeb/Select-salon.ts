@@ -37,7 +37,7 @@ export async function SelectSalon(req: Request, res: Response) {
         }
 
         // Extracting required details from the salon object
-        const { name, contactNo, location, line1, line2, salonStaff } = salon;
+        const { name, contactNo, line1, line2, salonStaff } = salon;
 
         // Extracting staff names
         const staffNames = salonStaff.map((staffMember) => staffMember.staff.name);
