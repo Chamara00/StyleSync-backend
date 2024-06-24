@@ -4,8 +4,8 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export const RegisterSalon = async (req: Request, res: Response) => {
-  const {name, email, contactNo, line1, line2, city, country,latitude,longitude} = req.body;
-  if(!name || !email || !contactNo || !line1 || !line2 || !city || !country || !latitude || !longitude){
+  const {name, email, contactNo, line1, line2, city, country,latitude,longitude, username, password} = req.body;
+  if(!name || !email || !contactNo || !line1 || !line2 || !city || !country || !latitude || !longitude || !username || !password){
     return res.status(400).json({message:'inputs not found'});
   }
 
@@ -20,7 +20,9 @@ export const RegisterSalon = async (req: Request, res: Response) => {
         city:city,
         country:country,
         latitude:latitude,
-        longtitude:longitude
+        longtitude:longitude,
+        username:username,
+        password:password
       }
     });
 
