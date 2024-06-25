@@ -28,6 +28,8 @@ export async function createOpenHours(req: Request, res: Response) {
                     await prisma.openDays.create({
                         data: {
                             staffId,
+                            openHour: '09:00', // corrected format
+                            closeHour: '17:00',
                             dayName: days[i],
                             isOpen: false,
                         },
