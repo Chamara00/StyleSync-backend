@@ -1,8 +1,213 @@
-datasource db {
-  provider = "mongodb"
-  url      = env("DATABASE_URL")
-}
-
 generator client {
   provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://admin:jzERn6seJRvow4QLiQGtOhH3W4d4IwsE@dpg-cpsir9aj1k6c738o3lj0-a.singapore-postgres.render.com/stylesync_db_yi1n"
+}
+
+model salon {
+  id            Int          @id @default(autoincrement())
+  name          String
+  email         String       @unique
+  line1         String
+  line2         String
+  city          String
+  country       String
+  password      String?
+  username      String?
+  contactNo     String       @unique
+  otp           String?
+  latitude      Float
+  longtitude    Float
+  emailVerified Boolean?
+  article       article[]
+  review        review[]
+  salonStaff    salonStaff[]
+
+  @@map("salon")
+}
+
+model openDays {
+  staffId   Int
+  dayName   String
+  isOpen    Boolean
+  openHour  String?
+  closeHour String?
+  breaks    breaks[]
+  staff     staff    @relation(fields: [staffId], references: [id])
+
+  @@id([staffId, dayName])
+  @@map("openDays")
+}
+
+model breaks {
+  staffId    Int
+  dayName    String
+  breakStart String
+  breakEnd   String
+  openDays   openDays @relation(fields: [staffId, dayName], references: [staffId, dayName])
+
+  @@id([staffId, dayName, breakStart])
+  @@map("breaks")
+}
+
+model customer {
+  id                       Int                        @id @default(autoincrement())
+  gender                   String?
+  name                     String
+  password                 String
+  email                    String                     @unique
+  customerAppointmentBlock customerAppointmentBlock[]
+  review                   review[]
+
+  @@map("customer")
+}
+
+model timeBlocks {
+  startTime String
+  endTime   String
+  dayName   String
+  staffId   Int
+  staff     staff  @relation(fields: [staffId], references: [id])
+
+  @@id([staffId, startTime, dayName])
+  @@map("timeBlocks")
+}
+
+model appointmentBlock {
+  date                     DateTime
+  startTime                String
+  endTime                  String
+  staffId                  Int
+  isBook                   Boolean
+  staff                    staff                      @relation(fields: [staffId], references: [id])
+  customerAppointmentBlock customerAppointmentBlock[]
+  serviceAppointmentBlock  serviceAppointmentBlock[]
+
+  @@id([date, startTime, staffId])
+  @@map("appointmentBlock")
+}
+
+model service {
+  id                      Int                       @id @default(autoincrement())
+  name                    String
+  serviceType             String
+  price                   Int
+  duration                String
+  serviceAppointmentBlock serviceAppointmentBlock[]
+  serviceStaff            serviceStaff[]
+
+  @@map("service")
+}
+
+model review {
+  id         Int      @id @default(autoincrement())
+  time       String
+  date       DateTime
+  value      Float
+  customerId Int
+  salonId    Int
+  customer   customer @relation(fields: [customerId], references: [id])
+  salon      salon    @relation(fields: [salonId], references: [id])
+
+  @@map("review")
+}
+
+model article {
+  id      Int      @id @default(autoincrement())
+  date    DateTime
+  time    String
+  salonId Int
+  salon   salon    @relation(fields: [salonId], references: [id])
+
+  @@map("article")
+}
+
+model staff {
+  id               Int                @id @default(autoincrement())
+  name             String
+  gender           String
+  appointmentBlock appointmentBlock[]
+  openDays         openDays[]
+  salonStaff       salonStaff[]
+  serviceStaff     serviceStaff[]
+  staffContact     staffContact[]
+  timeBlocks       timeBlocks[]
+
+  @@map("staff")
+}
+
+model serviceStaff {
+  serviceId Int
+  staffId   Int
+  Service   service @relation(fields: [serviceId], references: [id])
+  staff     staff   @relation(fields: [staffId], references: [id])
+
+  @@id([serviceId, staffId])
+  @@map("serviceStaff")
+}
+
+model salonStaff {
+  salonId Int
+  staffID Int
+  salon   salon @relation(fields: [salonId], references: [id])
+  staff   staff @relation(fields: [staffID], references: [id])
+
+  @@id([salonId, staffID])
+  @@map("salonStaff")
+}
+
+model staffContact {
+  staffId   Int
+  contactNo String @unique
+  staff     staff  @relation(fields: [staffId], references: [id])
+
+  @@id([staffId, contactNo])
+  @@map("staffContact")
+}
+
+model allServices {
+  id                      Int                       @id @default(autoincrement())
+  service     String 
+  serviceType String
+  price       Int
+  duration    String
+
+  @@map("allServices")
+}
+
+model customerAppointmentBlock {
+  customerId       Int
+  date             DateTime
+  startTime        String
+  staffId          Int
+  isCancel         Boolean
+  customer         customer         @relation(fields: [customerId], references: [id])
+  appointmentBlock appointmentBlock @relation(fields: [date, startTime, staffId], references: [date, startTime, staffId])
+
+  @@id([customerId, date, startTime, staffId])
+  @@map("customerAppointmentBlock")
+}
+
+model serviceAppointmentBlock {
+  serviceId        Int
+  date             DateTime
+  startTime        String
+  staffId          Int
+  appointmentBlock appointmentBlock @relation(fields: [date, startTime, staffId], references: [date, startTime, staffId])
+  service          service          @relation(fields: [serviceId], references: [id])
+
+  @@id([serviceId, date, startTime, staffId])
+  @@map("serviceAppointmentBlock")
+}
+
+model admin {
+  id Int @id @default(autoincrement())
+  email String @unique
+  password String
+  name String
+
+  @@map("admin")
 }
