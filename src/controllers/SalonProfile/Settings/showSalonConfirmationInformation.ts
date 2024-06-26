@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-export async function ShowSalonConfirmationInformation(req: Request ,res: Response) {
+export async function ShowSalonLogin(req: Request ,res: Response) {
     const {salonId} = req.query;
 
     try{
@@ -16,8 +16,8 @@ export async function ShowSalonConfirmationInformation(req: Request ,res: Respon
                 },
                 select:{
                     email:true,
-                    //username:true,
-                    //password:true
+                    username:true,
+                    password:true
                 }
             });
             return res.status(200).json({ status: 200, data: salonDetails,message: 'successfully display an  salon Address.'}); 

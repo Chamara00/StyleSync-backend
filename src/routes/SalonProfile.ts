@@ -7,7 +7,7 @@ import{updateSalonAddress} from '../controllers/SalonProfile/Settings/updateSalo
 import{ShowSalonAddresssforEdit } from '../controllers/SalonProfile/Settings/showSalonAddress';
 import{updateSalonProfileDetails} from '../controllers/SalonProfile/Settings/updateSalonDetails';
 import{ShowSalonProfileDetails} from '../controllers/SalonProfile/Settings/showSalonProfile';
-import{ShowSalonConfirmationInformation} from '../controllers/SalonProfile/Settings/showSalonConfirmationInformation';
+import{ShowSalonLogin} from '../controllers/SalonProfile/Settings/showSalonConfirmationInformation';
 import{updateSalonConfirmationInformation} from '../controllers/SalonProfile/Settings/updateSalonConfirmationInformation';
 import{ShowSalonStaffMenbers}  from '../controllers/SalonProfile/Settings/EditStaffMembersProfile/ShowStaffMembers';
 import{ShowStaffMemberProfile} from '../controllers/SalonProfile/Settings/EditStaffMembersProfile/showStaffMemberProfile';
@@ -24,7 +24,7 @@ export function configuregetSalonDtails(router: Router): void{
     router.put('/Update_salon-profile',updateSalonProfileDetails);
     router.get('/get_salon-profileDetails',ShowSalonProfileDetails );
     router.put('/Update_salon-ConfirmationInformation',updateSalonConfirmationInformation);
-    router.get('/get_salon-ConfirmationInformation',ShowSalonConfirmationInformation );
+    router.get('/get-salon-login-info',ShowSalonLogin);
 
     //staff member edit details
     router.get('/get_salon_staff_members',ShowSalonStaffMenbers );
