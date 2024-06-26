@@ -13,6 +13,7 @@ import{ShowSalonStaffMenbers}  from '../controllers/SalonProfile/Settings/EditSt
 import{ShowStaffMemberProfile} from '../controllers/SalonProfile/Settings/EditStaffMembersProfile/showStaffMemberProfile';
 import{ updatStaffMemberProfile} from '../controllers/SalonProfile/Settings/EditStaffMembersProfile/updateStaffMemberProfile';
 import{ShowService} from '../controllers/SalonProfile/Settings/EditStaffMembersProfile/showService';
+import { GetSalonLocation } from '../controllers/SalonProfile/Settings/get-salon-location';
 
 export function configuregetSalonDtails(router: Router): void{
     router.get('/get_salon_details',ShowSalonDetails);
@@ -25,6 +26,7 @@ export function configuregetSalonDtails(router: Router): void{
     router.get('/get_salon-profileDetails',ShowSalonProfileDetails );
     router.put('/Update_salon-ConfirmationInformation',updateSalonConfirmationInformation);
     router.get('/get-salon-login-info',ShowSalonLogin);
+    router.get('/get-salon-location',GetSalonLocation);
 
     //staff member edit details
     router.get('/get_salon_staff_members',ShowSalonStaffMenbers );
