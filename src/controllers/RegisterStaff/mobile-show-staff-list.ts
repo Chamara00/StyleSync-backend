@@ -31,6 +31,7 @@ export async function ShowStaffList(req: Request ,res: Response){
                             id: existingStaffIdList[i],
                         },
                         select:{
+                            id:true,
                             name:true,
                         }
                     });
