@@ -5,12 +5,16 @@ const prisma = new PrismaClient();
 
 export const AddSalonImage = async (req: Request, res: Response) => {
   const { salonImage, salonId } = req.body;
+  
 
   try {
+    if(!salonImage || !salonId){
+      return res.status(400).json({message: 'Please fill all the fields'});
+    }
     // Update the salon record in the database with the image path
     const updatedSalon = await prisma.salon.update({
       where: { id: salonId },
-      data: { image: salonImage }, // Assuming 'image' is the field in your salon table to store the path
+      data: { image: String(salonImage) }, // Assuming 'image' is the field in your salon table to store the path
     });
 
     return res.status(200).json({
