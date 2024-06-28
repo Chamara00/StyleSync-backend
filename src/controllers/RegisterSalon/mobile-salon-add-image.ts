@@ -14,7 +14,7 @@ export const AddSalonImage = async (req: Request, res: Response) => {
     // Update the salon record in the database with the image path
     const updatedSalon = await prisma.salon.update({
       where: { id: salonId },
-      data: { image: String(salonImage) }, // Assuming 'image' is the field in your salon table to store the path
+      data: { image: salonImage }, // Assuming 'image' is the field in your salon table to store the path
     });
 
     return res.status(200).json({
