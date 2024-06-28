@@ -19,7 +19,7 @@ model salon {
   username      String
   contactNo     String       @unique
   otp           String?
-  image         String?
+  image         Bytes?
   latitude      Float
   longtitude    Float
   emailVerified Boolean?
