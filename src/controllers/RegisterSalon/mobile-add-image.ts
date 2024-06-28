@@ -33,7 +33,7 @@ export const addSalonImageHandler = async (req: Request, res: Response) => {
     const imagePath = file.path;
     const salon = await prisma.salon.update({
       where: { id: Number(salonId) },
-      data: { imagePath: imagePath }, // Ensure you are using the correct field name
+      data: { imagePath: imagePath }, // Use correct field name
     });
 
     res.status(200).send({ message: 'File uploaded successfully', salon });
