@@ -5,6 +5,10 @@ import path from 'path';
 
 const prisma = new PrismaClient();
 
+interface UpdateSalonInput {
+  imagePath: string; // Define all fields you want to update here
+}
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, '../../../uploads/');
@@ -27,13 +31,17 @@ export const addSalonImageHandler = async (req: Request, res: Response) => {
       return res.status(400).send({ message: 'No file uploaded' });
     }
     const imagePath = file.path;
+
+    const dataToUpdate: UpdateSalonInput = {
+      imagePath: imagePath,
+      // Add more fields to update if needed
+    };
+
     const salon = await prisma.salon.update({
       where: {
         id: salonId,
       },
-      data: {
-        imagePath:imagePath
-      },
+      data: dataToUpdate,
     });
 
     res.status(200).send({ message: 'File uploaded successfully', salon });
