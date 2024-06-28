@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+      "jsx": "react", // Ensure this line is present
+      "target": "es6",
+      "module": "commonjs",
+      "strict": true,
+      // Other options as needed
+    }
+  }
+  
