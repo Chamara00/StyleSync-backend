@@ -15,10 +15,11 @@ model salon {
   line2         String
   city          String
   country       String
-  password      String?
-  username      String?
+  password      String
+  username      String
   contactNo     String       @unique
   otp           String?
+  image         Bytes?
   latitude      Float
   longtitude    Float
   emailVerified Boolean?
@@ -56,6 +57,7 @@ model breaks {
 model customer {
   id                       Int                        @id @default(autoincrement())
   gender                   String?
+  image                    Bytes?
   name                     String
   password                 String
   email                    String                     @unique
@@ -129,6 +131,7 @@ model staff {
   id               Int                @id @default(autoincrement())
   name             String
   gender           String
+  image             Bytes?
   appointmentBlock appointmentBlock[]
   openDays         openDays[]
   salonStaff       salonStaff[]
