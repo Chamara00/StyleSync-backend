@@ -5,10 +5,9 @@ import path from 'path';
 
 const prisma = new PrismaClient();
 
-// Configure multer for file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, '../../../uploads');
+    cb(null, '../../../uploads/');
   },
   filename: (req, file, cb) => {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
@@ -17,7 +16,6 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-// Middleware to handle image upload and save path in the database
 export const addSalonImage = upload.single('file');
 
 export const addSalonImageHandler = async (req: Request, res: Response) => {
@@ -28,12 +26,14 @@ export const addSalonImageHandler = async (req: Request, res: Response) => {
     if (!file) {
       return res.status(400).send({ message: 'No file uploaded' });
     }
-
-    // Save the file path in the database using Prisma
     const imagePath = file.path;
     const salon = await prisma.salon.update({
-      where: { id: Number(salonId) },
-      data: { imagePath: String(imagePath) }, // Use correct field name
+      where: {
+        id: salonId,
+      },
+      data: {
+        imagePath:imagePath
+      },
     });
 
     res.status(200).send({ message: 'File uploaded successfully', salon });
