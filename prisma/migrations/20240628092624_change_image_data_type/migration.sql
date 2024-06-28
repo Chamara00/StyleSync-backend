@@ -7,10 +7,11 @@ CREATE TABLE "salon" (
     "line2" TEXT NOT NULL,
     "city" TEXT NOT NULL,
     "country" TEXT NOT NULL,
-    "password" TEXT,
-    "username" TEXT,
+    "password" TEXT NOT NULL,
+    "username" TEXT NOT NULL,
     "contactNo" TEXT NOT NULL,
     "otp" TEXT,
+    "image" TEXT,
     "latitude" DOUBLE PRECISION NOT NULL,
     "longtitude" DOUBLE PRECISION NOT NULL,
     "emailVerified" BOOLEAN,
@@ -43,6 +44,7 @@ CREATE TABLE "breaks" (
 CREATE TABLE "customer" (
     "id" SERIAL NOT NULL,
     "gender" TEXT,
+    "image" BYTEA,
     "name" TEXT NOT NULL,
     "password" TEXT NOT NULL,
     "email" TEXT NOT NULL,
@@ -109,6 +111,7 @@ CREATE TABLE "staff" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "gender" TEXT NOT NULL,
+    "image" BYTEA,
 
     CONSTRAINT "staff_pkey" PRIMARY KEY ("id")
 );

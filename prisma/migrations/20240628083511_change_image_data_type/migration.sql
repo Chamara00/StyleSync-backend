@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE "salon" ALTER COLUMN "image" SET DATA TYPE TEXT;
