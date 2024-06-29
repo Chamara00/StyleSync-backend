@@ -28,6 +28,7 @@ export async function ShowSalonStaffMenbers(req: Request ,res: Response) {
                                     dayName:dayOfWeek,
                                 },
                                 select:{
+                                    isOpen:true,
                                     openHour: true,
                                     closeHour:true,
                                 }
