@@ -44,7 +44,7 @@ CREATE TABLE "breaks" (
 CREATE TABLE "customer" (
     "id" SERIAL NOT NULL,
     "gender" TEXT,
-    "image" BYTEA,
+    "image" TEXT,
     "name" TEXT NOT NULL,
     "password" TEXT NOT NULL,
     "email" TEXT NOT NULL,
@@ -111,7 +111,7 @@ CREATE TABLE "staff" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "gender" TEXT NOT NULL,
-    "image" BYTEA,
+    "image" TEXT,
 
     CONSTRAINT "staff_pkey" PRIMARY KEY ("id")
 );
