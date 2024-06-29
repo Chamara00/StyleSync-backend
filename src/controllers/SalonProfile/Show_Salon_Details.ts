@@ -43,6 +43,7 @@ export async function ShowSalonDetails (req: Request ,res: Response) {
                                         dayName:dayOfWeek,
                                     },
                                     select:{
+                                        isOpen:true,
                                         openHour: true,
                                         closeHour:true,
                                     }
