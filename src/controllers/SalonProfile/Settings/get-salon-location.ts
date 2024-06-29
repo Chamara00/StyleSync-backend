@@ -1,26 +1,24 @@
 import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
-
 const prisma = new PrismaClient();
 
-export async function ShowSalonLogin(req: Request ,res: Response) {
+export async function GetSalonLocation (req: Request ,res: Response) {
     const {salonId} = req.query;
 
     try{
         if(!salonId){
             return res.status(400).json({ status: 400, error: 'Invalid input format' });
         }else{
-            const salonDetails = await prisma.salon.findUnique({
+            const salonDetails = await prisma.salon.findMany({
                 where:{
                     id: Number(salonId)
                 },
                 select:{
-                    email:true,
-                    username:true,
-                    password:true
+                    latitude:true,
+                    longtitude:true
                 }
             });
-            return res.status(200).json({ status: 200, data: salonDetails,message: 'successfully display an  salon Address.'}); 
+            return res.status(200).json({ status: 200, data: salonDetails,message: 'Successfully Show Location.'}); 
         }
 
     }catch (error) {

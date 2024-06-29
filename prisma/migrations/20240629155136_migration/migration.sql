@@ -3,15 +3,17 @@ CREATE TABLE "salon" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
-    "location" TEXT,
-    "line1" TEXT,
-    "line2" TEXT,
-    "city" TEXT,
-    "country" TEXT,
-    "password" TEXT,
-    "username" TEXT,
+    "line1" TEXT NOT NULL,
+    "line2" TEXT NOT NULL,
+    "city" TEXT NOT NULL,
+    "country" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
+    "username" TEXT NOT NULL,
     "contactNo" TEXT NOT NULL,
     "otp" TEXT,
+    "image" TEXT,
+    "latitude" DOUBLE PRECISION NOT NULL,
+    "longtitude" DOUBLE PRECISION NOT NULL,
     "emailVerified" BOOLEAN,
 
     CONSTRAINT "salon_pkey" PRIMARY KEY ("id")
@@ -42,6 +44,7 @@ CREATE TABLE "breaks" (
 CREATE TABLE "customer" (
     "id" SERIAL NOT NULL,
     "gender" TEXT,
+    "image" TEXT,
     "name" TEXT NOT NULL,
     "password" TEXT NOT NULL,
     "email" TEXT NOT NULL,
@@ -108,6 +111,7 @@ CREATE TABLE "staff" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "gender" TEXT NOT NULL,
+    "image" TEXT,
 
     CONSTRAINT "staff_pkey" PRIMARY KEY ("id")
 );
@@ -138,12 +142,13 @@ CREATE TABLE "staffContact" (
 
 -- CreateTable
 CREATE TABLE "allServices" (
+    "id" SERIAL NOT NULL,
     "service" TEXT NOT NULL,
     "serviceType" TEXT NOT NULL,
     "price" INTEGER NOT NULL,
     "duration" TEXT NOT NULL,
 
-    CONSTRAINT "allServices_pkey" PRIMARY KEY ("service")
+    CONSTRAINT "allServices_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable

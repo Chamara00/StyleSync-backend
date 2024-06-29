@@ -11,9 +11,11 @@ export async function SalonsUnderCategories(req: Request, res: Response) {
     }
 
     const salonsIds = await prisma.service.findMany({
+      //to find all services that match the provided serviceType
       where: {
         serviceType: String(serviceType),
       },
+      // used to traverse the relations and retrieve associated salonId values
       select: {
         serviceStaff: {
           select: {
@@ -41,8 +43,8 @@ export async function SalonsUnderCategories(req: Request, res: Response) {
       salon.serviceStaff.forEach((staff) =>
         staff.staff.salonStaff.forEach((salonStaff) => {
           salonIdSet.add(salonStaff.salonId);
-        })
-      )
+        }),
+      ),
     );
 
     const uniqueSalonIds = Array.from(salonIdSet);

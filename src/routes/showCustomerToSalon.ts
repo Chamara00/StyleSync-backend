@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import { Home } from '../controllers/CustomerWeb/Web-Home';
+//import { Home } from '../controllers/CustomerWeb/FirstPage';
 //import { RegisterCustomer } from '../controllers/CustomerWeb/customer-register';
 import { LoginCustomer } from '../controllers/CustomerWeb/Login';
-import { SalonAddManual } from '../controllers/CustomerWeb/Salon-ManualAdd';
+//import { SalonAddManual } from '../controllers/CustomerWeb/Salon-ManualAdd';
 import { SearchResult } from '../controllers/CustomerWeb/Search-salon';
 import { FirstPage } from '../controllers/CustomerWeb/FirstPage';
 import { ShowAvailableCategories } from '../controllers/CustomerWeb/Show-category';
@@ -18,10 +18,10 @@ import { ShowAvailableCategories } from '../controllers/CustomerWeb/Show-categor
 //https://stylesync-backend-test.onrender.com/app/v1/time/create-open-hours
 
 export function configureCustomerRoutes(router: Router): void {
-  router.post('/show-salon-to-customer', Home);
+  //router.post('/show-salon-to-customer', Home);
   //router.post('/create-customer', RegisterCustomer);
   router.post('/customer-login', LoginCustomer);
-  router.post('/salon-Manual-Add', SalonAddManual);
+  //router.post('/salon-Manual-Add', SalonAddManual);
   router.get('/search-salon', SearchResult);
   router.get('/Home-Page', FirstPage);
   router.get('/get-all-categories', ShowAvailableCategories);
