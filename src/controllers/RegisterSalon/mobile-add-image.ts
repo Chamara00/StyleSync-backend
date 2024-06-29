@@ -9,7 +9,7 @@ export async function AddSalonImage(req: Request, res: Response) {
     if(!salonId || !image){
       return res.status(400).json({message: 'Inputs not found'});
     }
-    const salon = await prisma.salon.update({
+    const salon = await prisma.salon.updateMany({
       where: { id: salonId },
       data: { image: image },
     });
