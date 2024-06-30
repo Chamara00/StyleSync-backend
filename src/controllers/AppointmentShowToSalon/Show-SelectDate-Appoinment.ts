@@ -48,6 +48,7 @@ export async function  ShowSelectDateAppointments(req: Request, res: Response) {
                                 select:{
                                 id:true,
                                 name :true,
+                                image:true
                                 }
                             },
                             customerAppointmentBlock:{
@@ -56,6 +57,7 @@ export async function  ShowSelectDateAppointments(req: Request, res: Response) {
                                         select:{
                                             name:true,
                                             gender :true,
+                                            image:true
                                         }
                                     }
                                 }

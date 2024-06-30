@@ -48,6 +48,7 @@ export async function  ShowSelectDateCancleAppointments(req: Request, res: Respo
                                 select:{
                                 id:true,
                                 name :true,
+                                image:true
                                 }
                             },
                             customerAppointmentBlock:{
@@ -56,6 +57,7 @@ export async function  ShowSelectDateCancleAppointments(req: Request, res: Respo
                                         select:{
                                             name:true,
                                             gender :true,
+                                            image:true
                                         }
                                     }
                                 }
