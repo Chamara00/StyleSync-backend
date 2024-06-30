@@ -91,6 +91,7 @@ export async function ShowSalonDetails (req: Request ,res: Response) {
                         staffID: staff.staffID,
                         name: staff.staff.name,
                         openDays: staff.staff.openDays,
+                        image:staff.staff.image
                     })),
                 };
             
