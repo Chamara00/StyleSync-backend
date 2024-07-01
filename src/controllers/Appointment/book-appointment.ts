@@ -5,7 +5,11 @@ const prisma = new PrismaClient();
 
 export async function  BookAppointment(req: Request, res: Response){
     const {userId,date,startTime,endTime,staffId,serviceId} = req.body;
+    
     try{
+        if(!userId || !date || !startTime || !endTime || !staffId || !serviceId){
+            return res.status(400).json({message: 'Inputs not found'});
+        }
         const appointment = await prisma.appointmentBlock.create({
             data:{
                 date:date,
