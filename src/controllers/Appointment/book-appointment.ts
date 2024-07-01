@@ -17,8 +17,7 @@ export async function  BookAppointment(req: Request, res: Response){
                 customerAppointmentBlock:{
                     create:{
                         customerId:userId,
-                        isCancel: false,
-                        isReject:false
+                        isCancel: false
                     }
                 },
                 serviceAppointmentBlock:{
