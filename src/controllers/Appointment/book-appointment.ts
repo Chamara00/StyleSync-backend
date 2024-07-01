@@ -12,6 +12,7 @@ export async function  BookAppointment(req: Request, res: Response){
         }
         const appointment = await prisma.appointmentBlock.create({
             data:{
+                bookingTime: new Date(),
                 date:date,
                 startTime:startTime,
                 endTime:endTime,
@@ -20,7 +21,8 @@ export async function  BookAppointment(req: Request, res: Response){
                 customerAppointmentBlock:{
                     create:{
                         customerId:userId,
-                        isCancel: false
+                        isCancel: false,
+                        isReject:false
                     }
                 },
                 serviceAppointmentBlock:{
