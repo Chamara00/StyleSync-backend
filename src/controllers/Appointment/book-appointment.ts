@@ -14,6 +14,18 @@ export async function  BookAppointment(req: Request, res: Response){
                 endTime:endTime,
                 isBook:true,
                 staffId:staffId,
+                customerAppointmentBlock:{
+                    create:{
+                        customerId:userId,
+                        isCancel: false,
+                        isReject:false
+                    }
+                },
+                serviceAppointmentBlock:{
+                    create:{
+                        serviceId:serviceId,
+                    }
+                }
                 }
         });
         const customerAppointment = await prisma.customerAppointmentBlock.create({
