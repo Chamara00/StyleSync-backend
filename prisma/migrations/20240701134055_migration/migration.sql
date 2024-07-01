@@ -64,6 +64,7 @@ CREATE TABLE "timeBlocks" (
 
 -- CreateTable
 CREATE TABLE "appointmentBlock" (
+    "bookingTime" TIMESTAMP(3) NOT NULL,
     "date" TIMESTAMP(3) NOT NULL,
     "startTime" TEXT NOT NULL,
     "endTime" TEXT NOT NULL,
@@ -158,6 +159,7 @@ CREATE TABLE "customerAppointmentBlock" (
     "startTime" TEXT NOT NULL,
     "staffId" INTEGER NOT NULL,
     "isCancel" BOOLEAN NOT NULL,
+    "isReject" BOOLEAN NOT NULL,
 
     CONSTRAINT "customerAppointmentBlock_pkey" PRIMARY KEY ("customerId","date","startTime","staffId")
 );

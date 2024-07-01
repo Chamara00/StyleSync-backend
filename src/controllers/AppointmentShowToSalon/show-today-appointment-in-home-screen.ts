@@ -45,6 +45,7 @@ export async function ShowAvailableAppointments(req: Request, res: Response) {
                                 select:{
                                 id:true,
                                 name :true,
+                                image:true,
                                 salonStaff:{
                                     select:{
                                         salonId:true
@@ -61,6 +62,7 @@ export async function ShowAvailableAppointments(req: Request, res: Response) {
                                         select:{
                                             name:true,
                                             gender :true,
+                                            image:true
                                         }
                                     }
                                 }

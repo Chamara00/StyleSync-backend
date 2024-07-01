@@ -20,6 +20,7 @@ export async function ShowStaffMemberProfile(req: Request , res:Response){
                     staff:{
                         select:{
                             name: true,
+                            image:true,
                             staffContact:{
                                 select:{
                                     contactNo:true

@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-export async function  ShowSelectDateAppointments(req: Request, res: Response) {
+export async function  NewNotification(req: Request, res: Response) {
     const { salonId,date } = req.query;
     try {
         if (!salonId || !date) {
@@ -21,7 +21,7 @@ export async function  ShowSelectDateAppointments(req: Request, res: Response) {
             if (!staffIdOfSalon) {
                 return res.status(400).json({ status: 400, error: 'StaffId not found' });
             } else {
-                const  ShowSelectDateAppointments: unknown [] = [];
+                const  GetNewNotification: unknown [] = [];
                 for (let i = 0; i < staffIdOfSalon.length; i++) {
                     const selectedDate = new Date(String(date)); 
                     selectedDate.setHours(0, 0, 0, 0); 
@@ -31,15 +31,10 @@ export async function  ShowSelectDateAppointments(req: Request, res: Response) {
                         where: {
                             staffId: staffIdOfSalon[i],
                             isBook: true,
-                            date: {
+                            bookingTime : {
                                 gte: selectedDate, 
                                 lte: endOfDay 
                             }, 
-                            customerAppointmentBlock: {
-                                some: {
-                                    isCancel: false 
-                                }
-                            }   
                         },
                         select: {
                             startTime:true,
@@ -58,6 +53,8 @@ export async function  ShowSelectDateAppointments(req: Request, res: Response) {
                             },
                             customerAppointmentBlock:{
                                 select:{
+                                    isCancel:true,
+                                    isReject:true,
                                     startTime:true,
                                     customerId:true,
                                     date:true,
@@ -82,9 +79,9 @@ export async function  ShowSelectDateAppointments(req: Request, res: Response) {
                             }
                         }
                     });
-                    ShowSelectDateAppointments.push(...findBlocks);
+                    GetNewNotification.push(...findBlocks);
                 } 
-                return res.status(200).json({ status: 200, data:  ShowSelectDateAppointments,message: 'successfully display an  appointment.'}); 
+                return res.status(200).json({ status: 200, data:  GetNewNotification,message: 'successfully display notifications.'}); 
         }  
 }
 }catch (error) {
