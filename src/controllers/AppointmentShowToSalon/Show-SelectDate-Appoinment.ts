@@ -44,6 +44,7 @@ export async function  ShowSelectDateAppointments(req: Request, res: Response) {
                         select: {
                             startTime:true,
                             endTime:true,
+                            date:true,
                             staff:{
                                 select:{
                                 id:true,

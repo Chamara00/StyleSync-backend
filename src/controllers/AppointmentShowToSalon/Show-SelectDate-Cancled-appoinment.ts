@@ -44,6 +44,7 @@ export async function  ShowSelectDateCancleAppointments(req: Request, res: Respo
                         select: {
                             startTime:true,
                             endTime:true,
+                            date:true,
                             staff:{
                                 select:{
                                 id:true,
