@@ -79,7 +79,6 @@ model timeBlocks {
 }
 
 model appointmentBlock {
-  bookingTime              DateTime
   date                     String
   startTime                String
   endTime                  String

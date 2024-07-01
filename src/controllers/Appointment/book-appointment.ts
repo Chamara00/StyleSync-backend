@@ -4,12 +4,11 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export async function  BookAppointment(req: Request, res: Response){
-    const {userId,date, bookingTime,startTime,endTime,staffId,serviceId} = req.body;
+    const {userId,date,startTime,endTime,staffId,serviceId} = req.body;
     try{
         const appointment = await prisma.appointmentBlock.create({
             data:{
                 date:date,
-                bookingTime:bookingTime,
                 startTime:startTime,
                 endTime:endTime,
                 isBook:true,
