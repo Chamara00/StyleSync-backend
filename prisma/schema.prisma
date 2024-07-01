@@ -188,7 +188,7 @@ model customerAppointmentBlock {
   startTime        String
   staffId          Int
   isCancel         Boolean
-  isReject         Boolean
+  isReject         Boolean?
   customer         customer         @relation(fields: [customerId], references: [id])
   appointmentBlock appointmentBlock @relation(fields: [date, startTime, staffId], references: [date, startTime, staffId])
 
