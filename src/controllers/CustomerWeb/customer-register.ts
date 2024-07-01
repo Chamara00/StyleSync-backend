@@ -17,7 +17,8 @@ export async function CustomerRegister(req: Request, res: Response) {
           name,
           email,
           password,
-          gender: 'null', //gender is nullwhen customer registration
+          gender: 'null', 
+          
         },
       });
       return res.status(200).json({ status: 200, message: 'Register Customer Successfully', data: customer });

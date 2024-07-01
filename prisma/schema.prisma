@@ -80,7 +80,7 @@ model timeBlocks {
 
 model appointmentBlock {
   bookingTime              DateTime
-  date                     DateTime
+  date                     String
   startTime                String
   endTime                  String
   staffId                  Int
@@ -184,7 +184,7 @@ model allServices {
 
 model customerAppointmentBlock {
   customerId       Int
-  date             DateTime
+  date             String
   startTime        String
   staffId          Int
   isCancel         Boolean
@@ -198,7 +198,7 @@ model customerAppointmentBlock {
 
 model serviceAppointmentBlock {
   serviceId        Int
-  date             DateTime
+  date             String
   startTime        String
   staffId          Int
   appointmentBlock appointmentBlock @relation(fields: [date, startTime, staffId], references: [date, startTime, staffId])
