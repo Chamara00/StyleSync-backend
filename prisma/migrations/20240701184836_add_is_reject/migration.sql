@@ -65,7 +65,7 @@ CREATE TABLE "timeBlocks" (
 -- CreateTable
 CREATE TABLE "appointmentBlock" (
     "bookingTime" TIMESTAMP(3) NOT NULL,
-    "date" TIMESTAMP(3) NOT NULL,
+    "date" TEXT NOT NULL,
     "startTime" TEXT NOT NULL,
     "endTime" TEXT NOT NULL,
     "staffId" INTEGER NOT NULL,
@@ -155,7 +155,7 @@ CREATE TABLE "allServices" (
 -- CreateTable
 CREATE TABLE "customerAppointmentBlock" (
     "customerId" INTEGER NOT NULL,
-    "date" TIMESTAMP(3) NOT NULL,
+    "date" TEXT NOT NULL,
     "startTime" TEXT NOT NULL,
     "staffId" INTEGER NOT NULL,
     "isCancel" BOOLEAN NOT NULL,
@@ -167,7 +167,7 @@ CREATE TABLE "customerAppointmentBlock" (
 -- CreateTable
 CREATE TABLE "serviceAppointmentBlock" (
     "serviceId" INTEGER NOT NULL,
-    "date" TIMESTAMP(3) NOT NULL,
+    "date" TEXT NOT NULL,
     "startTime" TEXT NOT NULL,
     "staffId" INTEGER NOT NULL,
 
