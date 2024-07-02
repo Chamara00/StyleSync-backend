@@ -13,7 +13,7 @@ export async function AddSalonImage(req: Request, res: Response) {
       where: { id: salonId },
       data: { image: image },
     });
-    return res.status(201).json({ status: 201, message: 'image update successfully', data: salon });
+    return res.status(201).json({ status: 201, message: 'image update successfully' , data:salon });
   } catch (error) {
     console.log(error);
   }

@@ -59,6 +59,7 @@ model customer {
   gender                   String?
   image                    String?
   name                     String
+  contactNo                String
   password                 String
   email                    String                     @unique
   customerAppointmentBlock customerAppointmentBlock[]
@@ -79,6 +80,7 @@ model timeBlocks {
 }
 
 model appointmentBlock {
+  bookingTime              DateTime
   date                     DateTime
   startTime                String
   endTime                  String
@@ -187,6 +189,7 @@ model customerAppointmentBlock {
   startTime        String
   staffId          Int
   isCancel         Boolean
+  isReject         Boolean?
   customer         customer         @relation(fields: [customerId], references: [id])
   appointmentBlock appointmentBlock @relation(fields: [date, startTime, staffId], references: [date, startTime, staffId])
 

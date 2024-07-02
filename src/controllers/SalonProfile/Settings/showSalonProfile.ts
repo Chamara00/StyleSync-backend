@@ -16,7 +16,8 @@ export async function ShowSalonProfileDetails (req: Request ,res: Response) {
                 },
                 select:{
                     name: true,
-                    contactNo:true
+                    contactNo:true,
+                    image:true
                 }
             });
             return res.status(200).json({ status: 200, data: salonDetails,message: 'successfully display an  salon Details.'}); 

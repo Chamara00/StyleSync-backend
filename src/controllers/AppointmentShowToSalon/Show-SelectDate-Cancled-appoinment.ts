@@ -48,14 +48,24 @@ export async function  ShowSelectDateCancleAppointments(req: Request, res: Respo
                                 select:{
                                 id:true,
                                 name :true,
+                                image:true,
+                                salonStaff:{
+                                    select:{
+                                        salonId:true
+                                    }
+                                }
                                 }
                             },
                             customerAppointmentBlock:{
                                 select:{
+                                    startTime:true,
+                                    customerId:true,
+                                    date:true,
                                     customer:{
                                         select:{
                                             name:true,
                                             gender :true,
+                                            image:true
                                         }
                                     }
                                 }

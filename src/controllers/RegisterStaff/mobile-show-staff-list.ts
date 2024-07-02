@@ -33,6 +33,7 @@ export async function ShowStaffList(req: Request ,res: Response){
                         select:{
                             id:true,
                             name:true,
+                            image:true
                         }
                     });
                     results.push(findStaffName);

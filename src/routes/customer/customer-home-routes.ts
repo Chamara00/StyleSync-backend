@@ -10,6 +10,8 @@ import { SalonsUnderService } from '../../controllers/CustomerWeb/show-salons-un
 import { StaffOfSalon } from '../../controllers/CustomerWeb/get-staff-of-salon';
 import { ServiceOfStaff } from '../../controllers/CustomerWeb/get-staff-services';
 import { StaffAvailability } from '../../controllers/CustomerWeb/get-staff-available-time-and-service-duration';
+import { CustomerDetails } from '../../controllers/CustomerWeb/get-customer-details';
+import { BookAppointment } from '../../controllers/Appointment/book-appointment';
 
 export function ConfigureCustomerHomeRoutes(router: Router): void {
     router.get('/get-all-categories', ShowAvailableCategories);
@@ -23,4 +25,6 @@ export function ConfigureCustomerHomeRoutes(router: Router): void {
     router.get('/get-staff-details',StaffOfSalon);
     router.get('/get-service-of-staff',ServiceOfStaff);
     router.get('/staff-available-time',StaffAvailability);
+    router.get('/get-customer-details',CustomerDetails);
+    router.post('/create-appointment',BookAppointment);
 }

@@ -25,6 +25,7 @@ export async function ShowSalonDetails (req: Request ,res: Response) {
                         line2: true,
                         city: true,
                         country: true,
+                        image:true,
                     },
                 });
                 
@@ -38,6 +39,7 @@ export async function ShowSalonDetails (req: Request ,res: Response) {
                         staff:{
                             select:{
                                 name: true,
+                                image:true,
                                 openDays:{
                                     where:{
                                         dayName:dayOfWeek,
@@ -89,6 +91,7 @@ export async function ShowSalonDetails (req: Request ,res: Response) {
                         staffID: staff.staffID,
                         name: staff.staff.name,
                         openDays: staff.staff.openDays,
+                        image:staff.staff.image
                     })),
                 };
             

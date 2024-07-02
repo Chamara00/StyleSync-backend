@@ -71,6 +71,7 @@ export async function ShowCustomerDetails(req: Request, res: Response){
                                                 select:{
                                                     name:true,
                                                     gender :true,
+                                                    image:true,
                                                 }
                                             }
                                         }

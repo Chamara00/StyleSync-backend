@@ -23,6 +23,7 @@ export async function ShowSalonStaffMenbers(req: Request ,res: Response) {
                     staff:{
                         select:{
                             name: true,
+                            image:true,
                             openDays:{
                                 where:{
                                     dayName:dayOfWeek,
