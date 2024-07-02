@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
+import { DateTime } from 'luxon';
 
 const prisma = new PrismaClient();
 
@@ -10,10 +11,10 @@ export async function BookAppointment(req: Request, res: Response) {
     if (!userId || !date || !startTime || !endTime || !staffId || !serviceId) {
       return res.status(400).json({ message: 'Inputs not found' });
     }
-
+    const bookingTime = DateTime.now().setZone('UTC').toJSDate();
     const appointment = await prisma.appointmentBlock.create({
       data: {
-        bookingTime: new Date(),
+        bookingTime: bookingTime,
         date: date,
         startTime: startTime,
         endTime: endTime,
