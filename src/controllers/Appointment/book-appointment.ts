@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
-import moment from 'moment-timezone';
 
 const prisma = new PrismaClient();
 
@@ -12,11 +11,13 @@ export async function BookAppointment(req: Request, res: Response) {
     if (!userId || !date || !startTime || !endTime || !staffId || !serviceId) {
       return res.status(400).json({ message: 'Inputs not found' });
     }
-    const bookingTime = moment().tz('Asia/Kolkata').toDate();
+    const setDate = new Date(date);
+    setDate.setHours(0,0,0,0);
+    
     const appointment = await prisma.appointmentBlock.create({
       data: {
-        bookingTime: bookingTime,
-        date: date,
+        bookingTime: new Date(),
+        date: setDate,
         startTime: startTime,
         endTime: endTime,
         isBook: true,
