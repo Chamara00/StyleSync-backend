@@ -14,9 +14,8 @@ export async function BookAppointment(req: Request, res: Response) {
     const setDate = new Date(date);
     setDate.setHours(0,0,0,0);
 
-    const setTime = new Date(bookingTime).toLocaleString('en-US', {
-      timeZone: 'Asia/Calcutta'
-  });
+    const bookingTimeDate = new Date(bookingTime);
+    const setTime = new Date(bookingTimeDate.getTime() + 5 * 60 * 60 * 1000 + 30 * 60 * 1000);
 
     
     const appointment = await prisma.appointmentBlock.create({
