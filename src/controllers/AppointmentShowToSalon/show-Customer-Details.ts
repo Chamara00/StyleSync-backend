@@ -72,6 +72,7 @@ export async function ShowCustomerDetails(req: Request, res: Response){
                                                     name:true,
                                                     gender :true,
                                                     image:true,
+                                                    contactNo:true
                                                 }
                                             }
                                         }
