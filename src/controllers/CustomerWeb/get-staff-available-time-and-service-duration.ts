@@ -16,7 +16,8 @@ export async function StaffAvailability(req: Request, res: Response) {
       return res.status(400).json({ message: 'Please provide staffId and serviceId' });
     }
     const setDate = new Date(String(date));
-    setDate.setHours(0,0,0,0);
+setDate.setHours(0, 0, 0, 0);
+const isoString = setDate.toISOString();
     const availableTimeDuration = await prisma.serviceStaff.findMany({
       where: {
         staffId: Number(staffId),
@@ -52,7 +53,7 @@ export async function StaffAvailability(req: Request, res: Response) {
     const unavailableTime = await prisma.appointmentBlock.findMany({
       where: {
         staffId: Number(staffId),
-        date: String(setDate),
+        date: String(isoString),
         isBook:true
       },
       select: {
