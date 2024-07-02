@@ -41,7 +41,7 @@ export async function getAppointments(req: Request, res: Response) {
         const existingAppointments = appointments.map((a)=>({
             date:a.date,
             startTime:a.startTime,
-            salon:a.appointmentBlock.staff[0].salonStaff[0].salon.name
+            salon:a.appointmentBlock.staff.salonStaff.map((b)=>b.salon[0])
         }));
         return res.status(200).json({ status: 200, data: existingAppointments });
     } catch (error) {
