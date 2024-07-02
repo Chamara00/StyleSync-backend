@@ -17,7 +17,8 @@ export async function CustomerRegister(req: Request, res: Response) {
           name,
           email,
           password,
-          gender: 'null', 
+          gender: 'null',
+          contactNo, 
           
         },
       });
