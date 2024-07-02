@@ -46,6 +46,7 @@ CREATE TABLE "customer" (
     "gender" TEXT,
     "image" TEXT,
     "name" TEXT NOT NULL,
+    "contactNo" TEXT NOT NULL,
     "password" TEXT NOT NULL,
     "email" TEXT NOT NULL,
 
