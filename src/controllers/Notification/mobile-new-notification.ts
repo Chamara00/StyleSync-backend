@@ -39,6 +39,7 @@ export async function  NewNotification(req: Request, res: Response) {
                         select: {
                             startTime:true,
                             endTime:true,
+                            bookingTime:true,
                             staff:{
                                 select:{
                                 id:true,
