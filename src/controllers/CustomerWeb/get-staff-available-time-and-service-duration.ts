@@ -52,7 +52,7 @@ export async function StaffAvailability(req: Request, res: Response) {
     const unavailableTime = await prisma.appointmentBlock.findMany({
       where: {
         staffId: Number(staffId),
-        date: String(date),
+        date: String(setDate),
         isBook:true
       },
       select: {
@@ -71,7 +71,7 @@ export async function StaffAvailability(req: Request, res: Response) {
         breakEnd:true
       }
     });
-
+    console.log(unavailableTime);
     return res.status(200).json({ status: 200, message: 'Successful', data: existingAvailableTimeAndDuration, data2:unavailableTime, data3:breaks });
   } catch (error) {
     console.log(error);
