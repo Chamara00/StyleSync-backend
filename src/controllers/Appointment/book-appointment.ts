@@ -14,11 +14,10 @@ export async function BookAppointment(req: Request, res: Response) {
     const setDate = new Date(date);
     setDate.setHours(0,0,0,0);
 
-    const setBookingDate = new Date(bookingTime);
     
     const appointment = await prisma.appointmentBlock.create({
       data: {
-        bookingTime: setBookingDate,
+        bookingTime: bookingTime,
         date: setDate,
         startTime: startTime,
         endTime: endTime,
