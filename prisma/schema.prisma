@@ -60,8 +60,8 @@ model customer {
   image                    String?
   name                     String
   contactNo                String
-  password                 String?
-  email                    String                    @unique
+  password                 String
+  email                    String                     @unique
   customerAppointmentBlock customerAppointmentBlock[]
   review                   review[]
 
