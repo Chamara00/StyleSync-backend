@@ -19,6 +19,7 @@ export async function getAppointments(req: Request, res: Response) {
             select: {
                 date:true,
                 startTime:true,
+                staffId:true,
                 appointmentBlock:{
                     select:{
                         staff:{
@@ -41,6 +42,7 @@ export async function getAppointments(req: Request, res: Response) {
         const existingAppointments = appointments.map((a)=>({
             date:a.date,
             startTime:a.startTime,
+            staffId:a.staffId,
             salon:a.appointmentBlock.staff.salonStaff.map((b)=>b.salon.name)
         }));
         return res.status(200).json({ status: 200, data: existingAppointments });
