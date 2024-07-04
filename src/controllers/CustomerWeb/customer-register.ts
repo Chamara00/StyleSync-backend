@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 export async function CustomerRegister(req: Request, res: Response) {
   const { name, email, password, confirmPassword,contactNo, image } = req.body; //requried data from front-end
   try {
-    if (!name || !email || !password || !confirmPassword || !contactNo || !image) {
+    if (!name || !email || !password || !confirmPassword || !contactNo) {
       return res.status(400).json({ message: 'input not found' });
     } else if (password !== confirmPassword) {
       return res.status(400).json({ message: 'password not match' });
