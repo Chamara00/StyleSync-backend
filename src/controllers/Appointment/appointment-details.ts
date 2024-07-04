@@ -5,6 +5,9 @@ const prisma = new PrismaClient();
 
 export async function AppointmentDetails(req: Request, res: Response) {
   const { userId, date, startTime, staffId } = req.query;
+  if(!userId || !date || !startTime || !staffId){
+    return res.status(400).json({ message: 'Missing required fields' });
+  }
 
   try{
     const appointment = await prisma.customerAppointmentBlock.findMany({
@@ -108,7 +111,7 @@ export async function AppointmentDetails(req: Request, res: Response) {
             b.service.duration
         ))
     }));
-    console.log(appointment);
+    console.log(appointmentInfo);
     return res.status(200).json({status:200, message:'Successfully shown', data:appointmentInfo});
     
   }catch (error) {

@@ -11,7 +11,9 @@ export async function BookAppointment(req: Request, res: Response) {
     if (!userId || !date || !startTime || !endTime || !staffId || !serviceId || !bookingTime) {
       return res.status(400).json({ message: 'Inputs not found' });
     }
-    const setDate = new Date(date);
+    const bookingDate = new Date(date);
+    const setBookingDate = new Date(bookingDate.getTime() + 5 * 60 * 60 * 1000 + 30 * 60 * 1000);
+    const setDate = new Date(setBookingDate);
     setDate.setHours(0,0,0,0);
 
     const bookingTimeDate = new Date(bookingTime);
