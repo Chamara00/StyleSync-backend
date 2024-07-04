@@ -20,7 +20,6 @@ model salon {
   contactNo     String       @unique
   otp           String?
   image         String?
-  deviceId      String?
   latitude      Float
   longtitude    Float
   emailVerified Boolean?
@@ -61,7 +60,7 @@ model customer {
   image                    String?
   name                     String
   contactNo                String
-  password                 String?
+  password                 String
   email                    String                     @unique
   customerAppointmentBlock customerAppointmentBlock[]
   review                   review[]
@@ -135,7 +134,6 @@ model staff {
   name             String
   gender           String
   image            String?
-  notification     Boolean?
   appointmentBlock appointmentBlock[]
   openDays         openDays[]
   salonStaff       salonStaff[]

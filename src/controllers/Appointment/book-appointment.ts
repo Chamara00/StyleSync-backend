@@ -4,19 +4,23 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export async function BookAppointment(req: Request, res: Response) {
-  const { userId, date, startTime, endTime, staffId, serviceId } = req.body;
+  const { userId, date, startTime, endTime, staffId, serviceId, bookingTime } = req.body;
   
 
   try {
-    if (!userId || !date || !startTime || !endTime || !staffId || !serviceId) {
+    if (!userId || !date || !startTime || !endTime || !staffId || !serviceId || !bookingTime) {
       return res.status(400).json({ message: 'Inputs not found' });
     }
     const setDate = new Date(date);
     setDate.setHours(0,0,0,0);
+
+    const bookingTimeDate = new Date(bookingTime);
+    const setTime = new Date(bookingTimeDate.getTime() + 5 * 60 * 60 * 1000 + 30 * 60 * 1000);
+
     
     const appointment = await prisma.appointmentBlock.create({
       data: {
-        bookingTime: new Date(),
+        bookingTime: setTime,
         date: setDate,
         startTime: startTime,
         endTime: endTime,

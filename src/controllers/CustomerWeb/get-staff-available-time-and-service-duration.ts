@@ -10,11 +10,16 @@ const prisma = new PrismaClient();
 //   }
 
 export async function StaffAvailability(req: Request, res: Response) {
-  const { staffId, serviceId, dayName } = req.query;
+  const { staffId, serviceId, dayName, date } = req.query;
   try {
-    if (!staffId || !serviceId || !dayName) {
+    if (!staffId || !serviceId || !dayName || !date) {
       return res.status(400).json({ message: 'Please provide staffId and serviceId' });
     }
+    const bookingTimeDate = new Date(String(date));
+    const setTime = new Date(bookingTimeDate.getTime() + 5 * 60 * 60 * 1000 + 30 * 60 * 1000);
+    const setDate = new Date(String(setTime));
+    setDate.setHours(0, 0, 0, 0);
+    const isoString = setDate.toISOString();
     const availableTimeDuration = await prisma.serviceStaff.findMany({
       where: {
         staffId: Number(staffId),
@@ -46,7 +51,39 @@ export async function StaffAvailability(req: Request, res: Response) {
       closeHour: a.staff.openDays.map((c) => c.closeHour),
       duration: a.Service.duration,
     }));
-    return res.status(200).json({ status: 200, message: 'Successful', data: existingAvailableTimeAndDuration });
+
+    const unavailableTime = await prisma.appointmentBlock.findMany({
+      where: {
+        staffId: Number(staffId),
+        date: String(isoString),
+        isBook: true,
+      },
+      select: {
+        startTime: true,
+        endTime: true,
+      },
+    });
+
+    const breaks = await prisma.breaks.findMany({
+      where: {
+        staffId: Number(staffId),
+        dayName: String(dayName),
+      },
+      select: {
+        breakStart: true,
+        breakEnd: true,
+      },
+    });
+    console.log(unavailableTime);
+    return res
+      .status(200)
+      .json({
+        status: 200,
+        message: 'Successful',
+        data: existingAvailableTimeAndDuration,
+        data2: unavailableTime,
+        data3: breaks,
+      });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ status: 500, error: 'Failed to get registered salons' });
