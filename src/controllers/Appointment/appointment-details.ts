@@ -108,8 +108,9 @@ export async function AppointmentDetails(req: Request, res: Response) {
             b.service.duration
         ))
     }));
-    console.log(appointmentInfo);
+    console.log(appointment);
     return res.status(200).json({status:200, message:'Successfully shown', data:appointmentInfo});
+    
   }catch (error) {
     console.log(error);
     return res.status(500).json({ status: 500, error: 'Failed to process' });
