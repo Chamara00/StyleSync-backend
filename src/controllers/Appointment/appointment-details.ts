@@ -81,22 +81,22 @@ export async function AppointmentDetails(req: Request, res: Response) {
         staffImage: a.appointmentBlock.staff.image,
         staffGender: a.appointmentBlock.staff.gender,
         salonName: a.appointmentBlock.staff.salonStaff.map((b)=>(
-            b.salon[0].name
+            b.salon.name
         )),
         salonImage: a.appointmentBlock.staff.salonStaff.map((b)=>(
-            b.salon[0].image
+            b.salon.image
         )),
         salonEmail: a.appointmentBlock.staff.salonStaff.map((b)=>(
-            b.salon[0].email
+            b.salon.email
         )),
         line1: a.appointmentBlock.staff.salonStaff.map((b)=>(
-            b.salon[0].line1
+            b.salon.line1
         )),
         line2: a.appointmentBlock.staff.salonStaff.map((b)=>(
-            b.salon[0].line2
+            b.salon.line2
         )),
         city:a.appointmentBlock.staff.salonStaff.map((b)=>(
-            b.salon[0].city
+            b.salon.city
         )),
         serviceName:a.appointmentBlock.serviceAppointmentBlock.map((b)=>(
             b.service.name
