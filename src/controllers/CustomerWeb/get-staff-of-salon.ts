@@ -18,6 +18,7 @@ export async function StaffOfSalon(req: Request, res: Response) {
           select: {
             id: true,
             name: true,
+            image:true
           },
         },
       },
@@ -25,6 +26,7 @@ export async function StaffOfSalon(req: Request, res: Response) {
     const existingStaffNames = staffNames.map((a) => ({
       id: a.staff.id,
       name: a.staff.name,
+      image:a.staff.image
     }));
     return res.status(200).json({ status: 200, message: 'successful', data: existingStaffNames });
   } catch (error) {

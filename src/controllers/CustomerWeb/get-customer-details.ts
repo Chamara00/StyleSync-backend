@@ -16,7 +16,8 @@ export async function CustomerDetails(req: Request, res: Response){
             select:{
                 name:true,
                 email:true,
-                contactNo:true
+                contactNo:true,
+                image:true
             }
         });
         return res.status(200).json({status:200, message:'Successfull', data});
