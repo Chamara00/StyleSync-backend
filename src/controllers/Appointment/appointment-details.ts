@@ -15,7 +15,7 @@ export async function AppointmentDetails(req: Request, res: Response) {
     const appointment = await prisma.customerAppointmentBlock.findMany({
         where: {
             customerId: Number(userId),
-            date: String(date),
+            date: setDate,
             startTime: String(startTime),
             staffId: Number(staffId)
         },
