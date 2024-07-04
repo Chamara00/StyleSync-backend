@@ -8,6 +8,8 @@ export async function AppointmentDetails(req: Request, res: Response) {
   if(!userId || !date || !startTime || !staffId){
     return res.status(400).json({ message: 'Missing required fields' });
   }
+  const setDate = new Date(String(date));
+    setDate.setHours(0,0,0,0);
 
   try{
     const appointment = await prisma.customerAppointmentBlock.findMany({
