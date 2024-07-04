@@ -20,6 +20,8 @@ export async function getAppointments(req: Request, res: Response) {
                 date:true,
                 startTime:true,
                 staffId:true,
+                isCancel:true,
+                isReject:true,
                 appointmentBlock:{
                     select:{
                         staff:{
@@ -43,7 +45,9 @@ export async function getAppointments(req: Request, res: Response) {
             date:a.date,
             startTime:a.startTime,
             staffId:a.staffId,
-            salon:a.appointmentBlock.staff.salonStaff.map((b)=>b.salon.name)
+            salon:a.appointmentBlock.staff.salonStaff.map((b)=>b.salon.name),
+            isCancel:a.isCancel,
+            isReject:a.isReject
         }));
         return res.status(200).json({ status: 200, data: existingAppointments });
     } catch (error) {
