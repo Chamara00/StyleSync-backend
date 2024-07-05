@@ -43,6 +43,7 @@ export async function  NewNotification(req: Request, res: Response) {
                             staff:{
                                 select:{
                                 id:true,
+                                notification:true,
                                 name :true,
                                 image:true,
                                 salonStaff:{
