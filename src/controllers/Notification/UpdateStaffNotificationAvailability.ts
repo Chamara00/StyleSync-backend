@@ -17,7 +17,7 @@ export async function  UpdateStaffNotificationAvailability(req: Request, res: Re
                     notification:notification
                 }
             });
-            return res.status(200).json({ status: 201, message: 'successfully display an  appointment.'});
+            return res.status(201).json({ status: 201, message: 'successfully update.'});
         }
 
     }catch (error) {
