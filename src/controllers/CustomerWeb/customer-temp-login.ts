@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 export async function HandleTempLogin(req: Request, res: Response) {
   const { token,userId } = req.query;
   try{
-    if(!token || userId ){
+    if(!token || !userId ){
         return res.status(400).json({message: 'Not found token or user id.'});
     }
     const tempToken = await prisma.tempToken.findUnique({
