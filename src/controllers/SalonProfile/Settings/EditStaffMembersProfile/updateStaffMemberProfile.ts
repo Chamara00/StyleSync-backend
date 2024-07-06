@@ -5,10 +5,10 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export async function updatStaffMemberProfile(req:Request , res:Response){
-    const {salonId,staffId,name,contactNo}= req.body;
+    const {salonId,staffId,name,contactNo, gender}= req.body;
 
     try{
-        if(!salonId || !staffId || !name || !contactNo){
+        if(!salonId || !staffId || !name || !contactNo || !gender){
             return res.status(400).json({status: 400, error: 'Invalid Input'});
         }else{
             const UpdateStaffMemberDetails = await prisma.staff.update({
@@ -22,6 +22,7 @@ export async function updatStaffMemberProfile(req:Request , res:Response){
                 },
                 data:{
                     name: name,
+                    gender:gender,
                     staffContact:{
                         updateMany: {
                             where: {

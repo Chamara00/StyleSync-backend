@@ -38,6 +38,9 @@ export async function  OldNotification(req: Request, res: Response) {
                                 gte: threeDaysBefore, 
                                 lte: selectedDate 
                             }, 
+                            staff:{
+                                notification:true,
+                            }
                         },
                         select: {
                             startTime:true,
@@ -46,7 +49,6 @@ export async function  OldNotification(req: Request, res: Response) {
                             staff:{
                                 select:{
                                 id:true,
-                                notification:true,
                                 name :true,
                                 image:true,
                                 salonStaff:{
