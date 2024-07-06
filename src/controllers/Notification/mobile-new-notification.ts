@@ -36,10 +36,7 @@ export async function  NewNotification(req: Request, res: Response) {
                                 lte: endOfDay 
                             },  
                             staff:{
-                                OR: [
-                                    { notification: true },
-                                    { notification: null }
-                                ]
+                               notification:true
                             }                           
                         },
                         select: {

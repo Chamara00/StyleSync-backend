@@ -20,18 +20,18 @@ export async function  UpdateSalonNotification(req: Request, res: Response) {
             const staffIdOfSalon = findStaffId.map(service => service.staffID);
             if (!staffIdOfSalon) {
                 return res.status(400).json({ status: 400, error: 'StaffId not found' });
-            } else(!notification || notification);{
+            } else{
                 for (let i = 0; i < staffIdOfSalon.length; i++){
-             await prisma.staff.updateMany({
+            await prisma.staff.updateMany({
                 where: {
                    id:staffIdOfSalon[i],
                 },
                 data: {
                     notification:notification
                 }
-            });
-            return res.status(201).json({ status: 201,data:staffIdOfSalon , message: 'successfully update.'});
+            });  
         }
+        return res.status(201).json({ status: 201,data:staffIdOfSalon , message: 'successfully update.'});
     }
     }
     }catch (error) {

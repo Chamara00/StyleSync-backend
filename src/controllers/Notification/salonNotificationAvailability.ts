@@ -15,10 +15,7 @@ export async function  salonNotificationAvailability(req: Request, res: Response
                 where: {
                     salonId: Number(salonId),
                     staff :{
-                        OR: [
-                            { notification: true },
-                            { notification: null }
-                        ]
+                       notification:true
                     }
                 },
             });
