@@ -34,7 +34,13 @@ export async function  NewNotification(req: Request, res: Response) {
                             bookingTime : {
                                 gte: selectedDate, 
                                 lte: endOfDay 
-                            }, 
+                            },  
+                            staff:{
+                                OR: [
+                                    { notification: true },
+                                    { notification: null }
+                                ]
+                            }                           
                         },
                         select: {
                             startTime:true,
