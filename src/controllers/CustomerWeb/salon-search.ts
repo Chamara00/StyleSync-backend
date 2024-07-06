@@ -16,11 +16,16 @@ export async function SearchResult(req: Request, res: Response) {
       where: {
         name: {
           contains: String(key),
-          mode: 'insensitive'
-        }
+          mode: 'insensitive',
+        },
       },
       select: {
         id: true,
+        name: true,
+        line1: true,
+        line2: true,
+        city: true,
+        contactNo: true,
       },
     });
 
@@ -29,11 +34,16 @@ export async function SearchResult(req: Request, res: Response) {
       where: {
         line1: {
           contains: String(key),
-          mode: 'insensitive'
-        }
+          mode: 'insensitive',
+        },
       },
       select: {
         id: true,
+        name: true,
+        line1: true,
+        line2: true,
+        city: true,
+        contactNo: true,
       },
     });
 
@@ -41,11 +51,16 @@ export async function SearchResult(req: Request, res: Response) {
       where: {
         line2: {
           contains: String(key),
-          mode: 'insensitive'
-        }
+          mode: 'insensitive',
+        },
       },
       select: {
         id: true,
+        name: true,
+        line1: true,
+        line2: true,
+        city: true,
+        contactNo: true,
       },
     });
 
@@ -53,11 +68,16 @@ export async function SearchResult(req: Request, res: Response) {
       where: {
         city: {
           contains: String(key),
-          mode: 'insensitive'
-        }
+          mode: 'insensitive',
+        },
       },
       select: {
         id: true,
+        name: true,
+        line1: true,
+        line2: true,
+        city: true,
+        contactNo: true,
       },
     });
 
@@ -109,10 +129,38 @@ export async function SearchResult(req: Request, res: Response) {
     // });
 
     // Extract salon IDs from the results
-    const salonIds1 = salonName.map((a) => a.id);
-    const salonIds2 = salonLine1.map((a) => a.id);
-    const salonIds3 = salonLine2.map((a) => a.id);
-    const salonIds4 = salonCity.map((a) => a.id);
+    const salonIds1 = salonName.map((a) => ({
+      id: a.id,
+      name: a.name,
+      line1: a.line1,
+      line2: a.line2,
+      city: a.city,
+      contactNo: a.contactNo,
+    }));
+    const salonIds2 = salonLine1.map((a) => ({
+      id: a.id,
+      name: a.name,
+      line1: a.line1,
+      line2: a.line2,
+      city: a.city,
+      contactNo: a.contactNo,
+    }));
+    const salonIds3 = salonLine2.map((a) => ({
+      id: a.id,
+      name: a.name,
+      line1: a.line1,
+      line2: a.line2,
+      city: a.city,
+      contactNo: a.contactNo,
+    }));
+    const salonIds4 = salonCity.map((a) => ({
+      id: a.id,
+      name: a.name,
+      line1: a.line1,
+      line2: a.line2,
+      city: a.city,
+      contactNo: a.contactNo,
+    }));
 
     // Combine all IDs into a single array
     const allSalonIds = [...salonIds1, ...salonIds2, ...salonIds3, ...salonIds4];
@@ -125,7 +173,6 @@ export async function SearchResult(req: Request, res: Response) {
     }
 
     return res.status(200).json({ status: 200, message: 'Success', data: uniqueSalonIds });
-
   } catch (error) {
     console.log(error);
     return res.status(500).json({ status: 500, error: 'Failed to get registered salons' });
