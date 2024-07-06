@@ -35,6 +35,7 @@ export async function StaffAvailability(req: Request, res: Response) {
               select: {
                 openHour: true,
                 closeHour: true,
+                isOpen:true
               },
             },
           },
@@ -49,6 +50,7 @@ export async function StaffAvailability(req: Request, res: Response) {
     const existingAvailableTimeAndDuration = availableTimeDuration.map((a) => ({
       openHour: a.staff.openDays.map((b) => b.openHour),
       closeHour: a.staff.openDays.map((c) => c.closeHour),
+      isOpen:a.staff.openDays.map((d)=>d.isOpen),
       duration: a.Service.duration,
     }));
 
