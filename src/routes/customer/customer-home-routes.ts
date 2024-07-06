@@ -17,6 +17,7 @@ import { cancelAppointments } from '../../controllers/Appointment/cancel-apppoin
 import { AppointmentDetails } from '../../controllers/Appointment/appointment-details';
 import { SearchResult } from '../../controllers/CustomerWeb/salon-search';
 import { TempCustomerCreate } from '../../controllers/CustomerWeb/temp-customer-register';
+import { HandleTempLogin } from '../../controllers/CustomerWeb/customer-temp-login';
 
 export function ConfigureCustomerHomeRoutes(router: Router): void {
     router.get('/get-all-categories', ShowAvailableCategories);
@@ -37,4 +38,5 @@ export function ConfigureCustomerHomeRoutes(router: Router): void {
     router.get('/appointment-details',AppointmentDetails);
     router.get('/search-salon',SearchResult);
     router.post('/temp-customer-register',TempCustomerCreate);
+    router.post('/tem-customer-login',HandleTempLogin);
 }
