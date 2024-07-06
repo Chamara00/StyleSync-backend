@@ -15,6 +15,7 @@ import { BookAppointment } from '../../controllers/Appointment/book-appointment'
 import { getAppointments } from '../../controllers/Appointment/get-appointment-details';
 import { cancelAppointments } from '../../controllers/Appointment/cancel-apppointment';
 import { AppointmentDetails } from '../../controllers/Appointment/appointment-details';
+import { SearchResult } from '../../controllers/CustomerWeb/salon-search';
 
 export function ConfigureCustomerHomeRoutes(router: Router): void {
     router.get('/get-all-categories', ShowAvailableCategories);
@@ -33,4 +34,5 @@ export function ConfigureCustomerHomeRoutes(router: Router): void {
     router.get('/get-appointment-details',getAppointments);
     router.put('/cancel-appointment',cancelAppointments);
     router.get('/appointment-details',AppointmentDetails);
+    router.get('/search-salon',SearchResult);
 }
