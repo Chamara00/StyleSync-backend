@@ -38,5 +38,5 @@ export function ConfigureCustomerHomeRoutes(router: Router): void {
     router.get('/appointment-details',AppointmentDetails);
     router.get('/search-salon',SearchResult);
     router.post('/temp-customer-register',TempCustomerCreate);
-    router.post('/tem-customer-login',HandleTempLogin);
+    router.get('/tem-customer-login',HandleTempLogin);
 }
