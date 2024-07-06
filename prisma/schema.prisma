@@ -63,10 +63,22 @@ model customer {
   contactNo                String
   password                 String?
   email                    String                     @unique
+  isTemporary              Boolean?                   @default(false)
+
   customerAppointmentBlock customerAppointmentBlock[]
   review                   review[]
+  tempToken                tempToken[]
 
   @@map("customer")
+}
+
+model tempToken {
+  token         String        @id
+  userId        Int
+  customer      customer      @relation(fields: [userId], references: [id])
+  expiresAt     DateTime
+
+  @@map("tempToken")
 }
 
 model timeBlocks {

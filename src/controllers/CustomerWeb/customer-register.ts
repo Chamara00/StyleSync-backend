@@ -19,7 +19,8 @@ export async function CustomerRegister(req: Request, res: Response) {
           password,
           gender: 'null',
           contactNo, 
-          image
+          image,
+          isTemporary:false
           
         },
       });
