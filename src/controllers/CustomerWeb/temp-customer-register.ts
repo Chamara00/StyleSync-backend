@@ -31,7 +31,7 @@ export async function TempCustomerCreate(req: Request, res: Response){
             });
             const userId = tempUser.id;
             const token = crypto.randomBytes(16).toString('hex');  // Generate a unique token
-            const link = `${process.env.FRONTEND_URL}/temporary-login?token=${token}&userId=${userId}`;
+            const link = `http://localhost:3000/temporary-login?token=${token}&userId=${userId}`;
             
             // Store the token and associated userId in the database
             await prisma.tempToken.create({
