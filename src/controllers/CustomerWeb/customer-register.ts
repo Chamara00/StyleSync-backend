@@ -20,8 +20,6 @@ export async function CustomerRegister(req: Request, res: Response) {
           gender: 'null',
           contactNo, 
           image,
-          isTemporary:false
-          
         },
       });
       return res.status(200).json({ status: 200, message: 'Register Customer Successfully', data: customer });
