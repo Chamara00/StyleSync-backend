@@ -25,6 +25,7 @@ export async function registerStaff(req: Request, res: Response) {
             data: {
                 name,
                 gender,
+                notification: true,
                 staffContact: { // Assuming there is a relationship field named 'contact'
                     create: {
                         contactNo: staffContact
