@@ -18,7 +18,8 @@ export async function CustomerDetails(req: Request, res: Response){
                 email:true,
                 contactNo:true,
                 image:true,
-                isTemporary:true
+                isTemporary:true,
+                isVerified:true
             }
         });
         return res.status(200).json({status:200, message:'Successfull', data});
