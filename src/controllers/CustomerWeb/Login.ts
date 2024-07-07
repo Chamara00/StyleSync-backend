@@ -18,7 +18,8 @@ export async function LoginCustomer(req: Request, res: Response) {
       select:{
         isVerified:true,
         password:true,
-        id:true
+        id:true,
+        email:true
       }
     });
 
