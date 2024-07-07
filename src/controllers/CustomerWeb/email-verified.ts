@@ -18,10 +18,10 @@ export async function EmailVerified(req: Request, res: Response) {
       },
     });
 
-    if(!getOtp[0]){
+    if(!getOtp[0].OTP){
         return res.status(400).json({ message: 'OTP not found' });
     }
-    else if(getOtp[0]!==otp){
+    else if(getOtp[0].OTP!==otp){
         return res.status(400).json({ message: 'OTP not matched' });
     }
     else{
