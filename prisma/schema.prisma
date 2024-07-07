@@ -64,7 +64,8 @@ model customer {
   password                 String?
   email                    String                     @unique
   isTemporary              Boolean?                   @default(false)
-
+  OTP                      String?
+  isVerified               Boolean?                    @default(false)
   customerAppointmentBlock customerAppointmentBlock[]
   review                   review[]
   tempToken                tempToken[]

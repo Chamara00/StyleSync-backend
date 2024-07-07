@@ -18,6 +18,8 @@ import { AppointmentDetails } from '../../controllers/Appointment/appointment-de
 import { SearchResult } from '../../controllers/CustomerWeb/salon-search';
 import { TempCustomerCreate } from '../../controllers/CustomerWeb/temp-customer-register';
 import { HandleTempLogin } from '../../controllers/CustomerWeb/customer-temp-login';
+import { GenerateOTP } from '../../controllers/CustomerWeb/generate-otp';
+import { EmailVerified } from '../../controllers/CustomerWeb/email-verified';
 
 export function ConfigureCustomerHomeRoutes(router: Router): void {
     router.get('/get-all-categories', ShowAvailableCategories);
@@ -39,4 +41,6 @@ export function ConfigureCustomerHomeRoutes(router: Router): void {
     router.get('/search-salon',SearchResult);
     router.post('/temp-customer-register',TempCustomerCreate);
     router.get('/tem-customer-login',HandleTempLogin);
+    router.put('/generate-otp',GenerateOTP);
+    router.put('/verified-email',EmailVerified);
 }
