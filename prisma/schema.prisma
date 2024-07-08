@@ -19,6 +19,7 @@ model salon {
   username      String
   contactNo     String       @unique
   otp           String?
+  isVerified    Boolean?  
   image         String?
   deviceId      String?
   latitude      Float
