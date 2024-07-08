@@ -30,7 +30,7 @@ export async function EmailVerified(req: Request, res: Response) {
                 id:salonId
             },
             data:{
-                isVerified: true
+                emailVerified: true
             }
         });
         return res.status(200).json({status:200, message:'Success', data: verified});
