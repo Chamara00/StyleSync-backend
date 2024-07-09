@@ -6,6 +6,7 @@ import {GenerateOTP} from '../controllers/RegisterSalon/generate-Otp';
 import {EmailVerified} from '../controllers/RegisterSalon/email-verified';
 import {ChangePassword} from '../controllers/RegisterSalon/ChangePassword';
 import{ForgotPasswordGenerateOTP} from '../controllers/RegisterSalon/ForgotPasswordGenerateOtp';
+import {updateEmail} from '../controllers/RegisterSalon/UpdateEmail';
 //import { authenticateAdminToken } from '../middlewares/authMiddleware';
 
 export function configureRegisterRoutes(router: Router): void {
@@ -16,4 +17,5 @@ export function configureRegisterRoutes(router: Router): void {
   router.put('/verified-salon-email',EmailVerified);
   router.put('/change-salon-password',ChangePassword);
   router.put('/generate-salon-forgotPassword-otp',ForgotPasswordGenerateOTP);
+  router.put('/update-salon-email',updateEmail);
 }
