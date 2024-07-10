@@ -48,7 +48,7 @@ export const getSalonById = async (req: Request, res: Response) => {
         line2: true,
         city: true,
         country: true,
-        //username: true,
+        image: true,
         contactNo: true,
         review: {},
         article: true,
