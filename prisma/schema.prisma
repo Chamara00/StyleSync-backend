@@ -19,11 +19,11 @@ model salon {
   username      String
   contactNo     String       @unique
   otp           String?
+  emailVerified Boolean?  
   image         String?
   deviceId      String?
   latitude      Float
   longtitude    Float
-  emailVerified Boolean?
   article       article[]
   review        review[]
   salonStaff    salonStaff[]
