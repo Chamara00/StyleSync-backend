@@ -16,7 +16,7 @@ export async function SalonDetails(req: Request, res: Response) {
     if (!salonId) {
       return res.status(400).json({ message: 'salon id not found' });
     }
-    const openTimes = await prisma.salonStaff.findFirst({
+    const openTimes = await prisma.salonStaff.findMany({
       where: {
         salonId: Number(salonId),
       },
@@ -37,9 +37,9 @@ export async function SalonDetails(req: Request, res: Response) {
         },
       },
     });
-    const existingisopen = openTimes?.staff.openDays.map((openTime) => openTime.isOpen);
-    const existingCloseTimes = openTimes?.staff.openDays.map((openTime) => openTime.closeHour);
-    const existingOpenTimes = openTimes?.staff.openDays.map((openTime) => openTime.openHour);
+    const existingisopen = openTimes[0]?.staff.openDays.map((openTime) => openTime.isOpen);
+    const existingCloseTimes = openTimes[0]?.staff.openDays.map((openTime) => openTime.closeHour);
+    const existingOpenTimes = openTimes[0]?.staff.openDays.map((openTime) => openTime.openHour);
 
     return res
       .status(200)

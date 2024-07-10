@@ -6,7 +6,7 @@ import { configureopenServicesRoutes } from '../../openServiceRoutes';
 import { configurehealthRoutes } from '../../healthRoute';
 import { configuregetAppointmentToSalon } from '../../getAppointmentsToSalon';
 import{configuregetSalonDtails} from '../../SalonProfile';
-//import {configureNotification} from '../../Notification';
+import {configureNotification} from '../../Notification';
 
 
 export function configureV1Routes(router: Router): void {
@@ -38,8 +38,8 @@ export function configureV1Routes(router: Router): void {
     configuregetSalonDtails(salonProfileRoutes);
     router.use('/SalonProfile',salonProfileRoutes);
 
-    // const Notification = Router();
-    // configureNotification(Notification);
-    // router.use('/notification',Notification );
+    const Notification = Router();
+    configureNotification(Notification);
+    router.use('/notification',Notification );
 
 }

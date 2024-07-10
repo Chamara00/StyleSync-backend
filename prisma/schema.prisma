@@ -19,10 +19,11 @@ model salon {
   username      String
   contactNo     String       @unique
   otp           String?
+  emailVerified Boolean?  
   image         String?
+  deviceId      String?
   latitude      Float
   longtitude    Float
-  emailVerified Boolean?
   article       article[]
   review        review[]
   salonStaff    salonStaff[]
@@ -60,12 +61,25 @@ model customer {
   image                    String?
   name                     String
   contactNo                String
-  password                 String
+  password                 String?
   email                    String                     @unique
+  isTemporary              Boolean?                   @default(false)
+  OTP                      String?
+  isVerified               Boolean?                    @default(false)
   customerAppointmentBlock customerAppointmentBlock[]
   review                   review[]
+  tempToken                tempToken[]
 
   @@map("customer")
+}
+
+model tempToken {
+  token         String        @id
+  userId        Int
+  customer      customer      @relation(fields: [userId], references: [id])
+  expiresAt     DateTime
+
+  @@map("tempToken")
 }
 
 model timeBlocks {
@@ -134,6 +148,7 @@ model staff {
   name             String
   gender           String
   image            String?
+  notification     Boolean?
   appointmentBlock appointmentBlock[]
   openDays         openDays[]
   salonStaff       salonStaff[]

@@ -12,6 +12,14 @@ import { ServiceOfStaff } from '../../controllers/CustomerWeb/get-staff-services
 import { StaffAvailability } from '../../controllers/CustomerWeb/get-staff-available-time-and-service-duration';
 import { CustomerDetails } from '../../controllers/CustomerWeb/get-customer-details';
 import { BookAppointment } from '../../controllers/Appointment/book-appointment';
+import { getAppointments } from '../../controllers/Appointment/get-appointment-details';
+import { cancelAppointments } from '../../controllers/Appointment/cancel-apppointment';
+import { AppointmentDetails } from '../../controllers/Appointment/appointment-details';
+import { SearchResult } from '../../controllers/CustomerWeb/salon-search';
+import { TempCustomerCreate } from '../../controllers/CustomerWeb/temp-customer-register';
+import { HandleTempLogin } from '../../controllers/CustomerWeb/customer-temp-login';
+import { GenerateOTP } from '../../controllers/CustomerWeb/generate-otp';
+import { EmailVerified } from '../../controllers/CustomerWeb/email-verified';
 
 export function ConfigureCustomerHomeRoutes(router: Router): void {
     router.get('/get-all-categories', ShowAvailableCategories);
@@ -27,4 +35,12 @@ export function ConfigureCustomerHomeRoutes(router: Router): void {
     router.get('/staff-available-time',StaffAvailability);
     router.get('/get-customer-details',CustomerDetails);
     router.post('/create-appointment',BookAppointment);
+    router.get('/get-appointment-details',getAppointments);
+    router.put('/cancel-appointment',cancelAppointments);
+    router.get('/appointment-details',AppointmentDetails);
+    router.get('/search-salon',SearchResult);
+    router.post('/temp-customer-register',TempCustomerCreate);
+    router.get('/tem-customer-login',HandleTempLogin);
+    router.put('/generate-otp',GenerateOTP);
+    router.put('/verified-email',EmailVerified);
 }

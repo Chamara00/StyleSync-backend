@@ -30,14 +30,14 @@ export async function  ShowSelectDateCancleAppointments(req: Request, res: Respo
                     const findBlocks = await prisma.appointmentBlock.findMany({
                         where: {
                             staffId: staffIdOfSalon[i],
-                            isBook: true,
                             date: {
                                 gte: selectedDate,
                                 lte: endOfDay 
                             }, 
                             customerAppointmentBlock: {
                                 some: {
-                                    isCancel: true 
+                                    isCancel: true, 
+                                    isReject:null
                                 }
                             }   
                         },
@@ -58,6 +58,8 @@ export async function  ShowSelectDateCancleAppointments(req: Request, res: Respo
                             },
                             customerAppointmentBlock:{
                                 select:{
+                                    isCancel:true,
+                                    isReject:true,
                                     startTime:true,
                                     customerId:true,
                                     date:true,
@@ -65,7 +67,8 @@ export async function  ShowSelectDateCancleAppointments(req: Request, res: Respo
                                         select:{
                                             name:true,
                                             gender :true,
-                                            image:true
+                                            image:true,
+                                            contactNo:true
                                         }
                                     }
                                 }
@@ -84,7 +87,8 @@ export async function  ShowSelectDateCancleAppointments(req: Request, res: Respo
                     });
                     ShowSelectDateCancleAppointments.push(...findBlocks);
                 } 
-                return res.status(200).json({ status: 200, data:  ShowSelectDateCancleAppointments,message: 'successfully display an  appointment.'}); 
+                console.log(ShowSelectDateCancleAppointments);
+                return res.status(200).json({ status: 200, data: ShowSelectDateCancleAppointments,message: 'successfully display an  appointment.'}); 
         }  
 }
 }catch (error) {

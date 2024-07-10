@@ -15,6 +15,12 @@ export async function LoginCustomer(req: Request, res: Response) {
       where: {
         email,
       },
+      select:{
+        isVerified:true,
+        password:true,
+        id:true,
+        email:true
+      }
     });
 
     if (!existingCustomer) {

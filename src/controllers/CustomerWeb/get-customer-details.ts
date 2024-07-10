@@ -16,9 +16,13 @@ export async function CustomerDetails(req: Request, res: Response){
             select:{
                 name:true,
                 email:true,
+                contactNo:true,
+                image:true,
+                isTemporary:true,
+                isVerified:true
             }
         });
-        return res.status(200).json({status:200, message:'Successfull',data});
+        return res.status(200).json({status:200, message:'Successfull', data});
     }catch (error) {
         console.log(error);
         return res.status(500).json({ status: 500, error: 'Failed to process' });

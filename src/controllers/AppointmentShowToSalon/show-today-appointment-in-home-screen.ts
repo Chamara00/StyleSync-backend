@@ -34,7 +34,8 @@ export async function ShowAvailableAppointments(req: Request, res: Response) {
                             },
                             customerAppointmentBlock: {
                                 some: {
-                                    isCancel: false // At least one related customerAppointmentBlock should not be cancelled
+                                    isCancel: false,
+                                    isReject:null
                                 }
                             }   
                         },
@@ -55,6 +56,8 @@ export async function ShowAvailableAppointments(req: Request, res: Response) {
                             },
                             customerAppointmentBlock:{
                                 select:{
+                                    isCancel:true,
+                                    isReject:true,
                                     startTime:true,
                                     customerId:true,
                                     date:true,
@@ -62,7 +65,8 @@ export async function ShowAvailableAppointments(req: Request, res: Response) {
                                         select:{
                                             name:true,
                                             gender :true,
-                                            image:true
+                                            image:true,
+                                            contactNo:true,
                                         }
                                     }
                                 }
