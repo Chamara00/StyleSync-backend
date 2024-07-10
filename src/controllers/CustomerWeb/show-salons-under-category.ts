@@ -62,6 +62,7 @@ export async function SalonsUnderCategories(req: Request, res: Response) {
         line2: true,
         city: true,
         contactNo: true,
+        image:true
       },
     });
 

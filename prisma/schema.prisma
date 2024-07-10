@@ -15,13 +15,15 @@ model salon {
   line2         String
   city          String
   country       String
-  password      String?
-  username      String?
+  password      String
+  username      String
   contactNo     String       @unique
   otp           String?
+  emailVerified Boolean?  
+  image         String?
+  deviceId      String?
   latitude      Float
   longtitude    Float
-  emailVerified Boolean?
   article       article[]
   review        review[]
   salonStaff    salonStaff[]
@@ -56,13 +58,28 @@ model breaks {
 model customer {
   id                       Int                        @id @default(autoincrement())
   gender                   String?
+  image                    String?
   name                     String
-  password                 String
+  contactNo                String
+  password                 String?
   email                    String                     @unique
+  isTemporary              Boolean?                   @default(false)
+  OTP                      String?
+  isVerified               Boolean?                    @default(false)
   customerAppointmentBlock customerAppointmentBlock[]
   review                   review[]
+  tempToken                tempToken[]
 
   @@map("customer")
+}
+
+model tempToken {
+  token         String        @id
+  userId        Int
+  customer      customer      @relation(fields: [userId], references: [id])
+  expiresAt     DateTime
+
+  @@map("tempToken")
 }
 
 model timeBlocks {
@@ -77,6 +94,7 @@ model timeBlocks {
 }
 
 model appointmentBlock {
+  bookingTime              DateTime
   date                     DateTime
   startTime                String
   endTime                  String
@@ -129,6 +147,8 @@ model staff {
   id               Int                @id @default(autoincrement())
   name             String
   gender           String
+  image            String?
+  notification     Boolean?
   appointmentBlock appointmentBlock[]
   openDays         openDays[]
   salonStaff       salonStaff[]
@@ -184,6 +204,7 @@ model customerAppointmentBlock {
   startTime        String
   staffId          Int
   isCancel         Boolean
+  isReject         Boolean?
   customer         customer         @relation(fields: [customerId], references: [id])
   appointmentBlock appointmentBlock @relation(fields: [date, startTime, staffId], references: [date, startTime, staffId])
 

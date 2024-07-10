@@ -7,10 +7,12 @@ CREATE TABLE "salon" (
     "line2" TEXT NOT NULL,
     "city" TEXT NOT NULL,
     "country" TEXT NOT NULL,
-    "password" TEXT,
-    "username" TEXT,
+    "password" TEXT NOT NULL,
+    "username" TEXT NOT NULL,
     "contactNo" TEXT NOT NULL,
     "otp" TEXT,
+    "image" TEXT,
+    "deviceId" TEXT,
     "latitude" DOUBLE PRECISION NOT NULL,
     "longtitude" DOUBLE PRECISION NOT NULL,
     "emailVerified" BOOLEAN,
@@ -43,8 +45,10 @@ CREATE TABLE "breaks" (
 CREATE TABLE "customer" (
     "id" SERIAL NOT NULL,
     "gender" TEXT,
+    "image" TEXT,
     "name" TEXT NOT NULL,
-    "password" TEXT NOT NULL,
+    "contactNo" TEXT NOT NULL,
+    "password" TEXT,
     "email" TEXT NOT NULL,
 
     CONSTRAINT "customer_pkey" PRIMARY KEY ("id")
@@ -62,6 +66,7 @@ CREATE TABLE "timeBlocks" (
 
 -- CreateTable
 CREATE TABLE "appointmentBlock" (
+    "bookingTime" TIMESTAMP(3) NOT NULL,
     "date" TIMESTAMP(3) NOT NULL,
     "startTime" TEXT NOT NULL,
     "endTime" TEXT NOT NULL,
@@ -109,6 +114,8 @@ CREATE TABLE "staff" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "gender" TEXT NOT NULL,
+    "image" TEXT,
+    "notification" BOOLEAN,
 
     CONSTRAINT "staff_pkey" PRIMARY KEY ("id")
 );
@@ -155,6 +162,7 @@ CREATE TABLE "customerAppointmentBlock" (
     "startTime" TEXT NOT NULL,
     "staffId" INTEGER NOT NULL,
     "isCancel" BOOLEAN NOT NULL,
+    "isReject" BOOLEAN,
 
     CONSTRAINT "customerAppointmentBlock_pkey" PRIMARY KEY ("customerId","date","startTime","staffId")
 );

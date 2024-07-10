@@ -3,15 +3,15 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-export async function ShowCancleAppointments(req: Request, res: Response) {
-    const { salonId } = req.body;
+export async function  ShowRejectAppointments(req: Request, res: Response) {
+    const { salonId,date } = req.query;
     try {
-        if (!salonId) {
-            return res.status(400).json({ status: 400, error: 'SalonId not found' });
+        if (!salonId || !date) {
+            return res.status(400).json({ status: 400, error: 'Invalid input format' });
         } else {
             const findStaffId = await prisma.salonStaff.findMany({
                 where: {
-                    salonId: salonId
+                    salonId: Number(salonId)
                 },
                 select: {
                     staffID: true
@@ -21,23 +21,24 @@ export async function ShowCancleAppointments(req: Request, res: Response) {
             if (!staffIdOfSalon) {
                 return res.status(400).json({ status: 400, error: 'StaffId not found' });
             } else {
-                const ShowCancleAppointments: unknown [] = [];
+                const  ShowRejectAppointments: unknown [] = [];
                 for (let i = 0; i < staffIdOfSalon.length; i++) {
-                    const today = new Date(); 
-                    today.setHours(0, 0, 0, 0); 
-                    const endOfDay = new Date();
+                    const selectedDate = new Date(String(date)); 
+                    selectedDate.setHours(0, 0, 0, 0); 
+                    const endOfDay = new Date(String(date));
                     endOfDay.setHours(23, 59, 59, 999);
                     const findBlocks = await prisma.appointmentBlock.findMany({
                         where: {
                             staffId: staffIdOfSalon[i],
                             isBook: true,
                             date: {
-                                gte: today, 
+                                gte: selectedDate, 
                                 lte: endOfDay 
-                            },
+                            }, 
                             customerAppointmentBlock: {
                                 some: {
-                                    isCancel: true 
+                                    isCancel: false, 
+                                    isReject:true,
                                 }
                             }   
                         },
@@ -48,14 +49,27 @@ export async function ShowCancleAppointments(req: Request, res: Response) {
                                 select:{
                                 id:true,
                                 name :true,
+                                image:true,
+                                salonStaff:{
+                                    select:{
+                                        salonId:true
+                                    }
+                                }
                                 }
                             },
                             customerAppointmentBlock:{
                                 select:{
+                                    isCancel:true,
+                                    isReject:true,
+                                    startTime:true,
+                                    customerId:true,
+                                    date:true,
                                     customer:{
                                         select:{
                                             name:true,
                                             gender :true,
+                                            image:true,
+                                            contactNo:true
                                         }
                                     }
                                 }
@@ -72,9 +86,9 @@ export async function ShowCancleAppointments(req: Request, res: Response) {
                             }
                         }
                     });
-                    ShowCancleAppointments.push(...findBlocks);
+                    ShowRejectAppointments.push(...findBlocks);
                 } 
-                return res.status(200).json({ status: 200, data:ShowCancleAppointments ,message: 'successfully display an  appointment.'}); 
+                return res.status(200).json({ status: 200, data:  ShowRejectAppointments,message: 'successfully display an  appointment.'}); 
         }  
 }
 }catch (error) {

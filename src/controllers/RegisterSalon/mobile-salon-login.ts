@@ -18,11 +18,20 @@ export async function Login(req: Request, res: Response) {
              },
              select:{
                 id:true,
+                emailVerified:true
              }
             
         });
+        const staffCount = await prisma.salonStaff.aggregate({
+            where:{
+                salonId:loginSalon[0].id,
+            },
+            _count:{
+                staffID:true
+            }
+          });
 
-        return res.status(201).json({ status: 201, message: 'Login Successfully', data:loginSalon  });
+        return res.status(201).json({ status: 201, message: 'Login Successfully', data:loginSalon, count:staffCount  });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ status: 500 });

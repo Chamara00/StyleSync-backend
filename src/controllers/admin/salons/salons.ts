@@ -15,6 +15,9 @@ export const getAllSalons = async (req: Request, res: Response) => {
         city: true,
         country: true,
         //username: true,
+        image: true,
+        latitude: true,
+        longtitude: true,
         contactNo: true,
         review: true,
         article: true,
@@ -37,19 +40,14 @@ export const getSalonById = async (req: Request, res: Response) => {
   try {
     const salon = await prisma.salon.findUnique({
       where: { id: Number(id) },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        line1: true,
-        line2: true,
-        city: true,
-        country: true,
-        //username: true,
-        contactNo: true,
-        review: {},
+      include: {
+        review: true,
         article: true,
-        salonStaff: true,
+        salonStaff: {
+          include: {
+            staff: true,
+          },
+        },
       },
     });
 
@@ -65,6 +63,28 @@ export const getSalonById = async (req: Request, res: Response) => {
     await prisma.$disconnect();
   }
 };
+
+export async function deleteSalon(req: Request, res: Response) {
+  const { id } = req.params;
+
+  if (!id) {
+    return res.status(400).json({ status: 400, error: 'Salon ID is required' });
+  }
+
+  try {
+    // Delete the salon
+    await prisma.salon.findMany({
+      where: { id: Number(id) },
+    });
+
+    res.status(200).json('Salon deleted');
+  } catch (error) {
+    console.error('Error deleting salon:', error);
+    res.status(500).json({ status: 500, error: 'Failed to delete salon' });
+  } finally {
+    await prisma.$disconnect();
+  }
+}
 
 export const getSalonCount = async (req: Request, res: Response) => {
   try {

@@ -14,7 +14,7 @@ export async function ShowSalonDetails (req: Request ,res: Response) {
             // Fetch the salon details 
                 const givenDate = new Date(date);
                 const dayOfWeek = new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(givenDate);
-                const salonDetails = await prisma.salon.findUnique({
+                const salonDetails = await prisma.salon.findMany({
                     where: {
                         id: Number(salonId),
                     },
@@ -25,6 +25,7 @@ export async function ShowSalonDetails (req: Request ,res: Response) {
                         line2: true,
                         city: true,
                         country: true,
+                        image:true,
                     },
                 });
                 
@@ -38,11 +39,13 @@ export async function ShowSalonDetails (req: Request ,res: Response) {
                         staff:{
                             select:{
                                 name: true,
+                                image:true,
                                 openDays:{
                                     where:{
                                         dayName:dayOfWeek,
                                     },
                                     select:{
+                                        isOpen:true,
                                         openHour: true,
                                         closeHour:true,
                                     }
@@ -88,6 +91,7 @@ export async function ShowSalonDetails (req: Request ,res: Response) {
                         staffID: staff.staffID,
                         name: staff.staff.name,
                         openDays: staff.staff.openDays,
+                        image:staff.staff.image
                     })),
                 };
             

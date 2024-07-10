@@ -3,15 +3,15 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-export async function  ShowPastAppointments(req: Request, res: Response) {
-    const { salonId } = req.body;
+export async function  OldNotification(req: Request, res: Response) {
+    const { salonId,date } = req.query;
     try {
-        if (!salonId) {
-            return res.status(400).json({ status: 400, error: 'SalonId not found' });
+        if (!salonId || !date) {
+            return res.status(400).json({ status: 400, error: 'Invalid input format' });
         } else {
             const findStaffId = await prisma.salonStaff.findMany({
                 where: {
-                    salonId: salonId
+                    salonId: Number(salonId)
                 },
                 select: {
                     staffID: true
@@ -21,42 +21,55 @@ export async function  ShowPastAppointments(req: Request, res: Response) {
             if (!staffIdOfSalon) {
                 return res.status(400).json({ status: 400, error: 'StaffId not found' });
             } else {
-                const  ShowPastAppointments: unknown [] = [];
+                const  GetOldNotification: unknown [] = [];
                 for (let i = 0; i < staffIdOfSalon.length; i++) {
-                    const today = new Date(); 
-                    today.setHours(0, 0, 0, 0); 
-                    const currentTime = new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' });
+                    const selectedDate = new Date(String(date)); 
+                    selectedDate.setHours(0, 0, 0, 0); 
+
+                    const threeDaysBefore = new Date(selectedDate);
+                    threeDaysBefore.setDate(threeDaysBefore.getDate() - 3);
+                    threeDaysBefore.setHours(0, 0, 0, 0);
+
                     const findBlocks = await prisma.appointmentBlock.findMany({
                         where: {
                             staffId: staffIdOfSalon[i],
                             isBook: true,
-                            date: {
-                                gte: today, 
+                            bookingTime : {
+                                gte: threeDaysBefore, 
+                                lte: selectedDate 
                             }, 
-                            endTime : {
-                                lt: currentTime 
-                            },
-                            customerAppointmentBlock: {
-                                some: {
-                                    isCancel: false 
-                                }
-                            }   
+                            staff:{
+                                notification:true,
+                            }
                         },
                         select: {
                             startTime:true,
                             endTime:true,
+                            bookingTime:true,
                             staff:{
                                 select:{
                                 id:true,
                                 name :true,
+                                image:true,
+                                salonStaff:{
+                                    select:{
+                                        salonId:true
+                                    }
+                                }
                                 }
                             },
                             customerAppointmentBlock:{
                                 select:{
+                                    isCancel:true,
+                                    isReject:true,
+                                    startTime:true,
+                                    customerId:true,
+                                    date:true,
                                     customer:{
                                         select:{
                                             name:true,
                                             gender :true,
+                                            image:true
                                         }
                                     }
                                 }
@@ -73,9 +86,9 @@ export async function  ShowPastAppointments(req: Request, res: Response) {
                             }
                         }
                     });
-                    ShowPastAppointments.push(...findBlocks);
+                    GetOldNotification.push(...findBlocks);
                 } 
-                return res.status(200).json({ status: 200, data: ShowPastAppointments ,message: 'successfully display an  appointment.'}); 
+                return res.status(200).json({ status: 200, data:  GetOldNotification,message: 'successfully display notifications.'}); 
         }  
 }
 }catch (error) {

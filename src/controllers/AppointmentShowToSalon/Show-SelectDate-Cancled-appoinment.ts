@@ -4,14 +4,14 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export async function  ShowSelectDateCancleAppointments(req: Request, res: Response) {
-    const { salonId,date } = req.body;
+    const { salonId,date } = req.query;
     try {
         if (!salonId || !date) {
             return res.status(400).json({ status: 400, error: 'Invalid input format' });
         } else {
             const findStaffId = await prisma.salonStaff.findMany({
                 where: {
-                    salonId: salonId
+                    salonId: Number(salonId)
                 },
                 select: {
                     staffID: true
@@ -23,21 +23,21 @@ export async function  ShowSelectDateCancleAppointments(req: Request, res: Respo
             } else {
                 const ShowSelectDateCancleAppointments: unknown [] = [];
                 for (let i = 0; i < staffIdOfSalon.length; i++) {
-                    const selectedDate = new Date(date); 
+                    const selectedDate = new Date(String(date)); 
                     selectedDate.setHours(0, 0, 0, 0); 
-                    const endOfDay = new Date(date);
+                    const endOfDay = new Date(String(date));
                     endOfDay.setHours(23, 59, 59, 999);
                     const findBlocks = await prisma.appointmentBlock.findMany({
                         where: {
                             staffId: staffIdOfSalon[i],
-                            isBook: true,
                             date: {
                                 gte: selectedDate,
                                 lte: endOfDay 
                             }, 
                             customerAppointmentBlock: {
                                 some: {
-                                    isCancel: true 
+                                    isCancel: true, 
+                                    isReject:null
                                 }
                             }   
                         },
@@ -48,14 +48,27 @@ export async function  ShowSelectDateCancleAppointments(req: Request, res: Respo
                                 select:{
                                 id:true,
                                 name :true,
+                                image:true,
+                                salonStaff:{
+                                    select:{
+                                        salonId:true
+                                    }
+                                }
                                 }
                             },
                             customerAppointmentBlock:{
                                 select:{
+                                    isCancel:true,
+                                    isReject:true,
+                                    startTime:true,
+                                    customerId:true,
+                                    date:true,
                                     customer:{
                                         select:{
                                             name:true,
                                             gender :true,
+                                            image:true,
+                                            contactNo:true
                                         }
                                     }
                                 }
@@ -74,7 +87,8 @@ export async function  ShowSelectDateCancleAppointments(req: Request, res: Respo
                     });
                     ShowSelectDateCancleAppointments.push(...findBlocks);
                 } 
-                return res.status(200).json({ status: 200, data:  ShowSelectDateCancleAppointments,message: 'successfully display an  appointment.'}); 
+                console.log(ShowSelectDateCancleAppointments);
+                return res.status(200).json({ status: 200, data: ShowSelectDateCancleAppointments,message: 'successfully display an  appointment.'}); 
         }  
 }
 }catch (error) {
