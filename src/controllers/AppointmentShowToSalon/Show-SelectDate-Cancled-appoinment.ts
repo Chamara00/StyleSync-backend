@@ -88,7 +88,8 @@ export async function  ShowSelectDateCancleAppointments(req: Request, res: Respo
                     });
                     ShowSelectDateCancleAppointments.push(...findBlocks);
                 } 
-                return res.status(200).json({ status: 200, data:  ShowSelectDateCancleAppointments,message: 'successfully display an  appointment.'}); 
+                console.log(ShowSelectDateCancleAppointments);
+                return res.status(200).json({ status: 200, data: ShowSelectDateCancleAppointments,message: 'successfully display an  appointment.'}); 
         }  
 }
 }catch (error) {
