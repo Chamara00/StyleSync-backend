@@ -40,19 +40,14 @@ export const getSalonById = async (req: Request, res: Response) => {
   try {
     const salon = await prisma.salon.findUnique({
       where: { id: Number(id) },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        line1: true,
-        line2: true,
-        city: true,
-        country: true,
-        image: true,
-        contactNo: true,
-        review: {},
+      include: {
+        review: true,
         article: true,
-        salonStaff: true,
+        salonStaff: {
+          include: {
+            staff: true,
+          },
+        },
       },
     });
 
