@@ -30,7 +30,6 @@ export async function  ShowSelectDateCancleAppointments(req: Request, res: Respo
                     const findBlocks = await prisma.appointmentBlock.findMany({
                         where: {
                             staffId: staffIdOfSalon[i],
-                            isBook: true,
                             date: {
                                 gte: selectedDate,
                                 lte: endOfDay 
