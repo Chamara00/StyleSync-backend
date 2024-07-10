@@ -9,7 +9,10 @@ export async function ShowAvailableAppointments(req: Request, res: Response) {
         if (!salonId || !date || typeof date !== 'string' || !time || typeof time !== 'string') {
             return res.status(400).json({ status: 400, error: 'Invalid input format' });
         }
+        
          else {
+            const bookingTimeDate = new Date(String(date));
+             const setTime = new Date(bookingTimeDate.getTime() + 5 * 60 * 60 * 1000 + 30 * 60 * 1000);
             const findStaffId = await prisma.salonStaff.findMany({
                 where: {
                     salonId :Number(salonId)
@@ -28,7 +31,7 @@ export async function ShowAvailableAppointments(req: Request, res: Response) {
                         where: {
                             staffId: staffIdOfSalon[i],
                             isBook: true,
-                            date: date,
+                            date: setTime,
                             endTime:{
                                 gt:time
                             },
