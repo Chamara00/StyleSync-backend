@@ -35,22 +35,26 @@ export async function getCustomerById(req: Request, res: Response) {
   try {
     const customer = await prisma.customer.findUnique({
       where: { id: Number(id) },
-      select: {
-        id: true,
-        name: true,
-        gender: true,
-        email: true,
+      include: {
         review: true,
-        customerAppointmentBlock: {
-          select: {
-            staffId: true,
-            startTime: true,
-            isCancel: true,
-            date: true,
-            customerId: true,
-          },
-        },
+        customerAppointmentBlock: true,
       },
+      // select: {
+      //   id: true,
+      //   name: true,
+      //   gender: true,
+      //   email: true,
+      //   review: true,
+      //   customerAppointmentBlock: {
+      //     select: {
+      //       staffId: true,
+      //       startTime: true,
+      //       isCancel: true,
+      //       date: true,
+      //       customerId: true,
+      //     },
+      //   },
+      // },
     });
 
     if (!customer) {
