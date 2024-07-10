@@ -24,6 +24,7 @@ model salon {
   deviceId      String?
   latitude      Float
   longtitude    Float
+  createdAt DateTime @default(now())
   article       article[]
   review        review[]
   salonStaff    salonStaff[]
@@ -66,6 +67,7 @@ model customer {
   isTemporary              Boolean?                   @default(false)
   OTP                      String?
   isVerified               Boolean?                    @default(false)
+  createdAt                DateTime                   @default(now())
   customerAppointmentBlock customerAppointmentBlock[]
   review                   review[]
   tempToken                tempToken[]
