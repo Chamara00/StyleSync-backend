@@ -9,6 +9,8 @@ export async function cancelAppointments(req: Request, res: Response) {
     if (!userId || !staffId || !startTime || !date) {
       return res.status(400).json({ status: 400, error: 'inputs not found' });
     }
+    const bookingTimeDate = new Date();
+    const setTime = new Date(bookingTimeDate.getTime() + 5 * 60 * 60 * 1000 + 30 * 60 * 1000);
     const appointments = await prisma.customerAppointmentBlock.updateMany({
       where: {
         customerId: userId,
@@ -27,7 +29,8 @@ export async function cancelAppointments(req: Request, res: Response) {
             startTime:startTime
         },
         data:{
-            isBook:false
+            isBook:false,
+            bookingTime:setTime
         }
     });
     return res.status(200).json({ status: 200, data: {appointments,isBook} });
