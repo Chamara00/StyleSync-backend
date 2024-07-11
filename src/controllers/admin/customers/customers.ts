@@ -80,6 +80,16 @@ export async function deleteCustomer(req: Request, res: Response) {
       return res.status(404).json({ status: 404, error: 'Customer not found' });
     }
 
+    // Delete associated customerAppointmentBlock records
+    await prisma.customerAppointmentBlock.deleteMany({
+      where: { customerId: Number(id) },
+    });
+
+    // Delete associated tempToken records
+    await prisma.tempToken.deleteMany({
+      where: { userId: Number(id) },
+    });
+
     // Delete the customer
     await prisma.customer.delete({
       where: { id: Number(id) },
@@ -93,6 +103,7 @@ export async function deleteCustomer(req: Request, res: Response) {
         pass: 'kgjm detu kfpo opsq',
       },
     });
+
     const mailOptions = {
       from: 'stylesync26@gmail.com',
       to: customer.email,
@@ -100,9 +111,16 @@ export async function deleteCustomer(req: Request, res: Response) {
       text: `Dear ${customer.name}, your account has been successfully deleted from our platform.`,
     };
 
-    await transporter.sendMail(mailOptions);
+    let emailStatus = 'Customer deleted';
+    try {
+      await transporter.sendMail(mailOptions);
+      emailStatus += ' and email sent successfully';
+    } catch (emailError) {
+      console.error('Error sending email:', emailError);
+      emailStatus += ' but email sending failed';
+    }
 
-    res.status(200).json('Customer deleted');
+    res.status(200).json(emailStatus);
   } catch (error) {
     console.error('Error deleting customer:', error);
     res.status(500).json({ status: 500, error: 'Failed to delete customer' });
