@@ -3,7 +3,6 @@ import { PrismaClient } from '@prisma/client';
 import crypto from 'crypto';
 import bcrypt from 'bcrypt';
 
-
 const prisma = new PrismaClient();
 
 export async function TempCustomerCreate(req: Request, res: Response){
@@ -11,8 +10,7 @@ export async function TempCustomerCreate(req: Request, res: Response){
     const generateTempPassword = () => {
         return Math.random().toString(36).slice(-8); 
       };
-      
-      
+     
     try{
         if(!email || !contactNo || !userName || !date){
             return res.status(400).json({message: 'Please fill all the fields'});
@@ -33,8 +31,7 @@ export async function TempCustomerCreate(req: Request, res: Response){
             });
             const userId = tempUser.id;
             const token = crypto.randomBytes(16).toString('hex');  // Generate a unique token
-            const link = `https://stylesync-backend-test.onrender.com/temporary-login?token=${token}&userId=${userId}`;
-            
+            const link = `http://localhost:3000/temporary-login?token=${token}&userId=${userId}`;
             
             // Store the token and associated userId in the database
             await prisma.tempToken.create({
