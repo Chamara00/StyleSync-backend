@@ -1,12 +1,32 @@
 import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
+import nodemailer from 'nodemailer';
 
 const prisma = new PrismaClient();
 
+const transporter = nodemailer.createTransport({
+  service: 'gmail', // You can use any email service
+  auth: {
+    user: 'aherath83@gmail.com',
+    pass: 'msph ymxi xtqg nupk',
+  },
+});
+
+async function sendOTPEmail(email: string, link: string) {
+  const mailOptions = {
+    from: 'aherath83@gmail.com',
+    to: email,
+    subject: 'Your Profile Link',
+    text: `Use this link to login your temporary account ${link}`,
+  };
+
+  return transporter.sendMail(mailOptions);
+}
+
 export async function EmailVerified(req: Request, res: Response) {
-  const { userId, otp } = req.body;
+  const { userId, otp, link, email } = req.body;
   try {
-    if (!userId || !otp) {
+    if (!userId || !otp || !link || !email) {
       return res.status(400).json({ message: 'Please provide all the details' });
     }
     const getOtp = await prisma.customer.findMany({
@@ -33,6 +53,8 @@ export async function EmailVerified(req: Request, res: Response) {
                 isVerified: true
             }
         });
+
+        sendOTPEmail(email,link);
         return res.status(200).json({status:200, message:'Success', data: verified});
     }
   } catch (error) {
