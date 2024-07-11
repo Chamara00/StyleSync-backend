@@ -4,9 +4,9 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export async function  NewNotification(req: Request, res: Response) {
-    const { salonId,date,pDate } = req.query;
+    const { salonId } = req.query;
     try {
-        if (!salonId || !date || !pDate) {
+        if (!salonId) {
             return res.status(400).json({ status: 400, error: 'Invalid input format' });
         } else {
             const findStaffId = await prisma.salonStaff.findMany({
