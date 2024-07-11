@@ -26,11 +26,6 @@ export async function  NewNotification(req: Request, res: Response) {
                     const findBlocks = await prisma.appointmentBlock.findMany({
                         where: {
                             staffId: staffIdOfSalon[i],
-                            isBook: true,
-                            bookingTime : {
-                                gte: String(pDate), 
-                                lte: String(date) 
-                            },  
                             staff:{
                                notification:true
                             }                           
