@@ -11,7 +11,7 @@ function generateOTP() {
 const prisma = new PrismaClient();
 
 const transporter = nodemailer.createTransport({
-  service: 'gmail', // You can use any email service
+  service: 'gmail',
   auth: {
     user: 'stylesync26@gmail.com',
     pass: 'kgjm detu kfpo opsq',
@@ -30,7 +30,7 @@ async function sendOTPEmail(email: string, otp: string) {
 }
 
 export async function ForgotPasswordGenerateOTP(req: Request, res: Response) {
-  const {  email } = req.body;
+  const { email } = req.body;
   try {
     if (!email) {
       return res.status(400).json({ message: 'Please provide all the details' });
@@ -53,7 +53,7 @@ export async function ForgotPasswordGenerateOTP(req: Request, res: Response) {
 
     await sendOTPEmail(email, otp);
 
-    return res.status(200).json({ status: 200, message: 'Success', data: updatedSalon});
+    return res.status(200).json({ status: 200, message: 'Success', data: updatedSalon });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ status: 500, error: 'Failed to process' });
