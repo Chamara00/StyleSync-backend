@@ -38,7 +38,7 @@ export async function  ShowSelectDateAppointments(req: Request, res: Response) {
                             customerAppointmentBlock: {
                                 some: {
                                     isCancel: false, 
-                                    isReject:null
+                                    isReject:false
                                 }
                             }   
                         },
