@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 import crypto from 'crypto';
 import bcrypt from 'bcrypt';
+import nodemailer from 'nodemailer';
 
 const prisma = new PrismaClient();
 
@@ -10,7 +11,23 @@ export async function TempCustomerCreate(req: Request, res: Response){
     const generateTempPassword = () => {
         return Math.random().toString(36).slice(-8); 
       };
-     
+      const transporter = nodemailer.createTransport({
+        service: 'gmail', // You can use any email service
+        auth: {
+          user: 'stylesync26@gmail.com',
+          pass: 'kgjm detu kfpo opsq',
+        },
+      });
+      async function sendOTPEmail(email: string, link: string) {
+        const mailOptions = {
+          from: 'stylesync26@gmail.com',
+          to: email,
+          subject: 'Your OTP Code',
+          text: `Your OTP code is ${link}`,
+        };
+      
+        return transporter.sendMail(mailOptions);
+      }
     try{
         if(!email || !contactNo || !userName || !date){
             return res.status(400).json({message: 'Please fill all the fields'});
@@ -31,7 +48,9 @@ export async function TempCustomerCreate(req: Request, res: Response){
             });
             const userId = tempUser.id;
             const token = crypto.randomBytes(16).toString('hex');  // Generate a unique token
-            const link = `http://localhost:3000/temporary-login?token=${token}&userId=${userId}`;
+            const link = `https://stylesync-backend-test.onrender.com/temporary-login?token=${token}&userId=${userId}`;
+            sendOTPEmail(email,link);
+            
             
             // Store the token and associated userId in the database
             await prisma.tempToken.create({
