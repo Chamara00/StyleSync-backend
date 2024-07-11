@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
+import nodemailer from 'nodemailer';
 
 const prisma = new PrismaClient();
 
@@ -35,21 +36,9 @@ export async function getCustomerById(req: Request, res: Response) {
   try {
     const customer = await prisma.customer.findUnique({
       where: { id: Number(id) },
-      select: {
-        id: true,
-        name: true,
-        gender: true,
-        email: true,
+      include: {
         review: true,
-        customerAppointmentBlock: {
-          select: {
-            staffId: true,
-            startTime: true,
-            isCancel: true,
-            date: true,
-            customerId: true,
-          },
-        },
+        customerAppointmentBlock: true,
       },
     });
 
@@ -82,12 +71,38 @@ export async function deleteCustomer(req: Request, res: Response) {
   }
 
   try {
-    // Delete the customer
-    await prisma.customer.findMany({
+    // Find the customer to get the email
+    const customer = await prisma.customer.findUnique({
       where: { id: Number(id) },
     });
 
-    res.status(200).json('Csutomer deleted');
+    if (!customer) {
+      return res.status(404).json({ status: 404, error: 'Customer not found' });
+    }
+
+    // Delete the customer
+    await prisma.customer.delete({
+      where: { id: Number(id) },
+    });
+
+    // Send email notification
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'stylesync26@gmail.com',
+        pass: 'kgjm detu kfpo opsq',
+      },
+    });
+    const mailOptions = {
+      from: 'stylesync26@gmail.com',
+      to: customer.email,
+      subject: 'Customer Deleted',
+      text: `Dear ${customer.name}, your account has been successfully deleted from our platform.`,
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    res.status(200).json('Customer deleted');
   } catch (error) {
     console.error('Error deleting customer:', error);
     res.status(500).json({ status: 500, error: 'Failed to delete customer' });

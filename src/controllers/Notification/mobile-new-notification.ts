@@ -4,9 +4,9 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export async function  NewNotification(req: Request, res: Response) {
-    const { salonId,date } = req.query;
+    const { salonId } = req.query;
     try {
-        if (!salonId || !date) {
+        if (!salonId) {
             return res.status(400).json({ status: 400, error: 'Invalid input format' });
         } else {
             const findStaffId = await prisma.salonStaff.findMany({
@@ -23,18 +23,9 @@ export async function  NewNotification(req: Request, res: Response) {
             } else {
                 const  GetNewNotification: unknown [] = [];
                 for (let i = 0; i < staffIdOfSalon.length; i++) {
-                    const selectedDate = new Date(String(date)); 
-                    selectedDate.setHours(0, 0, 0, 0); 
-                    const endOfDay = new Date(String(date));
-                    endOfDay.setHours(23, 59, 59, 999);
                     const findBlocks = await prisma.appointmentBlock.findMany({
                         where: {
                             staffId: staffIdOfSalon[i],
-                            isBook: true,
-                            bookingTime : {
-                                gte: selectedDate, 
-                                lte: endOfDay 
-                            },  
                             staff:{
                                notification:true
                             }                           

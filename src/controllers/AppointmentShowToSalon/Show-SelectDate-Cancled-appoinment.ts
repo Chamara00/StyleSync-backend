@@ -37,7 +37,7 @@ export async function  ShowSelectDateCancleAppointments(req: Request, res: Respo
                             customerAppointmentBlock: {
                                 some: {
                                     isCancel: true, 
-                                    isReject:null
+                                    isReject:false
                                 }
                             }   
                         },
@@ -87,7 +87,6 @@ export async function  ShowSelectDateCancleAppointments(req: Request, res: Respo
                     });
                     ShowSelectDateCancleAppointments.push(...findBlocks);
                 } 
-                console.log(ShowSelectDateCancleAppointments);
                 return res.status(200).json({ status: 200, data: ShowSelectDateCancleAppointments,message: 'successfully display an  appointment.'}); 
         }  
 }

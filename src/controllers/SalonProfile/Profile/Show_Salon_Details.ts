@@ -54,6 +54,24 @@ export async function ShowSalonDetails (req: Request ,res: Response) {
                         }  
                     }
                 });
+                const findStaffId = await prisma.salonStaff.findMany({
+                    where: {
+                        salonId :Number(salonId)
+                    },
+                    select: {
+                        staffID: true
+                    }
+                });
+                const staffIdOfSalon = findStaffId.map(service => service.staffID);
+                const totalAppointmentCount = await prisma.appointmentBlock.count({
+                where: {
+                    staffId: {
+                        in: staffIdOfSalon
+                    },
+                    isBook: true,
+                    },
+                });
+                
 
                 // Filter out staff where openHour or closeHour is null
                 const filteredStaffDetails = staffDetails.filter(staff => {
@@ -87,6 +105,7 @@ export async function ShowSalonDetails (req: Request ,res: Response) {
                     salon: salonDetails,
                     staffCount: staffCount,
                     customerCount:customerCount,
+                    totalAppointmentCount:totalAppointmentCount,
                     staff: filteredStaffDetails.map(staff => ({
                         staffID: staff.staffID,
                         name: staff.staff.name,

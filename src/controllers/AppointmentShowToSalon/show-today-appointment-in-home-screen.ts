@@ -9,7 +9,9 @@ export async function ShowAvailableAppointments(req: Request, res: Response) {
         if (!salonId || !date || typeof date !== 'string' || !time || typeof time !== 'string') {
             return res.status(400).json({ status: 400, error: 'Invalid input format' });
         }
+        
          else {
+            
             const findStaffId = await prisma.salonStaff.findMany({
                 where: {
                     salonId :Number(salonId)

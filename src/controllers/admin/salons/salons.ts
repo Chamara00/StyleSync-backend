@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
+import nodemailer from 'nodemailer';
 
 const prisma = new PrismaClient();
 
@@ -72,12 +73,45 @@ export async function deleteSalon(req: Request, res: Response) {
   }
 
   try {
-    // Delete the salon
-    await prisma.salon.findMany({
+    // Find the salon details
+    const salon = await prisma.salon.findUnique({
       where: { id: Number(id) },
     });
 
-    res.status(200).json('Salon deleted');
+    if (!salon) {
+      return res.status(404).json({ status: 404, error: 'Salon not found' });
+    }
+
+    // Delete the salon
+    await prisma.salon.delete({
+      where: { id: Number(id) },
+    });
+
+    // send an email
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'stylesync26@gmail.com',
+        pass: 'kgjm detu kfpo opsq',
+      },
+    });
+
+    const mailOptions = {
+      from: 'stylesync26@gmail.com',
+      to: salon.email,
+      subject: 'Your salon deleted',
+      text: `Dear ${salon.name}, your salon has been deleted from our system.`,
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error('Error sending email:', error);
+      } else {
+        console.log('Email sent:', info.response);
+      }
+    });
+
+    res.status(200).json('Salon deleted and email sent');
   } catch (error) {
     console.error('Error deleting salon:', error);
     res.status(500).json({ status: 500, error: 'Failed to delete salon' });
