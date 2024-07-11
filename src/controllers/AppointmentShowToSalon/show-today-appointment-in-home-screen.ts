@@ -39,7 +39,7 @@ export async function ShowAvailableAppointments(req: Request, res: Response) {
                     customerAppointmentBlock: {
                         some: {
                             isCancel: false,
-                            isReject: false
+                            isReject: null,
                         }
                     }
                 },
