@@ -26,7 +26,7 @@ async function sendOTPEmail(email: string, link: string) {
 export async function EmailVerified(req: Request, res: Response) {
   const { userId, otp, link, email } = req.body;
   try {
-    if (!userId || !otp || !link || !email) {
+    if (!userId || !otp || !email) {
       return res.status(400).json({ message: 'Please provide all the details' });
     }
     const getOtp = await prisma.customer.findMany({
