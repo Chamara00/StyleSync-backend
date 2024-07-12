@@ -13,14 +13,14 @@ const prisma = new PrismaClient();
 const transporter = nodemailer.createTransport({
   service: 'gmail', // You can use any email service
   auth: {
-    user: 'stylesync26@gmail.com',
-    pass: 'kgjm detu kfpo opsq',
+    user: 'aherath83@gmail.com',
+    pass: 'msph ymxi xtqg nupk',
   },
 });
 
 async function sendOTPEmail(email: string, otp: string) {
   const mailOptions = {
-    from: 'stylesync26@gmail.com',
+    from: 'aherath83@gmail.com',
     to: email,
     subject: 'Your OTP Code',
     text: `Your OTP code is ${otp}`,
