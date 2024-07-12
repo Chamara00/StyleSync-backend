@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 export async function ShowAvailableAppointments(req: Request, res: Response) {
     const { salonId,date,time } = req.query;
     try {
-        if (!salonId || !date || typeof date !== 'string' || !time || typeof time !== 'string') {
+        if (!salonId || !date || !time) {
             return res.status(400).json({ status: 400, error: 'Invalid input format' });
         }
         
@@ -30,14 +30,14 @@ export async function ShowAvailableAppointments(req: Request, res: Response) {
                         where: {
                             staffId: staffIdOfSalon[i],
                             isBook: true,
-                            date: date,
+                            date: String(date),
                             endTime:{
-                                gt:time
+                                gt:String(time)
                             },
                             customerAppointmentBlock: {
                                 some: {
                                     isCancel: false,
-                                    isReject:null
+                                    isReject:false
                                 }
                             }   
                         },
