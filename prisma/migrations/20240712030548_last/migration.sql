@@ -11,11 +11,12 @@ CREATE TABLE "salon" (
     "username" TEXT NOT NULL,
     "contactNo" TEXT NOT NULL,
     "otp" TEXT,
+    "emailVerified" BOOLEAN,
     "image" TEXT,
     "deviceId" TEXT,
     "latitude" DOUBLE PRECISION NOT NULL,
     "longtitude" DOUBLE PRECISION NOT NULL,
-    "emailVerified" BOOLEAN,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "salon_pkey" PRIMARY KEY ("id")
 );
@@ -50,8 +51,21 @@ CREATE TABLE "customer" (
     "contactNo" TEXT NOT NULL,
     "password" TEXT,
     "email" TEXT NOT NULL,
+    "isTemporary" BOOLEAN DEFAULT false,
+    "OTP" TEXT,
+    "isVerified" BOOLEAN DEFAULT false,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "customer_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "tempToken" (
+    "token" TEXT NOT NULL,
+    "userId" INTEGER NOT NULL,
+    "expiresAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "tempToken_pkey" PRIMARY KEY ("token")
 );
 
 -- CreateTable
@@ -207,6 +221,9 @@ ALTER TABLE "openDays" ADD CONSTRAINT "openDays_staffId_fkey" FOREIGN KEY ("staf
 
 -- AddForeignKey
 ALTER TABLE "breaks" ADD CONSTRAINT "breaks_staffId_dayName_fkey" FOREIGN KEY ("staffId", "dayName") REFERENCES "openDays"("staffId", "dayName") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "tempToken" ADD CONSTRAINT "tempToken_userId_fkey" FOREIGN KEY ("userId") REFERENCES "customer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "timeBlocks" ADD CONSTRAINT "timeBlocks_staffId_fkey" FOREIGN KEY ("staffId") REFERENCES "staff"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
