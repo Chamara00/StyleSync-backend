@@ -1,8 +1,7 @@
+import prisma from '../../../utils/prismaClient';
 import { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
 //3.2 update existing break
 
-const prisma = new PrismaClient();
  export async function updateBreaks(req: Request, res: Response) {
 
     const {staffId, dayName, breakStart, breakEnd} = req.body;
@@ -29,7 +28,5 @@ const prisma = new PrismaClient();
     } catch (error) {
         console.log(error);
         return res.status(500).json({ status: 500, error: 'Failed to process' });
-    } finally {
-        await prisma.$disconnect();
     }
  }

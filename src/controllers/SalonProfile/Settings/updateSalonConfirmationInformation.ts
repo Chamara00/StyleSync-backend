@@ -1,7 +1,5 @@
+import prisma from '../../../utils/prismaClient';
 import { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
 
 export async function updateSalonConfirmationInformation(req: Request, res: Response){
     const {salonId,username,password  } = req.body;
@@ -23,7 +21,5 @@ export async function updateSalonConfirmationInformation(req: Request, res: Resp
 }catch (error) {
     console.log(error);
     return res.status(500).json({ status: 500, error: 'Failed to process' });
-} finally {
-    await prisma.$disconnect();
 }
 }

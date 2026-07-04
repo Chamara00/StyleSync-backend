@@ -1,7 +1,5 @@
+import prisma from '../../../utils/prismaClient';
 import { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
 
 function getWeekRange(date: string) {
     const now = new Date(date);
@@ -85,7 +83,5 @@ export async function SalonAppointmentWeekStatistics (req: Request ,res: Respons
     }catch (error) {
         console.log(error);
         return res.status(500).json({ status: 500, error: 'Failed to process' });
-    } finally {
-        await prisma.$disconnect();
     }
 }

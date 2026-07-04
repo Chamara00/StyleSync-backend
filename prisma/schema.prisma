@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://admin:jzERn6seJRvow4QLiQGtOhH3W4d4IwsE@dpg-cpsir9aj1k6c738o3lj0-a.singapore-postgres.render.com/stylesync_db_yi1n"
+  url      = env("DATABASE_URL")
 }
 
 model salon {

@@ -1,7 +1,5 @@
+import prisma from '../../utils/prismaClient';
 import { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
 
 export async function Login(req: Request, res: Response) {
     const { email, password } = req.query;
@@ -35,8 +33,5 @@ export async function Login(req: Request, res: Response) {
     } catch (error) {
         console.error(error);
         return res.status(500).json({ status: 500 });
-    }
-    finally {
-        await prisma.$disconnect();
     }
 }

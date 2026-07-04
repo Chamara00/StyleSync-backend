@@ -1,6 +1,5 @@
+import prisma from '../../../../utils/prismaClient';
 import { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
-const prisma =new PrismaClient();
 
 export async function ShowService (req: Request ,res: Response) {
     const {staffId} = req.query;
@@ -52,8 +51,6 @@ export async function ShowService (req: Request ,res: Response) {
     }catch (error) {
         console.log(error);
         return res.status(500).json({ status: 500, error: 'Failed to process' });
-    } finally {
-        await prisma.$disconnect();
     }
 
 }

@@ -1,8 +1,7 @@
+import prisma from '../../../utils/prismaClient';
 import { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
 //3.1 view breaks
 
-const prisma = new PrismaClient();
 
 export async function getBreaks(req: Request, res: Response) {
 
@@ -28,7 +27,5 @@ export async function getBreaks(req: Request, res: Response) {
     } catch (error) {
         console.log(error);
         return res.status(500).json({ status: 500, error: 'Failed to process' });
-    } finally {
-        await prisma.$disconnect();
     }
 }

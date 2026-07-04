@@ -1,8 +1,7 @@
+import prisma from '../../../utils/prismaClient';
 import { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
 import nodemailer from 'nodemailer';
 
-const prisma = new PrismaClient();
 
 export const getAllSalons = async (req: Request, res: Response) => {
   try {
@@ -60,8 +59,6 @@ export const getSalonById = async (req: Request, res: Response) => {
   } catch (error) {
     console.error('Error fetching salon by ID:', error);
     res.status(500).json({ error: 'Internal server error' });
-  } finally {
-    await prisma.$disconnect();
   }
 };
 
@@ -115,8 +112,6 @@ export async function deleteSalon(req: Request, res: Response) {
   } catch (error) {
     console.error('Error deleting salon:', error);
     res.status(500).json({ status: 500, error: 'Failed to delete salon' });
-  } finally {
-    await prisma.$disconnect();
   }
 }
 

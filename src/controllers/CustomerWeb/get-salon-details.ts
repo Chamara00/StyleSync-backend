@@ -1,7 +1,5 @@
+import prisma from '../../utils/prismaClient';
 import { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
 
 function getTodayName(): string {
   const today = new Date();
@@ -51,7 +49,5 @@ export async function SalonDetails(req: Request, res: Response) {
   } catch (error) {
     console.log(error);
     return res.status(500).json({ status: 500, error: 'Failed to get registered salons' });
-  } finally {
-    await prisma.$disconnect();
   }
 }

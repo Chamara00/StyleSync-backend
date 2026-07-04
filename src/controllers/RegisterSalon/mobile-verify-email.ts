@@ -1,7 +1,6 @@
+import prisma from '../../utils/prismaClient';
 import { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
 import { generateToken } from '../../utils/jwtUtils';
-const prisma = new PrismaClient();
 
 export async function verifyEmail(req: Request, res: Response) {
     const { email, otp } = req.body;
@@ -36,8 +35,5 @@ export async function verifyEmail(req: Request, res: Response) {
         } else {
           res.status(500).json({ error: 'Internal Server Error' });
         }
-      }
-      finally {
-        prisma.$disconnect;
       }
 }

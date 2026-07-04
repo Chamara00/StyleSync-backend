@@ -3,7 +3,7 @@ import { Router } from 'express';
 //import { RegisterCustomer } from '../controllers/CustomerWeb/customer-register';
 import { LoginCustomer } from '../controllers/CustomerWeb/Login';
 //import { SalonAddManual } from '../controllers/CustomerWeb/Salon-ManualAdd';
-import { SearchResult } from '../controllers/CustomerWeb/Search-salon';
+import { SearchResult } from '../controllers/CustomerWeb/salon-search';
 import { FirstPage } from '../controllers/CustomerWeb/FirstPage';
 import { ShowAvailableCategories } from '../controllers/CustomerWeb/Show-category';
 //mport { RegisterCustomer } from '../controllers/CustomerWeb/customer-register';

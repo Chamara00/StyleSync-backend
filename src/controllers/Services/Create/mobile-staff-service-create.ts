@@ -1,9 +1,8 @@
+import prisma from '../../../utils/prismaClient';
 import { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
 //2.0
 //http://localhost:8000/app/v1/service/staff-service-create
 
-const prisma = new PrismaClient();
 
 export async function createStaffService(req: Request, res: Response) {
     const { staffId, serviceType } = req.body;
@@ -66,7 +65,5 @@ export async function createStaffService(req: Request, res: Response) {
     } catch (error) {
         console.log(error);
         return res.status(500).json({ status: 500, error: 'Failed to process' });
-    } finally {
-        await prisma.$disconnect();
     }
 }

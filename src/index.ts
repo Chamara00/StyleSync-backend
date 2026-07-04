@@ -1,3 +1,6 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import express from 'express';
 import { configureAdminRoutes, configureCustomerRoutes, configureRoutes } from './routes';
 import cors from 'cors';

@@ -1,11 +1,10 @@
+import prisma from '../../../utils/prismaClient';
 import express, { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
 import cors from 'cors';
 const app = express();
 //const PORT = process.env.PORT || 3000;
 app.use(cors());
 
-const prisma = new PrismaClient();
 
 export async function getServiceType(req: Request, res: Response) {
     const { staffId, serviceType } = req.body;
@@ -25,7 +24,5 @@ export async function getServiceType(req: Request, res: Response) {
     } catch (error) {
         console.log(error);
         return res.status(500).json({ status: 500, error: 'Failed to process' });
-    } finally {
-        await prisma.$disconnect();
     }
 }

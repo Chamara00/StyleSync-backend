@@ -1,9 +1,8 @@
+import prisma from '../../../utils/prismaClient';
 import { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
 //http://localhost:8000/app/v1/service/get-staff-service-info
 //6.0 show services in chosen service type
 
-const prisma = new PrismaClient();
 
 export async function getServiceInfo(req: Request, res: Response) {
     const { staffId, serviceType } = req.query;
@@ -43,7 +42,5 @@ export async function getServiceInfo(req: Request, res: Response) {
     } catch (error) {
         console.log(error);
         return res.status(500).json({ status: 500, error: 'Failed to process' });
-    } finally {
-        await prisma.$disconnect();
     }
 }

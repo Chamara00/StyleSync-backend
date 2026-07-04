@@ -1,5 +1,5 @@
+import prisma from '../../utils/prismaClient';
 import { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
 import crypto from 'crypto';
 import nodemailer from 'nodemailer';
 
@@ -8,7 +8,6 @@ function generateOTP() {
   return otp.toString().padStart(6, '0');
 }
 
-const prisma = new PrismaClient();
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -57,7 +56,5 @@ export async function ForgotPasswordGenerateOTP(req: Request, res: Response) {
   } catch (error) {
     console.log(error);
     return res.status(500).json({ status: 500, error: 'Failed to process' });
-  } finally {
-    await prisma.$disconnect();
   }
 }

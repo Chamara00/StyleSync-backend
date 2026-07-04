@@ -1,9 +1,8 @@
+import prisma from '../../../utils/prismaClient';
 import { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
 //3.1 update open days and hours
 
 
-const prisma = new PrismaClient();
  export async function updateOpenHours(req: Request, res: Response) {
     const {staffId, dayName, openHour, closeHour, isOpen} = req.body;
     try{
@@ -42,8 +41,6 @@ const prisma = new PrismaClient();
     } catch (error) {
         console.log(error);
         return res.status(500).json({ status: 500, error: 'Failed to process' });
-    } finally {
-        await prisma.$disconnect();
     }
  }
 
